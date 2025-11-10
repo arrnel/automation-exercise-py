@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "automation-practice"
+version = "0.1.0"
+description = ""
+authors = ["arrnel <arrnel@vk.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+allure-pytest = "^2.15.0"
+faker = "==37.11.0"
+httpx = ">=0.28,<1.0"
+pydantic = "^2.11.9"
+pytest = "^8.4.2"
+pytest-check = "^2.5.4"
+python = "^3.13"
+selene = "^2.0.0rc9"
+six = "^1.17.0"
+pillow = "^11.3.0"
+numpy = "^2.3.3"
+pydantic-settings = ">=2.11,<3.0"
+black = "^25.9.0"
+jsonpath-ng = ">=1.7,<2.0"
+beautifulsoup4 = ">=4.12,<5.0"
+dataclasses-json = ">=0.6,<1.0"
+pytest-xdist = ">=3.8,<4.0"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/**"]
+addopts = [
+    "-v",
+    "-n 4"
+]
+markers = [
+    "api_test: API tests",
+    "web_test: Web tests",
+    "screenshot_test: Screenshot tests",
+    "e2e_test: e2e tests",
+
+    "slow: slow tests",
+    "fast: fast tests",
+
+    # BASE COMPONENTS
+    "component_test: Component tests",
+    "breadcrumb_test: Tests of breadcrumb component",
+    "header_test: Tests of site header component",
+    "notification_test: Tests of notification component",
+    "page_scroller_test: Tests of page scroller",
+    "subscription_test: Tests of subscription component (in footer)",
+
+    "address_test: Tests of address component",
+    "auth_test: Tests of auth component",
+    "login_test: Tests of login component",
+    "carousel_test: Tests of carousel component",
+    "image_carousel_test: Tests of image carousel component",
+    "product_carousel_test: Tests of product carousel component",
+    "product_card_test: Tests of product card component",
+    "product_details_test: Tests of  component"
+]
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,81 @@
+import os
+from pathlib import Path
+
+
+def get_tmp_screenshot_folder() -> str:
+    """Returns absolute string path to file in tmp folder for screenshots"""
+    root_path = Path(os.path.dirname(__file__)).parent
+    return os.path.join(root_path, "resources", "tmp", "screenshots")
+
+
+def get_path_in_resources(file_path: str) -> str:
+    """
+    Returns absolute string path to file in resources
+    :param file_path: path to file in resources. Example: "files/file.txt"
+    :return: Example: "/home/$USER/dev_projects/python_lessons/files_practice/resources/files/file.txt"
+    """
+    root_path = Path(os.path.dirname(__file__)).parent.parent
+    folders = file_path.split("/")
+    return os.path.join(root_path, "resources", *folders)
+
+
+def parse_file_name_in_path(path: str) -> str:
+    return path.split("/")[-1]
+
+
+def get_files_in_directory(
+    path_to_dir: str, file_extensions: set[str] = frozenset()
+) -> list[str]:
+    files = []
+    actual_file_names = os.listdir(path_to_dir)
+    for file_name in actual_file_names:
+        absolute_path = os.path.join(path_to_dir, file_name)
+        is_file = os.path.isfile(absolute_path)
+        is_file_matched = not file_extensions or (
+            file_extensions
+            and os.path.splitext(absolute_path)[1].lower() in file_extensions
+        )
+        if is_file and is_file_matched:
+            files.append(absolute_path)
+
+    return files
+
+
+def save_as_file(file_path: str, content) -> None:
+    """
+    Save content as a file (rewrites file if exists)
+    :param file_path: path to file from resources. Example: "files/file.txt"
+    """
+    with open(file_path, "wb") as file:
+        file.write(content)
+
+
+def save_in_file(file_path: str, content) -> None:
+    """
+    Save content in a file (only append content into file)
+    :param file_path: path to file from resources. Example: "files/file.txt"
+    :param content:
+    :return:
+    """
+    with open(file_path, "wb") as file:
+        file.write(content)
+
+
+def remove_from_resources(file_path: str) -> None:
+    """
+    Removes file from resources folder
+    :param file_path: path to folder/file from resources. Example: "files/file.txt"
+    """
+    path_to_file = get_path_in_resources(file_path)
+    if os.path.exists(path_to_file):
+        os.remove(file_path)
+
+
+def create_folder_in_resources(file_path: str) -> None:
+    """
+    Creates folder in resources folder
+    :param file_path: path to folder/file from resources. Example: "files/file.txt"
+    """
+    path_to_file = get_path_in_resources(file_path)
+    if not os.path.exists(path_to_file):
+        os.mkdir(path_to_file)

@@ -1,0 +1,57 @@
+from selene import browser, Element
+
+from src.ui.component.product.product_card_component import ProductItemComponent
+from src.ui.element.base_element import Button, UiElement
+from src.ui.page.base_page import BasePage
+from src.util.step_logger import step_log
+
+_URL = "/view_cart"
+
+
+class CartPage(BasePage):
+
+    def __init__(self):
+        super().__init__()
+        self.__locator = _CartPageLocator(self._page_container)
+        self.__cart_component = ProductItemComponent(
+            self.__locator.products_container().get_locator(), self.__locator.products_container().element_title
+        )
+
+    # COMPONENTS
+    @property
+    def cart_component(self) -> ProductItemComponent:
+        return self.__cart_component
+
+    # ACTIONS
+    @step_log.log("Open: {_URL}")
+    def navigate(self) -> None:
+        browser.open(_URL)
+
+    def proceed_to_checkout(self) -> None:
+        self.__locator.proceed_to_checkout().click()
+
+    def check_cart_is_empty(self):
+        self.__locator.empty_cart().should_be_visible()
+
+    @step_log.log("Check [{self._page_name}] is visible}]")
+    def check_page_is_visible(self):
+        self.__cart_component.check_component_is_visible()
+
+    @step_log.log("Check [{self._page_name}] is not visible}]")
+    def check_page_is_not_visible(self):
+        self.__cart_component.check_component_is_not_exists()
+
+
+class _CartPageLocator:
+
+    def __init__(self, root: Element):
+        self.__root = root
+
+    def proceed_to_checkout(self) -> Button:
+        return Button(self.__root.element("//*[text()='Proceed To Checkout']"), "Proceed to Checkout")
+
+    def empty_cart(self) -> UiElement:
+        return UiElement(self.__root.element("#empty_cart"), "Empty Cart")
+
+    def products_container(self) -> UiElement:
+        return UiElement(self.__root.element("#cart_info_table"), "Cart products")
