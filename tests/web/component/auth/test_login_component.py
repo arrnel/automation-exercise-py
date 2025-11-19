@@ -1,9 +1,6 @@
 import allure
 import pytest
 
-from src.ui.page.auth.login_page import LoginPage
-from src.ui.page.auth.signup_page import SignUpPage
-from src.ui.page.operation_status_page import AccountCreatedPage
 from src.util.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
