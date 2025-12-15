@@ -163,5 +163,5 @@ cython_debug/
 **allure-results/
 
 # Config
-resources/config/
+resources/
 !/resources/config/.env.local.example

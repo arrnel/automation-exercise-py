@@ -1,23 +1,25 @@
-from abc import ABC, abstractmethod
-
-from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions, Safari, SafariOptions
-
-from src.config.browser.chrome_options import ChromeStrategy
-from src.config.browser.firefox_options import FirefoxStrategy
-from src.config.browser.remote_capabilities import RemoteCapabilitiesFactory
-from src.config.browser.safari_options import SafariStrategy
+from src.config.browser.browser_manager import DriverManager
+from src.config.browser.chrome_driver_manager import ChromeDriverManager
+from src.config.browser.firefox_driver_manager import FirefoxDriverManager
+from src.config.browser.remote_driver_manager import RemoteDriverManager
+from src.config.browser.safari_manager import SafariDriverManager
 from src.config.config import CFG
 
 
 class BrowserFactory:
 
-    def get_browser(self) -> "BrowserStrategy":
+    @property
+    def browser(self) -> DriverManager:
+
+        if CFG.remote_type.lower() in ["selenoid", "moon"]:
+            return RemoteDriverManager()
+
         match (CFG.browser_name.lower()):
             case "chrome":
-                return ChromeStrategy()
+                return ChromeDriverManager()
             case "firefox":
-                return FirefoxStrategy()
+                return FirefoxDriverManager()
             case "safari":
-                return SafariStrategy()
+                return SafariDriverManager()
             case _:
                 raise ValueError(f"Unsupported browser: {CFG.browser_name}")

@@ -2,10 +2,11 @@ from selene import Element, be, have
 from selene.support.conditions import not_
 from selene.support.conditions.be import existing
 
-from src.model.user import UserTitle, UserDTO
+from src.model.enum.user_title import UserTitle
+from src.model.user import User
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Input, Checkbox, Select, Button, Text, RadioButtons, UiElement
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
 
 class LoginComponent(BaseComponent):
@@ -88,11 +89,11 @@ class SignUpComponent(BaseComponent):
         self.__locator = _SignUpComponentLocator(self._root)
 
     # ACTIONS
-    def send_user_data(self, user: UserDTO):
+    def send_user_data(self, user: User):
         self.__fill_user_data(user)
         self.__submit()
 
-    def __fill_user_data(self, user: UserDTO):
+    def __fill_user_data(self, user: User):
         self.__pick_user_title(user.user_title)
         self.__fill_name(user.name)
         self.__fill_password(user.password)

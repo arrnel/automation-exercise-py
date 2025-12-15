@@ -8,16 +8,18 @@ from faker import Faker
 
 from src.config.config import CFG
 from src.ex.exception import ProductNotFoundError
+from src.mapper.product_mapper import ProductMapper
+from src.model.brand import Brand
 from src.model.card import CardInfo
-from src.model.category import Category
 from src.model.contact import ContactInfo
-from src.model.price import Price
+from src.model.enum.user_title import UserTitle
+from src.model.enum.user_type import UserType
 from src.model.product import Product
+from src.model.product_item_info import ProductItemsInfo
 from src.model.review import ReviewInfo
 from src.model.test_data import TestData
 from src.model.user import User
-from src.model.enum.user_title import UserTitle
-from src.model.enum.user_type import UserType
+from src.service.brand_api_service import BrandApiService
 from src.service.product_api_service import ProductApiService
 
 _FAKE = Faker()
@@ -46,39 +48,36 @@ _USER_TYPES_CATEGORIES = {
     UserType.KIDS: ["Dress", "Tops & Shirts"],
 }
 
-_BRANDS = [
-    "Polo",
-    "H&M",
-    "Madame",
-    "Mast & Harbour",
-    "Babyhug",
-    "Allen Solly Junior",
-    "Kookie Kids",
-    "Biba",
-]
+_BRANDS = BrandApiService().get_all_brands()
 
-_product_service = ProductApiService()
+_PRODUCT_SERVICE = ProductApiService()
 
-_expected_products_titles = [
-    "Sleeveless Dress",
-    "Beautiful Peacock Blue Cotton Linen Saree",
-    "Pure Cotton V-Neck T-Shirt",
-    "Cotton Mull Embroidered Dress",
-    "Half Sleeves Top Schiffli Detailing - Pink",
-    "Summer White Top",
-    "Men Tshirt",
-    "Frozen Tops For Kids",
-    "Green Side Placket Detail T-Shirt",
-    "GRAPHIC DESIGN MEN T SHIRT - BLUE",
-]
+_EXPECTED_PRODUCT_ID = _PRODUCT_SERVICE.get_all_products_by_ids(CFG.expected_product_id)[0]
+_EXPECTED_PRODUCT_IDS = _PRODUCT_SERVICE.get_all_products_by_ids(CFG.expected_products_ids)
 
 
 class DataGenerator:
     __expected_products = None
 
     @staticmethod
-    def random_sentence():
-        return _FAKE.sentence()
+    def random_sentence(*args):
+        """
+        Generate sentence with random count
+
+        Args:
+            args: Variable length arguments controlling the sentence length:
+                * No args → random length in [8, 20]
+                * One int → fixed length (must be >= 1)
+                * Two ints → random length in range [min_length, max_length]
+
+        Returns:
+            str: Random sentence with random count of words.
+
+        Raises:
+            RuntimeError: If more than 2 positional arguments are provided.
+            ValueError: If min value is negative or equal 0.
+        """
+        return _FAKE.sentence(nb_words=DataGenerator.__random_length(default_min=2, default_max=10, *args))
 
     @staticmethod
     def random_birth_date():
@@ -90,23 +89,78 @@ class DataGenerator:
         return max_date + timedelta(days=random_days)
 
     @staticmethod
-    def random_word(a: int, b: int | None = None) -> str:
-        return (
-            _FAKE.lexify(text="?" * a)
-            if b is None
-            else _FAKE.lexify(text="?" * randint(a, b))
-        )
+    def random_word(*args: int) -> str:
+        return _FAKE.lexify(text="?" * DataGenerator.__random_length(2, 10, *args))
+
+    @staticmethod
+    def random_number(*args) -> str:
+        """
+        Generate string number with random digits
+
+        Args:
+            args: Variable length arguments controlling the number length:
+                * No args → random length in [2, 100]
+                * One int → fixed length (must be >= 1)
+                * Two ints → random length in range [min_length, max_length]
+
+        Returns:
+            str: Number with random digits.
+
+        Raises:
+            RuntimeError: If more than 2 positional arguments are provided.
+            ValueError: If min value is negative or equal 0.
+        """
+        return _FAKE.lexify(text="?" * DataGenerator.__random_length(2, 10, *args), letters="0123456789")
+
+    @staticmethod
+    def random_text(*args: int) -> str:
+        """
+        Generate text with random characters
+
+        Args:
+            args: Variable length arguments controlling the text length:
+                * No args → random length in [2, 100]
+                * One int → fixed length (must be >= 1)
+                * Two ints → random length in range [min_length, max_length]
+
+        Returns:
+            str: Text with random characters.
+
+        Raises:
+            RuntimeError: If more than 2 positional arguments are provided.
+            ValueError: If min value is negative or equal 0.
+        """
+        length = DataGenerator.__random_length(2, 100, *args)
+        return _FAKE.text(length) if length > 5 else DataGenerator.random_word(length)
 
     @staticmethod
     def random_password(
-            min_length: int = 8,
-            max_length: int = 20,
+            *args: int,
             include_uppercase: bool = True,
             include_special: bool = True,
             include_digits: bool = True,
     ):
+        """
+        Generate password with random symbols
+
+        Args:
+            args: Variable length arguments controlling the password length:
+                * No args → random length in [8, 20]
+                * One int → fixed length (must be >= 1)
+                * Two ints → random length in range [min_length, max_length]
+            include_uppercase: (bool, optional): Include uppercase letters (A-Z). Defaults to True.
+            include_digits (bool, optional): Include digits (0-9). Defaults to True.
+            include_special(bool, optional): Include special characters (!@#$ etc.). Defaults to True.
+
+        Returns:
+            str: Password with random characters.
+
+        Raises:
+            RuntimeError: If more than 2 positional arguments are provided.
+            ValueError: If min value is negative or equal 0.
+        """
         return _FAKE.password(
-            length=randint(min_length, max_length),
+            length=DataGenerator.__random_length(8, 20, *args),
             special_chars=include_special,
             digits=include_digits,
             upper_case=include_uppercase,
@@ -114,8 +168,16 @@ class DataGenerator:
         )
 
     @staticmethod
+    def __domains():
+        return ["me", "io", "com", "net", "org", "gov"]
+
+    @staticmethod
+    def random_domain():
+        return choice(DataGenerator.__domains())
+
+    @staticmethod
     def random_email():
-        domain = choice(["com", "net", "org", "me", "gov"])
+        domain = DataGenerator.random_domain()
         domain_name = CFG.email_domain
         nickname = _FAKE.user_name()
         separated = choice([True, False])
@@ -182,23 +244,31 @@ class DataGenerator:
         return user_type, choice(categories)
 
     @staticmethod
-    def random_brand() -> str:
+    def random_brand() -> Brand:
         return choice(_BRANDS)
 
     @staticmethod
-    def brands() -> List[str]:
+    def random_brand_title() -> str:
+        return choice(_BRANDS).title
+
+    @staticmethod
+    def brands() -> List[Brand]:
         return _BRANDS
 
     @staticmethod
+    def brand_titles() -> List[str]:
+        return [brand.title for brand in _BRANDS]
+
+    @staticmethod
     def random_product():
-        products = _product_service.get_all_products()
+        products = _PRODUCT_SERVICE.get_all_products()
         if not products:
             raise ValueError("No products available")
         return choice(products)
 
     @staticmethod
     def random_products(count: int) -> List[Product]:
-        products = _product_service.get_all_products()
+        products = _PRODUCT_SERVICE.get_all_products()
         if count < 1:
             raise ValueError("Count must be greater than 0")
         if len(products) < count:
@@ -209,9 +279,21 @@ class DataGenerator:
         return products[:count]
 
     @staticmethod
+    def random_product_items_info(count: int) -> ProductItemsInfo:
+        random_products = DataGenerator.random_products(count)
+        products_item_list = [
+            ProductMapper.to_product_item_info(
+                product,
+                DataGenerator.random_quantity()
+            )
+            for product in random_products
+        ]
+        return ProductItemsInfo.from_products_info(products_item_list)
+
+    @staticmethod
     def recommended_product():
         recommended_product_title = choice(_RECOMMENDED_PRODUCTS)
-        product = _product_service.get_product_by_title(recommended_product_title)
+        product = _PRODUCT_SERVICE.get_product_by_title(recommended_product_title)
         if not product:
             raise ProductNotFoundError(
                 f"Recommended product not found by title: {recommended_product_title}"
@@ -219,31 +301,37 @@ class DataGenerator:
         return product
 
     @staticmethod
-    def expected_product():
-        return Product(
-            id=3,
-            title="Sleeveless Dress",
-            category=Category(user_type=UserType.WOMEN, title="Dress"),
-            price=Price.from_text("Rs. 1000"),
-            brand="Madame",
-        )
+    def expected_product() -> Product:
+        expected_product_id = 3
+        product = next((
+            item
+            for item in ProductApiService.get_all_products()
+            if item.id == expected_product_id
+        ), None)
+        if not product:
+            raise ProductNotFoundError(f"Product with id = [{expected_product_id}] not found")
+        return product
 
     @staticmethod
-    def get_expected_products_titles() -> List[str]:
-        return _expected_products_titles.copy()
+    def expected_products_items_info() -> ProductItemsInfo:
+        products = DataGenerator.expected_products()
+        products_list = []
+        for product in products:
+            products_list.extend([product] * product.id)
+        return ProductItemsInfo.from_products(products_list)
 
     @staticmethod
-    def get_expected_products() -> List[Product]:
+    def expected_products() -> List[Product]:
         if DataGenerator.__expected_products is None:
             DataGenerator.__expected_products = [
                 p
-                for p in _product_service.get_all_products()
-                if p.title in _expected_products_titles
+                for p in _PRODUCT_SERVICE.get_all_products()
+                if p.id in _EXPECTED_PRODUCT_IDS
             ]
         return DataGenerator.__expected_products.copy()
 
     @staticmethod
-    def random_review():
+    def random_review() -> ReviewInfo:
         return ReviewInfo(
             email=_FAKE.email(),
             name=_FAKE.name(),
@@ -251,12 +339,18 @@ class DataGenerator:
         )
 
     @staticmethod
-    def generate_comment():
+    def random_comment() -> str:
         return _FAKE.paragraph(nb_sentences=randint(1, 5))
 
     @staticmethod
-    def generate_credit_card():
-        expiry_date = _FAKE.credit_card_expire().split("/")
+    def random_credit_card() -> CardInfo:
+        start_expiry_year = date.today().year + 1
+        end_expiry_year = date.today().year + 6
+        expiry_date = _FAKE.credit_card_expire(
+            start=date.today().replace(year=start_expiry_year),
+            end=date.today().replace(year=end_expiry_year),
+            date_format="MM/yyyy"
+        ).split("/")
         return CardInfo(
             name=_FAKE.name(),
             number=_FAKE.credit_card_number(),
@@ -266,13 +360,23 @@ class DataGenerator:
         )
 
     @staticmethod
-    def random_file_path():
+    def expected_credit_card() -> CardInfo:
+        return CardInfo(
+            name=CFG.expected_credit_card_name,
+            number=CFG.expected_credit_card_number,
+            cvc=CFG.expected_credit_card_cvc,
+            expiry_month=CFG.expected_credit_card_expiry_month,
+            expiry_year=CFG.expected_credit_card_expiry_year,
+        )
+
+    @staticmethod
+    def random_file_path() -> str:
         file_names = ["bug.pdf", "file.txt", "img.jpg", "img.png", "img.gif"]
         random_file = Path(CFG.path_to_files()) / choice(file_names)
         return random_file.joinpath().absolute().as_posix()
 
     @staticmethod
-    def random_contact_info():
+    def random_contact_info() -> ContactInfo:
         return ContactInfo(
             email=DataGenerator.random_email(),
             name=DataGenerator.random_full_name(),
@@ -280,3 +384,37 @@ class DataGenerator:
             message=_FAKE.paragraph(nb_sentences=randint(4, 10)),
             path_to_file=DataGenerator.random_file_path(),
         )
+
+    @staticmethod
+    def random_quantity(min_value: int = 1, max_value=10) -> int:
+        return randint(min_value, max_value)
+
+    @staticmethod
+    def __random_length(default_min: int, default_max: int, *args: int) -> int:
+        """
+        Return positive int from args. Using for calculate str length
+        Example:
+        - With no arguments: random int between default min or default_max values (inclusive).
+        - With one argument: first arg.
+        - With two arguments: random int between first and second args.
+
+        Raises
+        ------
+        ValueError
+            If more than 2 arguments are provided.
+        """
+        if len(args) == 0:
+            return randint(default_min, default_max)
+        elif len(args) == 1:
+            if args[0] < 1:
+                raise ValueError("Min value must be greater than or equal to 1")
+            return args[0]
+        elif len(args) == 2:
+            min_val, max_val = args[0], args[1]
+            if min_val > max_val:
+                min_val, max_val = max_val, min_val
+            if args[0] < 1:
+                raise ValueError("Min value must be greater than or equal to 1")
+            return randint(min_val, max_val)
+        else:
+            raise RuntimeError("Available args count: 0 - random, 1 - fixed, 2 - random in range")

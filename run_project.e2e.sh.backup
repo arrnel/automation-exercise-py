@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -e
+
+# -------------------------
+# Configs
+# -------------------------
+export TEST_IMAGE_NAME="automation-exercise-tests"
+export SELENOID_COMPOSE_FILE="docker-compose.yaml"
+export BROWSERS_JSON_FILE="./env/docker/selenoid/browsers.json"
+export PREFIX="${IMAGE_PREFIX}"
+export ARCH=$(uname -m)
+# --------------------------------------------------------
+# Step 1: Check all browsers in browsers.json exists
+# --------------------------------------------------------
+if [ -f "$BROWSERS_JSON_FILE" ]; then
+  BROWSERS=$(grep -o '"image": "[^"]*' "$BROWSERS_JSON_FILE" | awk -F': "' '{print $2}')
+
+  for IMAGE in $BROWSERS; do
+    if [[ "$(docker images -q $IMAGE 2> /dev/null)" == "" ]]; then
+      echo "Downloading $IMAGE..."
+      docker pull $IMAGE
+    else
+      echo "$IMAGE already exists."
+    fi
+  done
+else
+  echo "browsers.json not found! Skipping browser download."
+fi
+
+# --------------------------------------------------------
+docker compose down
+docker compose rm -f $TEST_IMAGE_NAME
+
+echo "### Checking for existing test images ###"
+test_images=$(docker images --format '{{.Repository}}:{{.Tag}}' | grep "$TEST_IMAGE_NAME" | grep -v '<none>')
+
+if [ -n "$test_images" ]; then
+  echo "### Found test images: $test_images ###"
+  echo "### Removing test images ###"
+  docker rmi $test_images || true  # || true на случай зависимостей
+else
+  echo "### No test images with name '$TEST_IMAGE_NAME' found. Skipping removal. ###"
+fi
+
+echo "### Starting all containers ###"
+docker compose -f $SELENOID_COMPOSE_FILE up -d
+
+# -------------------------
+# Step 3: Show running containers
+# -------------------------
+docker ps -a

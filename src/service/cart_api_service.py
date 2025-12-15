@@ -1,33 +1,40 @@
 from http import HTTPStatus
 
-from src.client.auth_api_client import AuthApiClient
+from src.client.cart_api_client import CartApiClient
 from src.client.core.condition.conditions import Conditions
-from src.config.config import CFG
+from src.model.product_item_info import ProductItemsInfo
 from src.util.allure.step_logger import step_log
 
 
-class AuthApiService:
+class CartApiService:
 
     def __init__(self):
-        self.auth_api_client = AuthApiClient()
+        self.cart_api_client = CartApiClient()
 
-    @step_log.log("Sign in by email = [{email}] and password = [{password}]")
-    def sign_in(self, email: str, password: str) -> dict[str, str]:
-        csrf = (
-            self.auth_api_client.send_get_csrf_token_request()
-            .check(Conditions.status_code(HTTPStatus.OK))
-            .extract()
-            .cookie(CFG.csrf_cookie_title)
-        )
-        return (
-            self.auth_api_client.send_login_request(email, password, csrf)
-            .check(Conditions.status_code(HTTPStatus.OK))
-            .extract()
-            .cookies([CFG.csrf_cookie_title, CFG.session_id_cookie_title])
-        )
+    @step_log.log("Add [{quantity}] product(s) by id = [{product_id}] to cart")
+    def add_product_to_cart(self, product_id: int, quantity: int = 1) -> None:
+        self.cart_api_client.add_product_to_cart(
+            product_id,
+            quantity
+        ).check(Conditions.status_code(HTTPStatus.OK))
 
-    @step_log.log("Sign in by email = [{email}] and password = [{password}]")
-    def logout(self) -> None:
-        self.auth_api_client.send_logout_request().check(
-            Conditions.status_code(HTTPStatus.OK)
-        )
+    @step_log.log("Add products to cart")
+    def add_products_to_cart(self, product_items_info: ProductItemsInfo) -> None:
+        for product in product_items_info.products_info:
+            self.add_product_to_cart(product.id, product.quantity)
+
+    @step_log.log("Remove product by id [{product_id}] from cart")
+    def remove_product_from_cart(self, product_id: int) -> None:
+        self.cart_api_client.remove_product_from_cart(product_id).check(Conditions.status_code(HTTPStatus.OK))
+
+    @step_log.log("Remove products from cart")
+    def remove_products_from_cart(self, product_id: int, *product_ids: int) -> None:
+        all_product_ids = {product_id, *product_ids}
+        for product_id in all_product_ids:
+            self.remove_product_from_cart(product_id)
+
+    @step_log.log("Remove products from cart")
+    def remove_products_from_cart(self, product_items_info: ProductItemsInfo) -> None:
+        all_ids = [product_info.id for product_info in product_items_info.products_info]
+        for product_id in all_ids:
+            self.remove_product_from_cart(product_id)

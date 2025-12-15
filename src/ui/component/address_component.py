@@ -6,7 +6,7 @@ from selene import Element, be
 from src.model.address import AddressInfo
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Text
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
 _COMPANY_ADDRESS_LINE_SELECTOR = "//li[contains(@class,'address-address1')][%d]"
 _DELIVERY_ADDRESS_TITLE = "Your delivery address"

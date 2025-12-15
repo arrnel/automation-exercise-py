@@ -3,13 +3,12 @@ from typing import Tuple
 from httpx import Response
 
 from src.client.core.condition.base import Condition
-from src.model.enum.content_type import ContentType
-from src.util.list_util import concat_expected
+from src.model.enum.meta.content_type import ContentType
 
 
 class HeadersExistCondition(Condition):
     def __init__(self, header: str, *headers: str):
-        self.expected = concat_expected(header, headers)
+        self.expected = [header, *headers]
 
     def check(self, response: Response) -> Tuple[bool, str]:
         response_headers = {h.casefold() for h in response.headers.keys()}

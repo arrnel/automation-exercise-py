@@ -4,16 +4,16 @@ from selene import Element, have
 
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Input, Button, ElementsCollection, Panel, CategoryStat
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
 
 class SearchFilter(BaseComponent):
 
-    def __init__(self, root: Element, component_name: str):
-        super().__init__(root, component_name)
+    def __init__(self, root: Element, component_title: str):
+        super().__init__(root, component_title)
         self.__locator = _SearchFilterLocator(self._root)
 
-    @step_log.log("Search in [{self.__component_name}] by query: {query}")
+    @step_log.log("Search in [{self._component_title}] by query: {query}")
     def search(self, query: str):
         self.__locator.input().set_value(query)
         self.__locator.submit().click()
@@ -29,14 +29,39 @@ class SearchFilter(BaseComponent):
 
 class AccordionFilter(BaseComponent):
 
-    def __init__(self, locator: Element, component_title: str):
-        super().__init__(locator, component_title)
-        self.__panels = ElementsCollection(self._root.all(".panel"), f"{component_title} groups", Panel)
+    def __init__(self, root: Element, component_title: str):
+        super().__init__(root, component_title)
+        self.__panels = ElementsCollection[Panel](self._root.all(".panel-default"), f"{component_title} groups", Panel)
 
     # ACTIONS
+    @step_log.log("Expand [{self._component_title}] group: {group}")
+    def expand_group(self, group: str):
+        panel = self.__get_panel(group)
+        panel.expand()
+
+    def expand_groups(self, group: str, *groups: str):
+        all_groups = [group, *groups]
+        with step_log.log(f"Expand [{self._component_title}] groups: {group}"):
+            for group in all_groups:
+                with step_log.log(f"Expand group: {group}"):
+                    self.__get_panel(group).expand()
+
+    @step_log.log("Expand [{self._component_title}] group: {group}")
+    def collapse_group(self, group: str):
+        self.__get_panel(group).collapse()
+
+    def collapse_groups(self, group: str, *groups: str):
+        all_groups = [group, *groups]
+        with step_log.log(f"Collapse [{self._component_title}] groups: {group}"):
+            for group in all_groups:
+                with step_log.log(f"Expand group: {group}"):
+                    self.__get_panel(group).collapse()
+
     @step_log.log("Filter in {self._component_title} by group = [{group}] and category = [{category}]")
     def select_group_category(self, group: str, category: str) -> None:
-        self.__get_panel(group).expand().select_category(category)
+        panel = self.__get_panel(group)
+        panel.expand()
+        panel.select_category(category)
 
     # Assertions
     @step_log.log("Check {self._component_title} group [{group}] contains categories: [{categories}]")
@@ -51,8 +76,7 @@ class AccordionFilter(BaseComponent):
 
     def __get_panel(self, group: str) -> Panel:
         return self.__panels.find_element_by_child(
-            cls=Panel,
-            child_locator=".panel-collapse",
+            child=".panel-collapse",
             condition=have.attribute("id", group),
             element_title=f"{self._component_title} group {group}",
         )
@@ -60,9 +84,10 @@ class AccordionFilter(BaseComponent):
 
 class CategoryStatFilter(BaseComponent):
 
-    def __init__(self, locator: Element, component_title: str):
-        super().__init__(locator, component_title)
-        self.__category_stats = ElementsCollection(self._root.all("li"), f"{component_title} category", CategoryStat)
+    def __init__(self, root: Element, component_title: str):
+        super().__init__(root, component_title)
+        self.__category_stats = ElementsCollection[CategoryStat](
+            collection=self._root.all("li"), collection_title=f"{component_title} category", cls=CategoryStat)
 
     # ACTIONS
     @step_log.log("Select in group = [{group}] category = [{category}]")
@@ -76,8 +101,7 @@ class CategoryStatFilter(BaseComponent):
 
     def __get_category_stat(self, title: str) -> CategoryStat:
         return self.__category_stats.find_element_by_child(
-            cls=CategoryStat,
-            child_locator="li",
+            child="li",
             condition=have.text(title),
             element_title=f"{self._component_title} category stat {title}",
         )
@@ -98,4 +122,4 @@ class _SearchFilterLocator:
         return Input(self.__root.element("#search_product"), "Search product")
 
     def submit(self) -> Button:
-        return Button(self.__root.element("submit_search"), "Submit search")
+        return Button(self.__root.element("#submit_search"), "Submit search")

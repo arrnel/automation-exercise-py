@@ -2,7 +2,7 @@ from selene import browser
 
 from src.ui.component.contact_us_component import ContactUsComponent
 from src.ui.page.base_page import BasePage
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
 _URL = "/contact_us"
 
@@ -19,7 +19,7 @@ class ContactUsPage(BasePage):
         return self.__contact_us_component
 
     # ACTIONS
-    @step_log.log("Open: {_URL}")
+    @step_log.log("Open [Contact Us Page]: {_URL}")
     def navigate(self) -> None:
         browser.open(_URL)
 

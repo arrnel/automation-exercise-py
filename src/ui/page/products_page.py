@@ -3,20 +3,34 @@ from typing import override
 from selene import browser
 
 from src.ui.component.filter_component import AccordionFilter, CategoryStatFilter, SearchFilter
-from src.ui.component.product.product_card_component import AnimatedProductCard
-from src.ui.component.product.products_collection_component import ProductCardsComponent
+from src.ui.component.product.product_card_component import AnimatedProductCardComponent
+from src.ui.component.product.products_cards_collection_component import ProductCardsComponent
 from src.ui.page.base_page import BasePage
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
+_URL = "/products"
 
 class ProductsPage(BasePage):
 
     def __init__(self):
         super().__init__()
-        self.__search_filter = SearchFilter(self._page_container.element("#advertisement .container"), "Search filter")
-        self.__category_filter = AccordionFilter(self._page_container.element(".left-sidebar #accordian"), "Category filter")
-        self.__products = ProductCardsComponent(self._page_container.element(".features_items"), "Features Items", cls=AnimatedProductCard)
-        self.__brand_filter = CategoryStatFilter(self._page_container.element(".left-sidebar .brands-name"), "Brand filter")
+        self.__search_filter = SearchFilter(
+            root=self._page_container.element("#advertisement .container"),
+            component_title="Search filter",
+        )
+        self.__category_filter = AccordionFilter(
+            root=self._page_container.element(".left-sidebar #accordian"),
+            component_title="Category filter"
+        )
+        self.__products = ProductCardsComponent[AnimatedProductCardComponent](
+            root=self._page_container.element(".features_items"),
+            component_title="All Products",
+            cls=AnimatedProductCardComponent,
+        )
+        self.__brand_filter = CategoryStatFilter(
+            root=self._page_container.element(".left-sidebar .brands-name"),
+            component_title="Brand filter",
+        )
 
     # COMPONENTS
     @property
@@ -32,13 +46,13 @@ class ProductsPage(BasePage):
         return self.__brand_filter
 
     @property
-    def products(self) -> ProductCardsComponent:
+    def products(self) -> ProductCardsComponent[AnimatedProductCardComponent]:
         return self.__products
 
     # ACTIONS
-    @step_log.log("Open: /products")
+    @step_log.log("Open [Products Page]: {_URL}")
     def navigate(self) -> None:
-        browser.open("/")
+        browser.open(_URL)
 
     # ASSERTIONS
     @override

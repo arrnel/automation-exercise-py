@@ -1,19 +1,22 @@
-from pydantic import Field
+from dataclasses import dataclass
 
-from src.model.base_model import Model
-from src.model.user import UserTypeDTO, UserType
+from src.model.enum.user_type import UserType
 
 
-class CategoryDTO(Model):
-    usertype: UserTypeDTO = Field(alias="usertype")
-    category: str = Field(alias="category")
+@dataclass
+class Category:
 
-    @classmethod
-    def of(cls, usertype: UserType, category: str) -> "CategoryDTO":
-        return CategoryDTO(usertype=UserTypeDTO(usertype=usertype), category=category)
+    user_type: UserType | None
+    title: str | None
 
-    def __repr__(self) -> str:
-        return f"CategoryDTO(usertype={self.usertype!r}, category={self.category!r})"
+    def __str__(self):
+        return (
+            f"{self.__class__.__name__}("
+            f"user_type={self.user_type}"
+            f"title={self.title}"
+            ")"
+        )
 
-    def __str__(self) -> str:
-        return self.__repr__()
+    def __repr__(self):
+        return self.__str__()
+

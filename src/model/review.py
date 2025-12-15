@@ -1,7 +1,8 @@
-from src.model.base_model import Model
+from dataclasses import dataclass
 
 
-class ReviewInfo(Model):
+@dataclass
+class ReviewInfo:
     name: str
     email: str
     message: str

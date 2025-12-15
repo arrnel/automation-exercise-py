@@ -21,4 +21,4 @@ class StatusCodeCondition(Condition):
             return True, ""
 
     def __str__(self):
-        return "Status code: {self.status_code}"
+        return f"Status code: {self.status_code}"

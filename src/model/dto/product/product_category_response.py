@@ -14,7 +14,11 @@ class CategoryResponseDTO(Model):
         return CategoryResponseDTO(usertype=UserTypeDTO(usertype=usertype), category=category)
 
     def __repr__(self) -> str:
-        return f"CategoryDTO(usertype={self.usertype!r}, category={self.category!r})"
+        return (
+            f"{self.__class__.__name__}("
+            f"usertype={self.usertype!r},\n"
+            f"category={self.category!r}\n"
+            f")")
 
     def __str__(self) -> str:
         return self.__repr__()

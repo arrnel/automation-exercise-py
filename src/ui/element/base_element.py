@@ -1,29 +1,18 @@
+import logging
 import time
-from typing import Optional, override, Union, Tuple, TypeVar, Type, Callable, Iterable
+from abc import ABC
+from typing import Optional, override, Union, Tuple, Type, Iterable, Generic
 
-from selene import Element, query, have, be, command
+import matplotlib
+from selene import Element, query, have, be, command, browser, Collection
 from selene.core.condition import Condition
-from selene.core.entity import Collection
+from selene.core.wait import Command
 from selene.support.conditions.be import existing, visible, not_
-from selene.support.conditions.have import text
-from selene.support.conditions.not_ import css_class
+from selene.support.conditions.have import text, css_class
 
-from src.util.step_logger import step_log, LogLvl
-
-TBaseElement = TypeVar("TBaseElement", bound="BaseElement")
-
-
-def _create_instance_of_base_element(
-    cls: Type[TBaseElement], element: Element, element_title: str
-) -> TBaseElement:
-    if not issubclass(cls, BaseElement):
-        raise TypeError(
-            f"Class {cls.__name__} must be a subclass of {BaseElement.__name__}"
-        )
-    try:
-        return cls(element, element_title)
-    except Exception as e:
-        raise RuntimeError(f"Failed to create instance of {cls.__name__}: {str(e)}")
+from src.util.allure.step_logger import step_log, LogLvl
+from src.util.screenshot import screenshot_util
+from src.util.type_util import TBaseElement, TElementOrComponent
 
 
 # ==========================================================
@@ -31,21 +20,11 @@ def _create_instance_of_base_element(
 # ==========================================================
 
 
-class BaseElement:
+class BaseElement(ABC):
 
-    def __init__(self, locator: Element, element_title: str):
-        self._root = locator
+    def __init__(self, root: Element, element_title: str):
+        self._root = root
         self._element_title = element_title
-
-    @property
-    def element_title(self) -> str:
-        return self._element_title
-
-    def change_element_title(self, new_element_title: str) -> None:
-        self._element_title = new_element_title
-
-    def get_locator(self) -> Element:
-        return self._root
 
     def get_attribute(self, attribute_name: str) -> str:
         return self._root.get(query.attribute(attribute_name))
@@ -58,27 +37,26 @@ class BaseElement:
             seconds: Duration in seconds to wait after hovering. Default value: 0.
         """
         with step_log.log(
-            f"Hover over {self._element_title}{f" for a [{seconds}] second(s)" if seconds > 0 else ""}"
+                f"Hover over {self._element_title}{f" for a [{seconds}] second(s)" if seconds > 0 else ""}"
         ):
             self._root.hover()
             if seconds > 0:
                 time.sleep(seconds)
 
     def element(
-        self,
-        css_or_xpath_or_by: Union[str, Tuple[str, str]],
-        element_title: str,
-        cls: Type[TBaseElement] = "UiElement",
+            self,
+            css_or_xpath_or_by: Union[str, Tuple[str, str]],
+            element_title: str,
+            cls: Type[TBaseElement] = "UiElement",
     ) -> TBaseElement:
-        return _create_instance_of_base_element(
-            cls, self._root.element(css_or_xpath_or_by), element_title
-        )
+        return cls(self._root.element(css_or_xpath_or_by), element_title)
 
     def all(
-        self,
-        css_or_xpath_or_by: Union[str, Tuple[str, str]],
-        condition: Condition[Element] = Optional[None],
-        collection_title: str = Optional[None],
+            self,
+            css_or_xpath_or_by: Union[str, Tuple[str, str]],
+            condition: Condition[Element],
+            collection_title: str,
+            cls: Type[TElementOrComponent],
     ) -> "ElementsCollection":
         return ElementsCollection(
             (
@@ -87,7 +65,14 @@ class BaseElement:
                 else self._root.all(css_or_xpath_or_by).by(condition)
             ),
             collection_title or f"{self._element_title} element collection",
+            cls
         )
+
+    def has(self, condition: Condition[Element]) -> bool:
+        return self._root.matching(condition)
+
+    def not_has(self, condition: Condition[Element]) -> bool:
+        return self._root.matching(condition.not_)
 
     @step_log.log(
         message="Check [{self._element_title}] should: {condition}",
@@ -149,11 +134,11 @@ class BaseElement:
     def is_visible(self):
         return self._root.matching(visible)
 
-    def has(self, condition: Condition[Element]) -> bool:
+    def matching(self, condition: Condition[Element]) -> bool:
         return self._root.matching(condition)
 
     def contains(self, condition: Condition[Element]) -> bool:
-        return self.has(condition)
+        return self.matching(condition)
 
     def wait_until(self, condition: Condition[Element]) -> TBaseElement:
         self._root.wait_until(condition)
@@ -165,33 +150,111 @@ class BaseElement:
     def scroll_into_view(self) -> None:
         self._root.perform(command.js.scroll_into_view)
 
+    def highlight(self, color: str = "red", border_size: int = 2) -> None:
+        """
+        Add highlight to element
+        :param color: (str) - color of border. Examples: red, green, blue, yellow, ...
+        :param border_size: (int) - width of border in px. Should be greater than 0
+        """
+        try:
+            c_hex = matplotlib.colors.cnames[color]
+        except Exception as ex:
+            logging.warn(f"Invalid color value: {color}. Exception: {ex}")
+
+        if border_size < 0:
+            logging.warn(f"Invalid border size: {border_size}. Should be greater than 0")
+
+        def func(element: Element):
+            element.execute_script(
+                """
+                element.style.border = arguments[0];
+                return null;
+                """,
+                f"{border_size}px solid {c_hex}",
+            )
+
+        highlight_command = Command("highlight element", func)
+        self._root.perform(highlight_command)
+
+    def check_element_has_screenshot(
+            self,
+            path_to_screenshot: str,
+            percent_of_tolerance: float = 0,
+            rewrite_screenshot: bool = False,
+            timeout: float = 0,
+            hover: bool = False,
+    ) -> None:
+        """
+        Checks if the element screenshot matches the expected screenshot.
+        """
+        actual_screenshot = screenshot_util.take_element_screenshot(self._root, hover=hover, timeout=timeout)
+        screenshot_util.compare_and_save_screenshot(
+            actual_screenshot = actual_screenshot,
+            path_to_screenshot=path_to_screenshot,
+            percent_of_tolerance=percent_of_tolerance,
+            rewrite_screenshot=rewrite_screenshot,
+            component_name=self.element_title
+        )
+
+    @property
+    def element_title(self) -> str:
+        return self._element_title
+
+    def change_element_title(self, new_element_title: str) -> None:
+        self._element_title = new_element_title
+
+    @property
+    def locator(self) -> Element:
+        return self._root
+
 
 class UiElement(BaseElement):
 
-    def __init__(self, locator: Element, element_title: str):
-        super().__init__(locator, element_title)
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
 
 
 class Text(BaseElement):
 
-    def __init__(self, locator: Element, element_title: str):
-        super().__init__(locator, element_title)
-
-    def get_value(self) -> str:
-        return self._root.get(query.value)
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
 
     def get_text(self) -> str:
-        return self._root.get(query.value)
+        return self._root.get(query.text)
 
     @step_log.log("Check [{self._element_title} has text: {value}]")
     def should_have_text(self, value):
         self._root.should(have.exact_text(value))
 
 
+class Link(BaseElement):
+
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
+
+    @step_log.log("Click to [{self._element_title}]")
+    def click(self) -> None:
+        self._root.click()
+
+    def navigate(self) -> None:
+        link = self._root.get(query.attribute("href"))
+        with step_log.log(f"Navigate by {self._element_title} link: {link}"):
+            browser.open(link)
+
+    @step_log.log("Check [{self._element_title} has link: {value}]")
+    def should_have_link(self, link):
+        self._root.should(have.attribute("href", link))
+
+class TextLink(Text, Link):
+
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
+
+
 class Button(BaseElement):
 
-    def __init__(self, locator: Element, element_title: str):
-        super().__init__(locator, element_title)
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
 
     @step_log.log(
         message="Click on [{self._element_title}] button", log_level=LogLvl.DEBUG
@@ -202,8 +265,8 @@ class Button(BaseElement):
 
 class Input(BaseElement):
 
-    def __init__(self, locator: Element, element_title: str):
-        super().__init__(locator, element_title)
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
 
     @step_log.log(
         message="Fill [{self._element_title}]: {value}", log_level=LogLvl.DEBUG
@@ -231,9 +294,9 @@ class Input(BaseElement):
 class Select(BaseElement):
 
     def __init__(
-        self, locator: Element, element_title: str, default_value=Optional[None]
+            self, root: Element, element_title: str, default_value=Optional[None]
     ):
-        super().__init__(locator, element_title)
+        super().__init__(root, element_title)
         self.__default_value = default_value
 
     @step_log.log(
@@ -292,8 +355,8 @@ class Select(BaseElement):
 
 class Checkbox(BaseElement):
 
-    def __init__(self, locator: Element, element_title: str):
-        super().__init__(locator, element_title)
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
 
     @step_log.log(
         message="Set checked [{self._element_title}]: {value}", log_level=LogLvl.DEBUG
@@ -319,38 +382,54 @@ class Checkbox(BaseElement):
 class Panel(BaseElement):
     """Element of AccordionFilter"""
 
-    def __init__(self, locator: Element, element_title: str):
-        super().__init__(locator, element_title)
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
+        self.__locator = _PanelLocator(root, element_title)
 
     def select_category(self, category: str) -> None:
-        self._root.all("li a").element_by(text(category))
+        self.__locator.categories().element_by(text(category.upper())).click()
 
     def __is_expanded(self) -> bool:
-        return self._root.element(".panel-collapse").matching(css_class("in"))
+        return self.__locator.panel_content_wrapper().matching(css_class("in"))
 
     def expand(self) -> "Panel":
-        if not self.__is_expanded():
-            with step_log.log(f"Expand {self._element_title}"):
-                self._root.click()
+        expanded = self.__is_expanded()
+        if not expanded:
+            with (step_log.log(f"Expand {self._element_title}")):
+                self.__locator.expander().click()
         return self
 
     def collapse(self) -> "Panel":
         if self.__is_expanded():
             with step_log.log(f"Collapse {self._element_title}"):
-                self._root.click()
+                self.__locator.expander().click()
         return self
 
-    def should_contains_categories(
-        self, *categories: Union[str, Iterable[str]]
-    ) -> None:
+    def should_contains_categories(self, *categories: Union[str, Iterable[str]]) -> None:
         self._root.all("li a").should(have.texts(*categories))
+
+
+class _PanelLocator:
+
+    def __init__(self, root: Element, element_title: str):
+        self.__root = root
+        self.__element_title = element_title
+
+    def categories(self) -> Collection:
+        return self.__root.all("li a")
+
+    def expander(self) -> Button:
+        return Button(self.__root.element(".pull-right"), self.__element_title + " expander")
+
+    def panel_content_wrapper(self):
+        return UiElement(self.__root.element(".panel-collapse"), self.__element_title + " categories wrapper")
 
 
 class CategoryStat(BaseElement):
     """Element of CategoryStatFilter"""
 
-    def __init__(self, locator: Element, element_title: str):
-        super().__init__(locator, element_title)
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
 
     @step_log.log("Click on [{self._element_title}]")
     def click(self) -> None:
@@ -364,68 +443,65 @@ class CategoryStat(BaseElement):
 # ==========================================================
 # COLLECTIONS
 # ==========================================================
-class ElementsCollection:
+class ElementsCollection(Generic[TElementOrComponent], Iterable[TElementOrComponent]):
 
-    def __init__(
-        self,
-        collection: Collection,
-        collection_title: str,
-        cls: Type[TBaseElement] = UiElement,
-    ):
+    def __init__(self, collection: Collection, collection_title: str, cls: Type[TElementOrComponent]):
         self._collection = collection
         self._collection_title = collection_title
         self._cls = cls
 
-    def change_collection_title(self, title: str) -> None:
-        self._collection_title = title
+    def __iter__(self):
+        for el in self._collection:
+            yield self._cls(el, self._collection_title)
 
-    def size(self) -> int:
+    def __len__(self):
         return len(self._collection)
 
-    def filter(self, condition: Condition[Element]) -> Collection:
-        return self._collection.by(condition)
-
-    def find_element(
-        self,
-        condition: Union[Condition[Element], Callable[[Element], None]],
-        element_title: str,
-    ) -> TBaseElement:
-        return _create_instance_of_base_element(
-            cls=self._cls,
-            element=self._collection.element_by(condition),
-            element_title=element_title,
+    def filter(self, condition: Condition[Element], collection_title:str) -> "ElementsCollection[TElementOrComponent]":
+        return ElementsCollection(
+            self._collection.by(condition),
+            collection_title,
+            self._cls,
         )
 
     def filter_by_child(
-        self,
-        child_locator: str,
-        condition: Condition[Element],
-        collection_title: str = Optional[None],
-    ) -> "ElementsCollection":
-        self._collection_title = (
-            collection_title
-            if collection_title is not None
-            else f"{self._collection_title} filtered by: {condition}"
-        )
+            self,
+            child: Union[str, Tuple[str, str]],
+            condition: Condition[Element],
+            collection_title:str
+    ) -> "ElementsCollection[TElementOrComponent]":
+
         filtered = self._collection.by(
-            lambda parent: condition(parent.element(child_locator))
+            lambda el: el.element(child).matching(condition)
         )
-        return ElementsCollection(filtered, self._collection_title)
+
+        return ElementsCollection(
+            filtered,
+            collection_title or f"{self._collection} filtered by child [{child}]",
+            self._cls
+        )
+
+    def find_element(self, condition: Condition[Element], cls) -> Optional[TElementOrComponent]:
+        el = self._collection.element_by(condition)
+        return cls(el, self._collection_title)
 
     def find_element_by_child(
-        self,
-        child_locator: str,
-        element_title: str,
-        condition: Condition[Element] = Optional[None],
-        cls: Type[TBaseElement] = Optional[None],
-    ) -> TBaseElement:
-        return _create_instance_of_base_element(
-            cls=cls or self._cls,
-            element=self._collection.element_by(
-                lambda parent: condition(parent.element(child_locator))
-            ),
-            element_title=element_title,
-        )
+            self,
+            child: Union[str, Tuple[str, str]],
+            condition: Condition[Element],
+            element_title: str
+    ) -> Optional[TElementOrComponent]:
+        for _, parent in enumerate(self._collection):
+            el = parent.element(child)
+            if el.matching(condition):
+                return self._cls(parent, element_title)
+        return None
+
+    def extract(self):
+        return [self._cls(el, "") for el in self._collection]
+
+    def extract_as(self, cls):
+        return [cls(el, "") for el in self._collection]
 
     @step_log.log(
         message="Check [{self._collection_title}] contains texts: {args}",
@@ -480,49 +556,34 @@ class ElementsCollection:
 class RadioButtons(ElementsCollection):
 
     def __init__(self, collection: Collection, collection_title: str):
-        super().__init__(collection, collection_title)
+        super().__init__(collection, collection_title, UiElement)
 
-    @step_log.log(
-        "Pick {self._collection_title} value: {value}", log_level=LogLvl.DEBUG
-    )
+    @step_log.log("Pick {self._collection_title} value: {value}", log_level=LogLvl.DEBUG)
     def pick(self, value: str) -> None:
         self._collection.all("input[type=radio]").element_by(have.value(value)).click()
 
-    @step_log.log(
-        "Check {self._collection_title} value is picked: {value}",
-        log_level=LogLvl.DEBUG,
-    )
+    @step_log.log("Check {self._collection_title} value is picked: {value}", log_level=LogLvl.DEBUG)
     def should_be_picked(self, value: str) -> None:
         self._collection.all("input[type=radio]").element_by(have.value(value)).should(
             be.selected
         )
 
     @override
-    @step_log.log(
-        "Check {self._collection_title} contains values: {args}", log_level=LogLvl.DEBUG
-    )
+    @step_log.log("Check {self._collection_title} contains values: {args}", log_level=LogLvl.DEBUG)
     def should_contains_texts(self, *args: str) -> None:
         self._collection.all("label").should(have.texts(*args))
 
     @override
-    @step_log.log(
-        "Check {self._collection_title} contains values in same order: {args}",
-        log_level=LogLvl.DEBUG,
-    )
+    @step_log.log("Check {self._collection_title} contains values in same order: {args}", log_level=LogLvl.DEBUG)
     def should_contains_texts_in_same_order(self, *args: str) -> None:
         self._collection.all("label").should(have.texts(*args))
 
     @override
-    @step_log.log(
-        "Check {self._collection_title} has values: {args}", log_level=LogLvl.DEBUG
-    )
+    @step_log.log("Check {self._collection_title} has values: {args}", log_level=LogLvl.DEBUG)
     def should_have_texts(self, *args: str) -> None:
         self._collection.all("label").should(have.exact_texts(*args))
 
     @override
-    @step_log.log(
-        "Check {self._collection_title} has values in same order: {args}",
-        log_level=LogLvl.DEBUG,
-    )
+    @step_log.log("Check {self._collection_title} has values in same order: {args}", log_level=LogLvl.DEBUG)
     def should_have_texts_in_same_order(self, *args: str) -> None:
         self._collection.all("label").should(have.exact_texts(*args))

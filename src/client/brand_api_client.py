@@ -1,8 +1,8 @@
 from src.client.core.assertion import AssertableResponse
 from src.client.core.base_api_client import RestClient
 from src.config.config import CFG
-from src.model.enum.content_type import ContentType
-from src.util.routes import ApiRoutes
+from src.model.enum.meta.content_type import ContentType
+from src.util.api.routes import ApiRoutes
 
 
 class BrandApiClient(RestClient):

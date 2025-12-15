@@ -6,8 +6,9 @@ from selene import Element, be, query, have
 from selene.support.conditions.be import not_, existing
 
 from src.ui.component.base_component import BaseComponent
+from src.ui.component.product.product_card_component import ProductCardComponent
 from src.ui.element.base_element import UiElement, ElementsCollection
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 from src.util.string_util import StringUtil
 
 _PRODUCT_CONTAINER_SELECTOR: str = "//div[contains(@class,'productInfo') and text()='%s']"
@@ -35,7 +36,7 @@ class BaseCarouselComponent(BaseComponent, ABC):
     @step_log.log("Waiting for expected [{self._component_title}] slide will be active")
     def wait_until_slide_will_be_active(self, slide_number: int):
         all_slides = self._locator.carousel_slides()
-        all_slides_count = all_slides.size()
+        all_slides_count = len(all_slides)
         if slide_number < 0 or slide_number > all_slides_count - 1:
             raise ValueError(
                 f"Slide number can not be negative or be greater then all slides count - 1.\n"
@@ -62,10 +63,6 @@ class BaseCarouselComponent(BaseComponent, ABC):
         if slide_number < 0:
             raise ValueError("Slide number cannot be negative")
         assert self._get_active_slide_number() == slide_number, "Check carousel active slide number equals"
-
-    @step_log.log("Check component [{self._component_title}] has expected screenshot")
-    def check_carousel_has_screenshot(self, path_to_screenshot: str, percent_of_tolerance: float, rewrite_screenshot: bool) -> None:
-        return self._check_element_have_screenshot(self._root, path_to_screenshot, percent_of_tolerance, rewrite_screenshot)
 
     def _get_active_slide_number(self) -> int:
         slides = self._locator.carousel_slides()
@@ -108,6 +105,17 @@ class ProductCarouselComponent(BaseCarouselComponent):
         super().__init__(root, component_title)
 
     # ACTIONS
+    def get_card_by_title(self, title: str) -> ProductCardComponent:
+        card_element = self._locator.carousel_product(title)
+        return ProductCardComponent(
+            root=card_element.locator,
+            component_title=f"Product card '{title}'",
+        )
+
+    def get_active_card_by_title(self, title: str) -> ProductCardComponent:
+        self.found_product(title)
+        return self.get_card_by_title(title)
+
     @step_log.log("Add products to cart: {*args}")
     def add_products_to_cart(self, *args: str) -> None:
         for product_title in args:
@@ -145,7 +153,9 @@ class ProductCarouselComponent(BaseCarouselComponent):
     def found_product(self, product_title: str) -> Optional[Element]:
         return Optional[
             self._locator.carousel_slides().find_element_by_child(
-                child_locator="p", condition=have.text(product_title), element_title=f"Carousel product '{product_title}'"
+                child="p",
+                condition=have.text(product_title),
+                element_title=f"Carousel product '{product_title}'",
             )
         ]
 
@@ -174,23 +184,24 @@ class _CarouselComponentLocator:
         return UiElement(self.__root.element(".item.active"), "Active carousel slide")
 
     def carousel_slides(self) -> ElementsCollection:
-        return ElementsCollection(self.__root.all(".item"), "Carousel Slides")
+        return ElementsCollection[ProductCarouselComponent](self.__root.all(".item"), "Carousel Slides", ProductCarouselComponent)
 
     def carousel_product(self, product_title: str) -> UiElement:
         return self.carousel_slides().find_element_by_child(
-            child_locator=_PRODUCT_CONTAINER_SELECTOR.format(product_title),
+            child=_PRODUCT_CONTAINER_SELECTOR.format(product_title),
             condition=existing,
-            cls=UiElement,
             element_title=f"Carousel Product '{product_title}'",
         )
 
-    def active_carousel_product(self, product_title: str) -> Element:
+    def active_carousel_product(self, product_title: str) -> UiElement:
         return self.active_carousel_slide().element(
-            _PRODUCT_CONTAINER_SELECTOR.format(product_title), f"Product '{product_title}' in active carousel"
+            css_or_xpath_or_by=_PRODUCT_CONTAINER_SELECTOR.format(product_title),
+            element_title=f"Product '{product_title}' in active carousel"
         )
 
     def add_to_cart(self, product_title: str):
-        return self.__root.element(f"//div[contains(@class,'productinfo') and ./p[text()='{product_title}']]").element(".add-to-cart")
+        return self.__root.element(f"//div[contains(@class,'productinfo') and ./p[text()='{product_title}']]").element(
+            ".add-to-cart")
 
     def previous(self) -> Element:
         return self.__root.element("a[data-slide=prev]")

@@ -3,8 +3,8 @@ from http import HTTPStatus
 import allure
 
 from src.client.core.condition.conditions import Conditions
-from src.util.data_generator import DataGenerator
-from src.util.json_path_util import JsonPath
+from src.util.api.json_path_util import JsonPath
+from src.util.test.data_generator import DataGenerator
 from tests.api.base_api_test import BaseApiTest
 
 
@@ -30,5 +30,5 @@ class TestBrandApi(BaseApiTest):
             Conditions.status_code(HTTPStatus.OK),
             Conditions.body_status_code(HTTPStatus.OK),
             # Conditions.content_type(ContentType.JSON),     # Expected: JSON, actual: HTML
-            Conditions.body_array_contains_values(JsonPath.BRAND_BRANDS_TITLE, *brands),
+            Conditions.body_array_contains_values(JsonPath.BRANDS_RESPONSE_BRANDS_TITLES, *brands),
         )

@@ -5,8 +5,7 @@ from httpx import Response
 
 from src.client.core.condition.base import Condition
 from src.client.core.extractor import Extractor
-from src.util.json_path_util import matches_by_json_path
-from src.util.list_util import concat_expected
+from src.util.api.json_path_util import matches_by_json_path
 
 
 class BodyFieldExistsCondition(Condition):
@@ -52,7 +51,7 @@ class BodyFieldNotEqualsCondition(Condition):
 
     def __init__(self, path: str, expected_value, *expected_values):
         self.path = path
-        self.expected = concat_expected(expected_value, *expected_values)
+        self.expected = [expected_value, *expected_values]
         self.text = f"{"equals: " + self.expected[0] if len(self.expected) == 0 else "in: " + str(self.expected)}"
 
     def check(self, response: Response) -> Tuple[bool, str]:
@@ -126,7 +125,7 @@ class BodyArrayContainsCondition(Condition):
 
     def __init__(self, path: str, expected_value, *expected_values):
         self.path = path
-        self.expected = concat_expected(expected_value, *expected_values)
+        self.expected = [expected_value, *expected_values]
 
     def check(self, response: Response) -> Tuple[bool, str]:
         body = response.json()
@@ -152,7 +151,7 @@ class BodyArrayNotContainsCondition(Condition):
 
     def __init__(self, path: str, expected_value, *expected_values):
         self.path = path
-        self.expected = concat_expected(expected_value, *expected_values)
+        self.expected = [expected_value, *expected_values]
 
     def check(self, response: Response) -> Tuple[bool, str]:
         body = response.json()
@@ -178,7 +177,7 @@ class BodyArrayHasCondition(Condition):
 
     def __init__(self, path: str, expected_value, *expected_values):
         self.path = path
-        self.expected = concat_expected(expected_value, *expected_values)
+        self.expected = [expected_value, *expected_values]
 
     def check(self, response: Response) -> Tuple[bool, str]:
         actual = matches_by_json_path(response.json(), self.path)
@@ -210,7 +209,7 @@ class BodyArrayHasOrderedCondition(Condition):
 
     def __init__(self, path: str, expected_value, *expected_values):
         self.path = path
-        self.expected = concat_expected(expected_value, *expected_values)
+        self.expected = [expected_value, *expected_values]
 
     def check(self, response: Response) -> Tuple[bool, str]:
         actual = matches_by_json_path(response.json(), self.path)

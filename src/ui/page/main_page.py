@@ -1,25 +1,40 @@
 from typing import override
 
-import allure
 from selene import browser
 
 from src.ui.component.carousel_component import ImageCarouselComponent, ProductCarouselComponent
 from src.ui.component.filter_component import AccordionFilter, CategoryStatFilter
-from src.ui.component.product.product_card_component import AnimatedProductCard
-from src.ui.component.product.products_collection_component import ProductCardsComponent
+from src.ui.component.product.product_card_component import AnimatedProductCardComponent
+from src.ui.component.product.products_cards_collection_component import ProductCardsComponent
 from src.ui.page.base_page import BasePage
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
+_URL = "/"
 
 class MainPage(BasePage):
 
     def __init__(self):
         super().__init__()
-        self.__banner = ImageCarouselComponent(self._page_container.element("#slider-carousel"), "Images banner")
-        self.__category_filter = AccordionFilter(self._page_container.element(".left-sidebar #accordian"), "Category filter")
-        self.__products = ProductCardsComponent(self._page_container.element(".features_items"), "Features Items", cls=AnimatedProductCard)
-        self.__brand_filter = CategoryStatFilter(self._page_container.element(".left-sidebar .brands-name"), "Brand filter")
-        self.__recommended_products = ProductCarouselComponent(self._page_container.element(".recommended_items"), "Recommended products")
+        self.__banner = ImageCarouselComponent(
+            root=self._page_container.element("#slider-carousel"),
+            component_title="Images banner",
+        )
+        self.__category_filter = AccordionFilter(
+            root=self._page_container.element(".left-sidebar #accordian"),
+            component_title="Category filter",
+        )
+        self.__products = ProductCardsComponent[AnimatedProductCardComponent](
+            root=self._page_container.element(".features_items"),
+            component_title="Features Items",
+            cls=AnimatedProductCardComponent)
+        self.__brand_filter = CategoryStatFilter(
+            root=self._page_container.element(".left-sidebar .brands-name"),
+            component_title="Brand filter",
+        )
+        self.__recommended_products = ProductCarouselComponent(
+            root=self._page_container.element(".recommended_items"),
+            component_title="Recommended products",
+        )
 
     # COMPONENTS
     @property
@@ -35,7 +50,7 @@ class MainPage(BasePage):
         return self.__brand_filter
 
     @property
-    def products(self) -> ProductCardsComponent:
+    def products(self) -> ProductCardsComponent[AnimatedProductCardComponent]:
         return self.__products
 
     @property
@@ -43,9 +58,9 @@ class MainPage(BasePage):
         return self.__recommended_products
 
     # ACTIONS
+    @step_log.log("Open [Main Page]: {_URL}")
     def navigate(self) -> None:
-        with allure.step("Open: /"):
-            browser.open("/")
+        browser.open(_URL)
 
     # ASSERTIONS
     @override

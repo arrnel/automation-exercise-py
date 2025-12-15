@@ -1,14 +1,16 @@
 #!/bin/bash
 
 set -e
-
+source ./docker.properties
 # -------------------------
 # Configs
 # -------------------------
-export TEST_IMAGE_NAME="automation-exercise"
-export SELENOID_COMPOSE_FILE="docker-compose.yml"
-export BROWSERS_JSON_FILE="${TEST_IMAGE_NAME}/env/docker/selenoid/browsers.json"
-export ALLURE_DIR="${TEST_IMAGE_NAME}/allure-results"
+export TEST_IMAGE_NAME="automation-exercise-tests"
+export SELENOID_COMPOSE_FILE="docker-compose.yaml"
+export BROWSERS_JSON_FILE="./env/docker/selenoid/browsers.json"
+export PREFIX=${IMAGE_PREFIX}
+export ARCH=$(uname -m)
+
 # --------------------------------------------------------
 # Step 1: Check all browsers in browsers.json exists
 # --------------------------------------------------------
@@ -28,40 +30,44 @@ else
 fi
 
 # --------------------------------------------------------
-# Step 2: Building tests image
+# Step 2: Cleanup previous run
 # --------------------------------------------------------
-SKIP_BUILD=false
-for arg in "$@"; do
-  if [[ "$arg" == "--skip-build" ]]; then
-    SKIP_BUILD=true
-  fi
-done
+echo "### Stopping all services ###"
+docker compose -f $SELENOID_COMPOSE_FILE down
 
-if [ "$SKIP_BUILD" = false ]; then
-  docker compose down
-  DOCKER_CONTAINERS=$(docker ps -a -q)
+# Удаляем сервисы/контейнеры (опционально, по сервису)
+docker compose -f $SELENOID_COMPOSE_FILE rm -f $TEST_IMAGE_NAME || true
 
-  if [ -n "$DOCKER_CONTAINERS" ]; then
-    docker stop $DOCKER_CONTAINERS
-    echo "### Removing containers: $DOCKER_CONTAINERS ###"
-    docker rm $DOCKER_CONTAINERS
-  fi
+# --------------------------------------------------------
+# Step 3: Check and remove test images
+# --------------------------------------------------------
+echo "### Checking for existing test images ###"
+FULL_IMAGE_NAME="${PREFIX:+$PREFIX/}$TEST_IMAGE_NAME"
+echo "### Searching images with: docker images --format '{{.Repository}}:{{.Tag}}' | grep \"$FULL_IMAGE_NAME\" | grep -v '<none>' ###"
 
-  DOCKER_IMAGES=$(docker images --format '{{.Repository}}:{{.Tag}}' | grep "$TEST_IMAGE_NAME")
-  if [ -n "$DOCKER_IMAGES" ]; then
-    echo "### Removing images: $DOCKER_IMAGES ###"
-    docker rmi $DOCKER_IMAGES
-  fi
+test_images=$(docker images --format '{{.Repository}}:{{.Tag}}' | grep "$FULL_IMAGE_NAME" | grep -v '<none>' ) || {
+  echo "### ERROR: Failed to list Docker images! Check 'docker images' manually. ###"
+  echo "### Continuing without removing test images ###"
+  test_images=""
+}
 
+if [ -n "$test_images" ]; then
+  echo "### Found test images: ###"
+  echo "$test_images"
+  echo "### Removing test images ###"
+  docker rmi $test_images || echo "### Some images could not be removed (in use?). Skipping. ###"
 else
-  echo "Skip build test image (--skip-build)."
-  docker compose rm -f $TEST_IMAGE_NAME
+  echo "### No test images with name containing '$FULL_IMAGE_NAME' found. Skipping removal. ###"
 fi
 
-echo "### Running test image build ###"
-docker compose -f $SELENOID_COMPOSE_FILE up -d $TEST_IMAGE_NAME
+# --------------------------------------------------------
+# Step 4: Start all containers with rebuild
+# --------------------------------------------------------
+echo "### Building and starting all containers ###"
+docker compose -f $SELENOID_COMPOSE_FILE up -d  --build # --build заставит пересобрать образ тестов
 
 # -------------------------
-# Step 3: Show running containers
+# Step 5: Show running containers
 # -------------------------
-docker -ps a
+echo "### Running containers ###"
+docker ps -a

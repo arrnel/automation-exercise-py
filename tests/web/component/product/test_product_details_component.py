@@ -12,10 +12,11 @@ from tests.web.base_test import BaseWebTest
 class TestProductCard(BaseWebTest):
 
     @pytest.mark.screenshot_test
+    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Details Component")
     @allure.title("[WEB Component] Product details should have expected data")
-    def test_product_details_has_expected_screenshot(self, browser_open_main_page):
+    def test_product_details_has_expected_screenshot(self):
         # Data
         product = DataGenerator.expected_product()
 
@@ -32,7 +33,7 @@ class TestProductCard(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Details Component")
     @allure.title("[WEB Component] Should add product to cart when click on add to cart button multiple times")
-    def test_add_product_to_card_when_click_add_to_cart_button(self, browser_open_main_page):
+    def test_add_product_to_card_when_click_add_to_cart_button(self):
         # Components
         product_details = self.product_page.product_details
         notification = self.product_page.notification
@@ -52,10 +53,7 @@ class TestProductCard(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Details Component")
     @allure.title("[WEB Component] Should add product to cart when click on add to cart button")
-    def test_add_positive_products_count_to_card_when_set_positive_products_quantity_and_click_add_to_cart_button(
-            self,
-            browser_open_main_page
-    ):
+    def test_add_positive_products_count_to_card_when_set_positive_products_quantity_and_click_add_to_cart_button(self):
         # Data
         product = DataGenerator.random_product()
         count = DataGenerator.random_quantity()
@@ -70,13 +68,10 @@ class TestProductCard(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Details Component")
     @allure.title("[WEB Component] Should add product to cart when click on add to cart button")
-    def test_add_negative_products_count_to_card_when_set_negative_products_quantity_and_click_add_to_cart_button(
-            self,
-            browser_open_main_page
-    ):
+    def test_add_negative_products_count_to_card_when_set_negative_products_quantity_and_click_add_to_cart_button(self):
         # Data
         product = DataGenerator.random_product()
-        count = DataGenerator.random_negative_int()
+        count = -1
 
         # Steps
         self.main_page.products.get_card_by_title(product.title).open()

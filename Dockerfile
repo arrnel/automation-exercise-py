@@ -1,13 +1,38 @@
-FROM eclipse-temurin:21-jdk
+FROM python:3.13-slim
 
-WORKDIR /rococo
-ENV TZ=Europe/Moscow
-COPY ./gradle ./gradle
-COPY ./rococo-tests ./rococo-tests
-COPY ./rococo-grpc ./rococo-grpc
-COPY ./gradlew ./
-COPY ./build.gradle ./
-COPY ./settings.gradle ./
-COPY ./gradle.properties ./
+ENV TZ=Europe/Moscow \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    POETRY_VERSION=1.8.3 \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    MPLBACKEND=Agg
 
-CMD ./gradlew test -Dtest.env=docker -Dtests.db_cleanup=false -Duser.timezone=Europe/Moscow
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    build-essential \
+    git \
+    libffi-dev \
+    libssl-dev \
+    libpq-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libreadline-dev \
+    xvfb \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:$PATH"
+
+COPY pyproject.toml poetry.lock* ./
+
+RUN poetry install --no-ansi --with dev
+
+COPY . .
+
+ENTRYPOINT ["pytest", "tests", "--alluredir=/allure-results"]

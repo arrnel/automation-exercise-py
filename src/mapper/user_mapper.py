@@ -1,20 +1,18 @@
 from dataclasses import fields, replace
 from typing import cast
 
+from src.model.dto.user.create_user_request import CreateUserRequestDTO
+from src.model.dto.user.update_user_request import UpdateUserRequestDTO
+from src.model.dto.user.user_response import UserResponseDTO
+from src.model.enum.user_title import UserTitle
 from src.model.test_data import TestData
-from src.model.user import (
-    UserDTO,
-    CreateUserRequestDTO,
-    UpdateUserRequestDTO,
-    UserResponseDTO,
-    UserTitle,
-)
+from src.model.user import User
 
 
 class UserMapper:
 
     @staticmethod
-    def to_create_user_request(dto: UserDTO) -> CreateUserRequestDTO:
+    def to_create_user_request(dto: User) -> CreateUserRequestDTO:
         return CreateUserRequestDTO(
             email=dto.email,
             password=dto.password,
@@ -36,7 +34,7 @@ class UserMapper:
         )
 
     @staticmethod
-    def to_update_user_request(dto: UserDTO) -> UpdateUserRequestDTO:
+    def to_update_user_request(dto: User) -> UpdateUserRequestDTO:
         return UpdateUserRequestDTO(
             id=str(dto.id),
             email=dto.email,
@@ -59,8 +57,8 @@ class UserMapper:
         )
 
     @staticmethod
-    def to_user(dto: UserResponseDTO, test_data: TestData) -> UserDTO:
-        return UserDTO(
+    def to_user(dto: UserResponseDTO, test_data: TestData) -> User:
+        return User(
             id=dto.id,
             email=dto.email,
             password=test_data.password,
@@ -102,13 +100,13 @@ class UserMapper:
         )
 
     @staticmethod
-    def lazy_update(source: UserDTO, destination: UserDTO) -> UserDTO:
+    def lazy_update(source: User, destination: User) -> User:
         empty_values = [None, "", [], {}, (), 0]
         update_data = {
             f.name: getattr(destination, f.name)
-            for f in fields(UserDTO)
+            for f in fields(User)
             if getattr(destination, f.name) not in empty_values
         }
-        return cast(UserDTO, replace(source, **update_data)).with_test_data(
+        return cast(User, replace(source, **update_data)).with_test_data(
             UserMapper.lazy_update_test_data(source.test_data, destination.test_data)
         )

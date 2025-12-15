@@ -5,37 +5,25 @@ from src.model.enum.meta.content_type import ContentType
 from src.model.enum.meta.log_level import ApiLogLvl
 from src.util.api.routes import ApiRoutes
 
-CSRF_KEY = "csrfmiddlewaretoken"
 
-
-class AuthApiClient(RestClient):
+class CartApiClient(RestClient):
 
     def __init__(self):
         super().__init__(
             base_url=CFG.base_url,
             follow_redirects=True,
             content_type=ContentType.URL_ENCODED,
-            api_log_lvl=ApiLogLvl.HEADERS,
+            api_log_lvl=CFG.api_log_lvl,
         )
 
-    def send_get_csrf_token_request(self) -> AssertableResponse:
-        return self.get(ApiRoutes.LOGIN.path())
-
-    def send_login_request(self, email: str, password: str, csrf: str) -> AssertableResponse:
-        headers = {"Referer": CFG.base_url + ApiRoutes.LOGIN.path()}
-        cookies = {CFG.csrf_cookie_title: csrf}
-        body = {
-            "email": email,
-            "password": password,
-            CSRF_KEY: csrf,
+    def add_product_to_cart(self, product_id: int, quantity: int) -> AssertableResponse:
+        params = {
+            "quantity": quantity,
         }
-
-        return self.post(
-            url=ApiRoutes.LOGIN.path(),
-            data=body,
-            headers=headers,
-            cookies=cookies,
+        return self.get(
+            url = ApiRoutes.ADD_PRODUCT_TO_CART_PATTERN.path().format(product_id=product_id),
+            params=params,
         )
 
-    def send_logout_request(self) -> AssertableResponse:
-        return self.get(ApiRoutes.LOGOUT.path())
+    def remove_product_from_cart(self, product_id: int) -> AssertableResponse:
+        return self.get(url = ApiRoutes.DELETE_PRODUCT_FROM_CART_PATTERN.path().format(product_id=product_id))

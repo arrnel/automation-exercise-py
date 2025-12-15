@@ -1,38 +1,60 @@
-from abc import ABC, abstractmethod
+from typing import List, Dict, Any
 
-from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions, Safari, SafariOptions
+from selenium.webdriver import Firefox
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from src.config.browser.browser_manager import DriverManager
-from src.config.browser.remote_capabilities import RemoteCapabilitiesFactory
 from src.config.config import CFG
 
 
 class FirefoxDriverManager(DriverManager):
 
-    def create_options(self):
+    def create_driver(self) -> Firefox:
+        return Firefox(options=self.firefox_options)
+
+    @property
+    def firefox_options(self) -> FirefoxOptions:
         options = FirefoxOptions()
 
-        print(f"FIREFOX: SHOW DEFAULT CAPABILITIES: {options.default_capabilities}")
-        print(f"FIREFOX: SHOW CAPABILITIES: {options.capabilities}")
-        print(f"FIREFOX: SHOW PREFERENCES: {options.preferences}")
-        print(f"FIREFOX: SHOW ARGUMENTS: {options.arguments}")
+        args = self.__headless_args() if CFG.browser_headless else self.__browser_args()
+        for arg in args:
+            options.add_argument(arg)
 
-        if CFG.browser_headless:
-            options.add_argument("-headless")
-
-        if CFG.is_remote:
-            capabilities = RemoteCapabilitiesFactory().capabilities()
-            for key, value in capabilities:
-                options.set_capability(key, value)
-
-        options.set_preference("dom.webnotifications.enabled", False)
-        options.set_preference("dom.push.enabled", False)
-        options.set_preference("extensions.formautofill.creditCards.enabled", False)
-        options.set_preference("extensions.formautofill.available", "off")
-        options.set_preference("extensions.formautofill.addresses.enabled", False)
-        options.set_preference("signon.rememberSignons", False)
+        for name, value in self.__browser_prefs().items():
+            options.set_preference(name, value)
 
         return options
 
-    def create_driver(self, options) -> Firefox:
-        return Firefox(options=options)
+    def __browser_args(self) -> List[str]:
+        return [
+            f"--width={CFG.browser_size[0]}",
+            f"--height={CFG.browser_size[1]}",
+            "--no-sandbox",
+            # "--disable-dev-shm-usage",
+        ]
+
+    def __headless_args(self) -> List[str]:
+        return [
+            "--headless",
+            f"--width={CFG.browser_size[0]}",
+            f"--height={CFG.browser_size[1]}",
+            "--no-sandbox",
+            # "--disable-dev-shm-usage",
+        ]
+
+    def __browser_prefs(self) -> Dict[str, Any]:
+        return {
+            "browser.tabs.warnOnClose": False,
+            "browser.download.panel.shown": False,
+            "browser.download.useDownloadDir": True,
+            "browser.helperApps.alwaysAsk.force": False,
+            "browser.search.suggest.enabled": False,
+            "browser.bookmarks.restore_default_bookmarks": False,
+            "signon.rememberSignons": False,
+            "signon.autofillForms": False,
+            "extensions.formautofill.creditCards.enabled": False,
+            "extensions.formautofill.addresses.enabled": False,
+            "dom.webnotifications.enabled": False,
+            "privacy.donottrackheader.enabled": True,
+            "intl.accept_languages": "en,en-US",
+        }

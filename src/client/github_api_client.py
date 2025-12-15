@@ -1,8 +1,7 @@
 from src.client.core.assertion import AssertableResponse
 from src.client.core.base_api_client import RestClient
 from src.config.config import CFG
-from src.model.enum.content_type import ContentType
-from src.model.enum.log_level import ApiLogLvl
+from src.model.enum.meta.content_type import ContentType
 
 
 class GithubApiClient(RestClient):
@@ -11,7 +10,7 @@ class GithubApiClient(RestClient):
         super().__init__(
             base_url=CFG.github_api_url,
             content_type=ContentType.GITHUB_JSON,
-            api_log_lvl=ApiLogLvl.ALL,
+            api_log_lvl=CFG.api_log_lvl,
         )
 
     def get_issue_state(self, issue_id: str) -> AssertableResponse:

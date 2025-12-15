@@ -1,62 +1,225 @@
-from typing import Type, List, Optional
+from typing import List, TypeVar, Type, Generic
 
 from selene import Element
+from selene.support.conditions.have import text
 
-from src.ui.component.base_component import BaseComponent, create_instance_of_base_component
-from src.ui.component.product.product_card_component import BaseProductCard, AnimatedProductCard, ProductCard
+from src.ex.exception import ProductNotFoundError
+from src.ui.component.base_component import BaseComponent
+from src.ui.component.product.product_card_component import BaseProductCardComponent
+from src.ui.element.base_element import ElementsCollection
+from src.util import collection_util
+from src.util.allure.step_logger import step_log
+from src.util.selene.condition import text_in
+
+TBaseProductCardComponent = TypeVar("TBaseProductCardComponent", bound=BaseProductCardComponent)
 
 
-class ProductCardsComponent(BaseComponent):
+# class ProductCardsComponent(BaseComponent):
+#
+#     def __init__(self, root: Element, component_title: str, item_cls: Type[TBaseProductCardComponent]):
+#         super().__init__(root, component_title)
+#         self.__locator = _ProductCardsComponentLocator(root)
+#         self.__item_cls: type[TBaseProductCardComponent] = item_cls
+#
+#     def get_card_by_title(self, title: str) -> TBaseProductCardComponent:
+#         card = self.__find_card_by_title(title)
+#         if not card:
+#             raise ProductNotFoundError(f"Product not found by title: {title}")
+#         return card
+#
+#     def get_cards_by_title(self, title: str, *titles: str) -> List[TBaseProductCardComponent]:
+#         all_titles = {title, *titles}
+#         return [
+#             card
+#             for card in self.__get_all_cards()
+#             if card.get_product_title() in all_titles
+#         ]
+#
+#     def __get_all_cards(self) -> List[TBaseProductCardComponent]:
+#         elements = [
+#             self.__locator.card_by_title(element.get(query.text))
+#             for element in self.__locator.card_titles()
+#         ]
+#         return [
+#             self.__item_cls(ui_element.locator, ui_element.element_title)
+#             for ui_element in elements
+#         ]
+#
+#     def __find_card_by_title(self, title) -> Optional[TBaseProductCardComponent]:
+#         cards = self.__get_all_cards()
+#         for card in cards:
+#             if card.get_product_title() == title:
+#                 return card
+#         return None
+#
+#     # ASSERTIONS
+#     @step_log.log("Check {self._component_title} is empty")
+#     def check_catalog_is_empty(self):
+#         self.__locator.cards().should(have.size(0))
+#
+#     def check_contains_products(self, title: str, *titles: str):
+#         all_titles = {title, *titles}
+#         with step_log.log(f"Check {self._component_title} contains products: {all_titles}"):
+#             not_found_cards = [
+#                 card.get_product_title()
+#                 for card in self.__get_all_cards()
+#                 if card.get_product_title() not in all_titles
+#             ]
+#             if not_found_cards:
+#                 raise AssertionError(f"Not found product cards: {not_found_cards}")
+#
+#     def check_not_contains_products(self, title: str, *titles: str):
+#         all_titles = {title, *titles}
+#         with step_log.log(f"Check {self._component_title} not contains products: {all_titles}"):
+#             found_cards = [
+#                 card.get_product_title()
+#                 for card in self.__get_all_cards()
+#                 if card.get_product_title() in all_titles
+#             ]
+#             if found_cards:
+#                 raise AssertionError(f"Found product cards: {found_cards}")
+#
+#     def check_has_products(self, title: str, *titles: str):
+#         all_titles = {title, *titles}
+#         with step_log.log(f"Check [{self._component_title}] has products: {all_titles}"):
+#             actual_titles = {card.get_product_title() for card in self.__get_all_cards()}
+#             not_found_expected, extra_actual = collection_util.remove_common_duplicates(all_titles, actual_titles)
+#             if not_found_expected or extra_actual:
+#                 raise AssertionError(
+#                     "Actual products has diff:\n"
+#                     f"Not found product titles: {not_found_expected}\n"
+#                     f"Extra product titles: {extra_actual}\n"
+#                     f"Expected product titles: {all_titles}\n"
+#                     f"Actual product titles: {actual_titles}\n"
+#                 )
+#
+#     @step_log.log("Check [{self._component_title}] has products count: {count}")
+#     def check_has_products_count(self, count: int):
+#         if count <= 0:
+#             raise ValueError(f"Product count must be greater then 0. Actual count = {count}")
+#
+#         actual_products_quantity = len(self.__get_all_cards())
+#         if count != actual_products_quantity:
+#             raise AssertionError(
+#                 "Expected and actual products count not equals. "
+#                 f"Expected = [{count}], actual = [{actual_products_quantity}]"
+#             )
+#
+#     def check_visible_component_elements(self) -> None:
+#         if not self.__get_all_cards():
+#             raise AssertionError("Product cards not exists")
+#
+#     def check_not_visible_component_elements(self) -> None:
+#         if self.__get_all_cards():
+#             raise AssertionError("Product cards exists")
+#
+# ----- LOCATORS
+# class _ProductCardsComponentLocator:
+#
+#     def __init__(self, root: Element):
+#         self.__root = root
+#
+#     def cards(self) -> Collection:
+#         return self.__root.all(".product-image-wrapper")
+#
+#     def card_titles(self) -> Collection:
+#         return self.__root.all(".productinfo p")
+#
+#     def card_by_title(self, title: str) -> UiElement:
+#         return UiElement(
+#             root=self.__root.element(
+#                 f".//*[@class='product-image-wrapper' and .//div[contains(@class,'productinfo')]//p[text()='{title}']]"),
+#             element_title=f"Product card '{title}'"
+#         )
 
-    def __init__(self, root: Element, component_title: str, cls: Type[BaseProductCard]):
+
+class ProductCardsComponent(BaseComponent, Generic[TBaseProductCardComponent]):
+
+    def __init__(self, root: Element, component_title: str, cls: Type[TBaseProductCardComponent]):
         super().__init__(root, component_title)
-        self.__cls = cls
+        self.__cards = ElementsCollection[TBaseProductCardComponent](
+            collection=root.all(".product-image-wrapper"),
+            collection_title=component_title,
+            cls=cls
+        )
 
-    def __get_cards(self) -> List[AnimatedProductCard]:
-        """Returns cards list"""
-        cards = []
-        for i, el in enumerate(self._root.all(".product-card")):  # .product-card — общий CSS
-            card = create_instance_of_base_component(self.__cls, el, "")
-            card._change_component_title(f"Product card [{card.get_product_title()}]")
-            cards.append(card)
-        return cards
+    def get_card_by_title(self, title: str) -> TBaseProductCardComponent:
+        card = self.__cards.find_element_by_child(
+            child="productinfo p",
+            condition=text(title),
+            element_title=f"Product card '{title}'"
+        )
+        if card is None:
+            raise ProductNotFoundError(f"Product card '{title}' not found")
+        return card
 
-    def get_card_by_title(self, title: str) -> Optional[AnimatedProductCard]:
-        """Возвращает карточку по названию товара."""
-        cards = self.__get_cards()
-        for card in cards:
-            if card.get_product_title() == title:
-                return card
-        return None
+    def get_cards_by_title(self, title: str, *titles: str) -> List[TBaseProductCardComponent]:
+        all_titles = {title, *titles}
+        return self.__cards.filter_by_child(
+            child="productinfo p",
+            condition=text_in(all_titles),
+            collection_title=""
+        ).extract()
 
-    def get_cards_by_title(self, *args: str) -> List[ProductCard]:
-        cards = []
-        for card in self.__get_cards():
-            card_title = card.get_product_title()
-            if card_title in args:
-                cards.append(card)
-        return cards
+    # ASSERTIONS
+    @step_log.log("Check {self._component_title} is empty")
+    def check_catalog_is_empty(self):
+        if len(self.__cards):
+            raise AssertionError(f"Products catalog '{self._component_title}' is not empty")
 
-    def check_contains_products(self, *args: str):
-        not_found_cards = []
-        for card in self.__get_cards():
-            card_title = card.get_product_title()
-            if card_title not in args:
-                not_found_cards.append(card_title)
-        if not not_found_cards:
-            raise AssertionError(f"Not found product cards: {not_found_cards}")
+    def check_contains_products(self, title: str, *titles: str):
+        all_titles = {title, *titles}
+        with step_log.log(f"Check {self._component_title} contains products: {all_titles}"):
+            not_found_cards = [
+                card.get_product_title()
+                for card in self.__cards
+                if card.get_product_title() not in all_titles
+            ]
+            if not_found_cards:
+                raise AssertionError(f"Not found product cards: {not_found_cards}")
 
-    def check_products_quantity(self, quantity: int):
-        actual_products_quantity = len(self.__get_cards())
-        if quantity != actual_products_quantity:
+    def check_not_contains_products(self, title: str, *titles: str):
+        all_titles = {title, *titles}
+        with step_log.log(f"Check {self._component_title} not contains products: {all_titles}"):
+            found_cards = [
+                card.get_product_title()
+                for card in self.__cards
+                if card.get_product_title() in all_titles
+            ]
+            if found_cards:
+                raise AssertionError(f"Found product cards: {found_cards}")
+
+    def check_has_products(self, title: str, *titles: str):
+        all_titles = {title, *titles}
+        with step_log.log(f"Check [{self._component_title}] has products: {all_titles}"):
+            actual_titles = {card.get_product_title() for card in self.__cards}
+            not_found_expected, extra_actual = collection_util.remove_common_duplicates(all_titles, actual_titles)
+            if not_found_expected or extra_actual:
+                raise AssertionError(
+                    "Actual products has diff:\n"
+                    f"Not found product titles: {not_found_expected}\n"
+                    f"Extra product titles: {extra_actual}\n"
+                    f"Expected product titles: {all_titles}\n"
+                    f"Actual product titles: {actual_titles}\n"
+                )
+
+    @step_log.log("Check [{self._component_title}] has products count: {count}")
+    def check_has_products_count(self, count: int):
+        if count <= 0:
+            raise ValueError(f"Product count must be greater then 0. Actual count = {count}")
+
+        actual_products_quantity = len(self.__cards)
+        if count != actual_products_quantity:
             raise AssertionError(
-                f"Expected and actual products count not equals. Expected = [{quantity}], actual = [{actual_products_quantity}]"
+                "Expected and actual products count not equals. "
+                f"Expected = [{count}], actual = [{actual_products_quantity}]"
             )
 
     def check_visible_component_elements(self) -> None:
-        if not self.__get_cards():
+        if not self.__cards:
             raise AssertionError("Product cards not exists")
 
     def check_not_visible_component_elements(self) -> None:
-        if self.__get_cards():
+        if self.__cards:
             raise AssertionError("Product cards exists")
+

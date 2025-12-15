@@ -9,26 +9,34 @@ from tests.web.base_test import BaseWebTest
 @allure.tag("component", "filter", "brand_filter")
 @allure.epic("Web Component")
 @allure.feature("[WEB] Brand Filter")
-class BrandFilterTest(BaseWebTest):
+class TestBrandFilter(BaseWebTest):
 
     @pytest.mark.screenshot_test
-    def test_brand_filter_should_have_screenshot(self, browser_open):
+    @allure.tag("screenshot_test")
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Brand Filter")
+    @allure.title("[WEB Component] Brand filter should have expected screenshot")
+    def test_brand_filter_should_have_screenshot(self):
         # Steps
         self.main_page.navigate()
 
         # Assertion
-        self.main_page.brand_filter.check_component_has_screenshot("files/screenshot/component/filter/brand/brand_filter.png")
+        self.main_page.brand_filter.check_component_has_screenshot(
+            "files/screenshot/component/filter/brand/brand_filter.png"
+        )
 
-    def test_brand_filter_show_filtered_products_by_brand(self, browser_open):
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Brand Filter")
+    @allure.title("[WEB Component] Brand filter should filters products by brand")
+    def test_brand_filter_show_filtered_products_by_brand(self):
         # Data
-        brand = self.data_generator.random_brand()
-        brand_products = self.pro
-        brand_product_titles = [""]
+        brand = self.data_generator.random_brand_title()
+        brand_products = self.brand_api_service.get_brand_products_by_brand(brand)
+        brand_product_titles = [product.title for product in brand_products]
 
         # Steps
         self.main_page.navigate()
 
         # Assertion
         self.main_page.brand_filter.select(brand)
-        self.products_page.products.check_products_quantity(len(brand_product_titles))
-        self.products_page.products.check_contains_products(brand_product_titles)
+        self.products_page.products.check_has_products(brand_product_titles)

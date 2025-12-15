@@ -4,7 +4,7 @@ from selene.support.conditions import not_
 
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Input, Button, UiElement, Text
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
 _SUCCESS_SUBSCRIPTION_MESSAGE = "You have been successfully subscribed!"
 
@@ -34,19 +34,12 @@ class SubscriptionComponent(BaseComponent):
             self.__locator.status_message_wrapper().should(be.visible)
 
     def check_success_subscribe_status_message_has_text(self, text: str) -> None:
-        with allure.step(f"Check success subscribe status message has text: {_SUCCESS_SUBSCRIPTION_MESSAGE}"):
+        with allure.step(f"Check subscribe status message has text: {text}"):
             self.__locator.status_message().should(have.text(text))
 
-    def check_subscribe_component_has_screenshot(
-        self, path_to_screenshot: str, percent_of_tolerance: float, rewrite_screenshot: bool
-    ) -> None:
-        with allure.step("Check subscribe component has screenshot"):
-            self._check_element_have_screenshot(
-                element=self._root,
-                path_to_screenshot=path_to_screenshot,
-                percent_of_tolerance=percent_of_tolerance,
-                rewrite_screenshot=rewrite_screenshot,
-            )
+    def check_subscribe_has_success_status_message(self) -> None:
+        with allure.step("Check subscribe status is success"):
+            self.__locator.status_message().should(have.text(_SUCCESS_SUBSCRIPTION_MESSAGE))
 
     def check_visible_component_elements(self) -> None:
         with allure.step(f"Check [{self._component_title}] elements are visible"):

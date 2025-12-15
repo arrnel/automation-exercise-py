@@ -3,8 +3,8 @@ from http import HTTPStatus
 import allure
 
 from src.client.core.condition.conditions import Conditions
-from src.util.data_generator import DataGenerator
-from src.util.json_path_util import JsonPath
+from src.util.api.json_path_util import JsonPath
+from src.util.test.data_generator import DataGenerator
 from tests.api.base_api_test import BaseApiTest
 
 
@@ -33,7 +33,7 @@ class TestProductApi(BaseApiTest):
             Conditions.status_code(HTTPStatus.OK),
             Conditions.body_status_code(HTTPStatus.OK),
             Conditions.body_array_contains_values(
-                JsonPath.PRODUCT_PRODUCTS_TITLE, expected_title
+                JsonPath.PRODUCTS_RESPONSE_PRODUCT_TITLES, expected_title
             ),
         )
 
@@ -62,17 +62,17 @@ class TestProductApi(BaseApiTest):
             Conditions.status_code(HTTPStatus.OK),
             Conditions.body_status_code(HTTPStatus.OK),
             Conditions.body_array_contains_values(
-                JsonPath.PRODUCT_PRODUCTS_TITLE, *exists_products
+                JsonPath.PRODUCTS_RESPONSE_PRODUCT_TITLES, *exists_products
             ),
             Conditions.body_array_not_contains_values(
-                JsonPath.PRODUCT_PRODUCTS_TITLE, not_exists_products
+                JsonPath.PRODUCTS_RESPONSE_PRODUCT_TITLES, not_exists_products
             ),
         )
 
     def test_search_products_returns_empty_array(self):
 
         # Data
-        query = self.faker.sentence()
+        query = DataGenerator.random_sentence()
 
         # Steps
         response = self.product_api_client.send_search_products_by_query_request(query)
@@ -82,5 +82,5 @@ class TestProductApi(BaseApiTest):
             # Conditions.content_type(ContentType.JSON), # Expected: JSON, actual: HTML
             Conditions.status_code(HTTPStatus.OK),
             Conditions.body_status_code(HTTPStatus.OK),
-            Conditions.body_array_is_empty(JsonPath.PRODUCT_PRODUCTS),
+            Conditions.body_array_is_empty("products[*]"),
         )

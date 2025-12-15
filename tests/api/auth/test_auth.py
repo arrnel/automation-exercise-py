@@ -4,7 +4,7 @@ import allure
 
 from src.client.core.condition.conditions import Conditions
 from src.config.config import CFG
-from src.model.enum.content_type import ContentType
+from src.model.enum.meta.content_type import ContentType
 from tests.api.base_api_test import BaseApiTest
 
 

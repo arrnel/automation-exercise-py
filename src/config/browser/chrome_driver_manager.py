@@ -1,16 +1,19 @@
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, override
 
-from selenium.webdriver import Chrome, ChromeOptions, Firefox, FirefoxOptions, Safari, SafariOptions
+from selenium.webdriver import Chrome, ChromeOptions
 
 from src.config.browser.browser_manager import DriverManager
-from src.config.browser.remote_capabilities import RemoteCapabilitiesFactory
 from src.config.config import CFG
 
 
 class ChromeDriverManager(DriverManager):
 
-    def create_options(self):
+    @override
+    def create_driver(self) -> Chrome:
+        return Chrome(options=self.chrome_options)
+
+    @property
+    def chrome_options(self):
         options = ChromeOptions()
 
         args = self.__browser_headless_args() if CFG.browser_headless else self.__browser_args()
@@ -63,6 +66,3 @@ class ChromeDriverManager(DriverManager):
             "credentials_enable_service": False,
             "intl.accept_languages": "en,en_US",
         }
-
-    def create_driver(self, options) -> Chrome:
-        return Chrome(options=options)

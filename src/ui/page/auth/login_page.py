@@ -1,10 +1,10 @@
-import allure
 from selene import browser
 
 from src.ui.component.auth_component import LoginComponent, LoginSignUpComponent
 from src.ui.page.base_page import BasePage
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
+_URL = "/login"
 
 class LoginPage(BasePage):
 
@@ -23,9 +23,9 @@ class LoginPage(BasePage):
         return self.__sign_up_component
 
     # ACTIONS
+    @step_log.log("Open [Login Page]: {_URL}")
     def navigate(self) -> None:
-        with allure.step("Open: /login"):
-            browser.open("/login")
+        browser.open(_URL)
 
     # ASSERTIONS
     @step_log.log("Check [{self._page_name}] is visible")

@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from src.util.data_generator import DataGenerator
+from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
 
@@ -11,6 +11,7 @@ from tests.web.base_test import BaseWebTest
 @allure.feature("[WEB] Sign in")
 class TestLoginWeb(BaseWebTest):
 
+    @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")
     @allure.story("Sign in with valid credentials")
     @allure.title("[WEB] Sign in with valid data")
@@ -25,6 +26,7 @@ class TestLoginWeb(BaseWebTest):
         self.login_page.check_page_is_not_visible()
         self.login_page.header.check_user_is_logged_in_as(user.name)
 
+    @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")
     @allure.story("Sign in with invalid credentials")
     @allure.title("[WEB] Sign in with valid credentials. Case: {case_title}")
@@ -34,7 +36,7 @@ class TestLoginWeb(BaseWebTest):
 
         # Steps
         self.login_page.login_component.login(
-            user.email, DataGenerator.generate_password()
+            user.email, DataGenerator.random_password()
         )
 
         # Assertions

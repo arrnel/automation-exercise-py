@@ -2,6 +2,7 @@ from jsonpath_ng.ext import parse
 
 from src.ex.exception import ParseByJsonPathError
 
+
 def matches_by_json_path(data: dict, path: str):
     try:
         expr = parse(path)

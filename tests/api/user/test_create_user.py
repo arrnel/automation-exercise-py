@@ -4,8 +4,8 @@ import allure
 import pytest
 
 from src.client.core.condition.conditions import Conditions
-from src.model.user import UserDTO
-from src.util.user_store import ThreadSafeUserStore
+from src.model.user import User
+from src.util.api.user_store import ThreadSafeUserStore
 from tests.api.base_api_test import BaseApiTest
 from tests.data_provider.user_data_provider import UserDataProviderApi
 
@@ -32,7 +32,7 @@ class TestCreateUserApi(BaseApiTest):
         "Case: {case_title}"
     )
     # @allure.title("Should create user with valid data. Case: {case_title}")
-    def test_create_user_with_valid_data(self, case_title: str, user: UserDTO):
+    def test_create_user_with_valid_data(self, case_title: str, user: User):
 
         # Precondition
         ThreadSafeUserStore().add_user(user)
@@ -64,7 +64,7 @@ class TestCreateUserApi(BaseApiTest):
     def test_not_create_user_with_invalid_data(
         self,
         case_title: str,
-        user: UserDTO,
+        user: User,
         message_error: str,
     ):
 

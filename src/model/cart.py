@@ -1,13 +1,13 @@
-from src.model.base_model import Model
-from src.model.price import PriceDTO
+from src.model.dto.base_model import Model
+from src.model.price import Price
 
 
 class CartProductInfo(Model):
     title: str
     category: str
-    price: PriceDTO
+    price: Price
     quantity: int
-    total: PriceDTO
+    total: Price
 
     def __repr__(self) -> str:
         return (

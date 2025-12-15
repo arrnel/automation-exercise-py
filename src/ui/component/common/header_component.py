@@ -2,7 +2,8 @@ from selene import Element, by, be, have
 from selene.support.conditions import not_
 
 from src.ui.component.base_component import BaseComponent
-from src.util.step_logger import step_log
+from src.ui.element.base_element import UiElement, TextLink, Text
+from src.util.allure.step_logger import step_log
 
 
 class HeaderComponent(BaseComponent):
@@ -50,27 +51,27 @@ class HeaderComponent(BaseComponent):
     # ACTIONS
     @step_log.log("Check user is logged in")
     def check_user_is_logged_in(self) -> None:
-        self.__locator.logged_in().should(be.visible)
+        self.__locator.logged_in().should_be_visible()
 
     @step_log.log("Check user is logged in as: {text}")
     def check_user_is_logged_in_as(self, text: str) -> None:
-        self.__locator.logged_in_as().should(have.text(text))
+        self.__locator.logged_in_as().should_have_text(text)
 
     @step_log.log("Check user is not authorized")
     def check_user_is_not_authorized(self) -> None:
-        self.__locator.login().should(be.visible)
+        self.__locator.login().should_be_visible()
 
     @step_log.log("Check [{self._component_title}] elements are visible}")
     def check_visible_component_elements(self) -> None:
-        self.__locator.logo().should(be.visible)
-        self.__locator.home().should(be.visible)
-        self.__locator.products().should(be.visible)
+        self.__locator.logo().should_be_visible()
+        self.__locator.home().should_be_visible()
+        self.__locator.products().should_be_visible()
 
     @step_log.log("Check [{self._component_title}] elements are not exists")
     def check_not_visible_component_elements(self) -> None:
-        self.__locator.logo().should(not_.existing)
-        self.__locator.home().should(not_.existing)
-        self.__locator.products().should(not_.existing)
+        self.__locator.logo().should_not_exists()
+        self.__locator.home().should_not_exists()
+        self.__locator.products().should_not_exists()
 
 
 class _HeaderComponentLocator:
@@ -78,41 +79,38 @@ class _HeaderComponentLocator:
     def __init__(self, root: Element):
         self.__root = root
 
-    def logo(self) -> Element:
-        return self.__root.element(".logo")
+    def logo(self) -> UiElement:
+        return UiElement(self.__root.element(".logo"), "Logo")
 
-    def nav_bar(self) -> Element:
-        return self.__root.element(".shop-menu")
+    def nav_bar(self) -> UiElement:
+        return UiElement(self.__root.element(".shop-menu"), "Nav Bar")
 
-    def home(self) -> Element:
-        return self.nav_bar().element(by.text("Home"))
+    def home(self) -> TextLink:
+        return self.nav_bar().element(by.text("Home"), "Home", TextLink)
 
-    def cart(self) -> Element:
-        return self.nav_bar().element(by.text("Cart"))
+    def cart(self) -> TextLink:
+        return self.nav_bar().element(by.text("Cart"), "Cart", TextLink)
 
-    def products(self) -> Element:
-        return self.nav_bar().element(by.text("Products"))
+    def products(self) -> TextLink:
+        return self.nav_bar().element(by.text("Products"), "Products", TextLink)
 
-    def sign_up(self) -> Element:
-        return self.nav_bar().element(by.text("Signup / Login"))
+    def sign_up(self) -> TextLink:
+        return self.nav_bar().element(by.text("Signup / Login"), "Sign Up", TextLink)
 
-    def login(self) -> Element:
-        return self.sign_up()
+    def login(self) -> TextLink:
+        return self.nav_bar().element(by.text("Signup / Login"), "Login", TextLink)
 
-    def logout(self) -> Element:
-        return self.nav_bar().element(by.text("Logout"))
+    def logout(self) -> TextLink:
+        return self.nav_bar().element(by.text("Logout"), "Logout", TextLink)
 
-    def delete_account(self) -> Element:
-        return self.nav_bar().element(by.text("Delete Account"))
+    def delete_account(self) -> TextLink:
+        return self.nav_bar().element(by.text("Delete Account"), "Delete Account", TextLink)
 
-    def contact_us(self) -> Element:
-        return self.nav_bar().element(by.text("Contact us"))
+    def contact_us(self) -> TextLink:
+        return self.nav_bar().element(by.text("Contact us"), "Contact Us", TextLink)
 
-    def logged_in(self) -> Element:
-        return self.nav_bar().element(by.text("Logged in as"))
+    def logged_in(self) -> TextLink:
+        return self.nav_bar().element(by.text("Logged in as"), "Logged in", TextLink)
 
-    def logged_in_as(self) -> Element:
-        return self.logged_in().element("b")
-
-    def active(self) -> Element:
-        return self.nav_bar().element("a[style*='color: orange']")
+    def logged_in_as(self) -> Text:
+        return self.logged_in().element("b", "Logged in as", Text)

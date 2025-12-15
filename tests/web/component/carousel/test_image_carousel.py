@@ -1,23 +1,75 @@
-from src.ui.page.auth.login_page import LoginPage
-from src.ui.page.main_page import MainPage
+import allure
+import pytest
+
+from tests.web.base_test import BaseWebTest
 
 
-class TestImageCarousel:
+@allure.tag("carousel_component", "image_carousel_component")
+@allure.epic("[Web] Component - Image Carousel")
+@allure.feature("[Web] Component - Image Carousel")
+class TestImageCarousel(BaseWebTest):
 
-    def setup_method(self):
-        self.login_page = LoginPage()
-        self.main_page = MainPage()
+    @pytest.mark.screenshot_test
+    @allure.tag("screenshot_test")
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Image Carousel")
+    @allure.title("[WEB Component] Image Carousel should show previous image when scroll left")
+    def test_should_show_previous_image_when_scroll_left(self):
 
-    def test_should_show_previous_image_when_scroll_left(self, browser_open):
-        pass
+        # Component
+        banner = self.main_page.banner
 
-    def test_should_show_next_image_when_scroll_right(self, browser_open):
-        pass
+        # Steps
+        banner.wait_until_slide_will_be_active(2)
+        banner.next()
 
-    def test_should_show_last_image_when_scroll_left_on_first_image(self, browser_open):
-        pass
+        # Assertions
+        banner.check_ccomponent_has_screenshot("files/img/screenshot/component/carousel/image/3.png")
 
-    def test_should_show_first_image_when_scroll_right_on_last_image(
-        self, browser_open
-    ):
-        pass
+    @pytest.mark.screenshot_test
+    @allure.tag("screenshot_test")
+    @allure.label("owner", "arrnel")
+    @allure.title("[WEB Component] Image Carousel should show next image when scroll right")
+    def test_should_show_next_image_when_scroll_right(self):
+
+        # Component
+        banner = self.main_page.banner
+
+        # Steps
+        banner.wait_until_slide_will_be_active(2)
+        banner.previous()
+
+        # Assertions
+        banner.check_ccomponent_has_screenshot("files/img/screenshot/component/carousel/image/1.png")
+
+    @pytest.mark.screenshot_test
+    @allure.tag("screenshot_test")
+    @allure.label("owner", "arrnel")
+    @allure.title("[WEB Component] Image Carousel should last image when scroll left on first image")
+    def test_should_show_last_image_when_scroll_left_on_first_image(self):
+
+        # Component
+        banner = self.main_page.banner
+
+        # Steps
+        banner.wait_until_slide_will_be_active(1)
+        banner.previous()
+
+        # Assertions
+        banner.check_ccomponent_has_screenshot("files/img/screenshot/component/carousel/image/3.png")
+
+    @pytest.mark.screenshot_test
+    @allure.tag("screenshot_test")
+    @allure.label("owner", "arrnel")
+    @allure.title("[WEB Component] Image Carousel should first image when scroll right on last image")
+    def test_should_show_first_image_when_scroll_right_on_last_image(self):
+
+        # Component
+        banner = self.main_page.banner
+
+        # Steps
+        banner.wait_until_slide_will_be_active(3)
+        banner.next()
+
+        # Assertions
+        banner.check_ccomponent_has_screenshot("files/img/screenshot/component/carousel/image/1.png")

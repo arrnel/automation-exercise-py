@@ -1,3 +1,4 @@
+import os
 from typing import Dict, Any
 
 from selenium.webdriver import Remote
@@ -7,16 +8,24 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from src.config.browser.browser_manager import DriverManager
 from src.config.config import CFG
 from src.util.api.test_thread_id_store import ThreadSafeTestThreadsStore
+from src.util.duration_util import seconds_to_golang_duration_str
 
+_SESSION_TIMEOUT = seconds_to_golang_duration_str(CFG.browser_remote_session_timeout)
 
-class SelenoidDriverManager(DriverManager):
+class RemoteDriverManager(DriverManager):
 
     def create_driver(self) -> Remote:
+
+        if CFG.remote_type.lower() == "selenoid":
+            capabilities = self.selenoid_capabilities
+        elif CFG.remote_type.lower() == "moon":
+            capabilities = self.moon_capabilities
+        else:
+            raise ValueError(f"Unknown remote type: {CFG.remote_type}")
+
         return Remote(
             command_executor=CFG.remote_url,
-            options=self.browser_options.capabilities(
-                self.selenoid_capabilities
-            ),
+            options=self.browser_options.capabilities(capabilities),
         )
 
     @property
@@ -74,6 +83,10 @@ class SelenoidDriverManager(DriverManager):
                 "enableVNC": CFG.browser_remote_vnc,
                 "enableLog": CFG.browser_remote_logs,
                 "enableVideo": CFG.browser_remote_video,
+                "sessionTimeout": _SESSION_TIMEOUT,
+                "env": [
+                    f"ENV={os.environ.get('ENV')}",
+                ]
             },
         }
 
@@ -93,7 +106,10 @@ class SelenoidDriverManager(DriverManager):
                     "project": "ui-tests",
                     "env": "ci",
                 },
+                "env": [
+                    f"ENV={os.environ.get('ENV')}",
+                ],
                 "logLevel": "INFO",
-                "sessionTimeout": "5m",
+                "sessionTimeout": _SESSION_TIMEOUT,
             },
         }

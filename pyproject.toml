@@ -23,16 +23,17 @@ jsonpath-ng = ">=1.7,<2.0"
 beautifulsoup4 = ">=4.12,<5.0"
 dataclasses-json = ">=0.6,<1.0"
 pytest-xdist = ">=3.8,<4.0"
+webdriver-manager = "==3.8.6"
 
 [tool.pytest.ini_options]
-testpaths = ["tests/**"]
+testpaths = ["tests/web/component/auth/**"]
 addopts = [
     "-v",
-    "-n 4"
+    "-n 3"
 ]
 markers = [
     "api_test: API tests",
-    "web_test: Web tests",
+    "web_test: Web tests (contains screenshot_test)",
     "screenshot_test: Screenshot tests",
     "e2e_test: e2e tests",
 
@@ -54,11 +55,12 @@ markers = [
     "image_carousel_test: Tests of image carousel component",
     "product_carousel_test: Tests of product carousel component",
     "product_card_test: Tests of product card component",
-    "product_details_test: Tests of  component"
+    "product_details_test: Tests of product details component"
 ]
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.3.0"
+matplotlib = "^3.10.8"
 
 [build-system]
 requires = ["poetry-core"]

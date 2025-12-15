@@ -10,8 +10,10 @@ from tests.web.base_test import BaseWebTest
 @allure.story("Page scroller")
 class PageScrollerComponentTest(BaseWebTest):
 
-    @pytest.mark.screenshot_test
-    def test_should_scroll_on_top_page(self, browser_open):
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Page scroller")
+    @allure.title("[WEB Component] Page scroller scroll page to top")
+    def test_should_scroll_on_top_page(self):
         # Steps
         self.main_page.recommended_products.scroll_to_component()
         self.main_page.page_scroller.scroll_to_top()

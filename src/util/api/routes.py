@@ -1,20 +1,19 @@
 from enum import Enum
 
-from src.config.config import CFG
-
 
 class ApiRoutes(Enum):
-
     LOGIN = "/login"
     LOGOUT = "/logout"
-    PRODUCTS_LIST = CFG.base_api_url + "/productsList"
-    SEARCH_PRODUCTS = CFG.base_api_url + "/searchProduct"
-    BRANDS_LIST = CFG.base_api_url + "/brandsList"
-    VERIFY_LOGIN = CFG.base_api_url + "/verifyLogin"
-    CREATE_USER_ACCOUNT = CFG.base_api_url + "/createAccount"
-    GET_USER_ACCOUNT = CFG.base_api_url + "/getUserDetailByEmail"
-    UPDATE_USER_ACCOUNT = CFG.base_api_url + "/updateAccount"
-    DELETE_USER_ACCOUNT = CFG.base_api_url + "/deleteAccount"
+    PRODUCTS_LIST = "/productsList"
+    SEARCH_PRODUCTS = "/searchProduct"
+    BRANDS_LIST = "/brandsList"
+    VERIFY_LOGIN = "/verifyLogin"
+    CREATE_USER_ACCOUNT = "/createAccount"
+    GET_USER_ACCOUNT = "/getUserDetailByEmail"
+    UPDATE_USER_ACCOUNT = "/updateAccount"
+    DELETE_USER_ACCOUNT = "/deleteAccount"
+    ADD_PRODUCT_TO_CART_PATTERN = "/add_to_cart/{product_id}"
+    DELETE_PRODUCT_FROM_CART_PATTERN = "/delete_cart/{product_id}"
 
     def path(self):
         return self.value

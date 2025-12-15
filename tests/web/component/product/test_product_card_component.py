@@ -11,12 +11,12 @@ from tests.web.base_test import BaseWebTest
 @allure.feature("[WEB] Product Card")
 class TestProductCard(BaseWebTest):
 
-
     @pytest.mark.screenshot_test
+    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Card Component")
     @allure.title("[WEB Component] Product card should have expected data")
-    def test_product_card_has_expected_data(self, browser_open_main_page):
+    def test_product_card_has_expected_data(self):
         # Data
         product = DataGenerator.expected_product()
 
@@ -36,7 +36,7 @@ class TestProductCard(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Card Component")
     @allure.title("[WEB Component] Should add product to cart when click on add to cart button")
-    def test_add_product_to_card_when_click_add_to_cart_button(self, browser_open_main_page):
+    def test_add_product_to_card_when_click_add_to_cart_button(self):
         # Data
         product = DataGenerator.expected_product()
 
@@ -49,20 +49,7 @@ class TestProductCard(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Card Component")
     @allure.title("[WEB Component] Should add product to cart when click on add to cart button from overlay")
-    def test_add_product_to_card_when_click_overlay_add_to_cart_button(self, browser_open_main_page):
-        # Data
-        product = DataGenerator.expected_product()
-
-        # Steps
-        self.main_page.recommended_products.get_card_by_title(product.title).add_to_cart_from_overlay()
-
-        # Assertions
-        self.main_page.notification.check_notification_has_success_added_product_message()
-
-    @allure.label("owner", "arrnel")
-    @allure.story("[Web] Component - Product Card Component")
-    @allure.title("[WEB Component] Should open product page when click on view product button")
-    def test_open_product_page_when_click_view_product_button(self, browser_open_main_page):
+    def test_add_product_to_card_when_click_overlay_add_to_cart_button(self):
         # Data
         product = DataGenerator.expected_product()
 

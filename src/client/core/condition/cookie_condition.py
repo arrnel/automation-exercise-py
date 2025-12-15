@@ -3,13 +3,12 @@ from typing import Tuple
 from httpx import Response
 
 from src.client.core.condition.base import Condition
-from src.util.list_util import concat_expected
 
 
 class CookieExistsCondition(Condition):
 
     def __init__(self, expected_cookie: str, *expected_cookies: str):
-        self.expected = concat_expected(expected_cookie, *expected_cookies)
+        self.expected = [expected_cookie, *expected_cookies]
 
     def check(self, response: Response) -> Tuple[bool, str]:
         actual = {c.casefold() for c in response.cookies.keys()}

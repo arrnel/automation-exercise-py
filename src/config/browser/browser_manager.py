@@ -1,9 +1,8 @@
-class BrowserStrategy(ABC):
+from abc import ABC, abstractmethod
+
+
+class DriverManager(ABC):
 
     @abstractmethod
-    def create_options(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def create_driver(self, options):
+    def create_driver(self):
         raise NotImplementedError

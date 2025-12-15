@@ -1,7 +1,8 @@
-from src.model.base_model import Model
+from dataclasses import dataclass
 
 
-class ContactInfo(Model):
+@dataclass
+class ContactInfo:
     name: str
     email: str
     subject: str

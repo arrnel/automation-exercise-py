@@ -5,7 +5,7 @@ from typing_extensions import override
 
 from src.ui.element.base_element import Text, ElementsCollection, Button
 from src.ui.page.base_page import BasePage
-from src.util.step_logger import step_log
+from src.util.allure.step_logger import step_log
 
 
 class BaseConfirmationPage(BasePage, ABC):

@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from src.model.base_model import Model
+from src.model.dto.base_model import Model
 
 
 class UpdateUserRequestDTO(Model):

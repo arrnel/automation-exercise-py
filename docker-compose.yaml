@@ -3,6 +3,7 @@ services:
   selenoid:
     container_name: selenoid
     image: aerokube/selenoid:1.11.3
+    platform: linux/${ARCH}
     volumes:
       - ./env/docker/selenoid:/etc/selenoid
       - /var/run/docker.sock:/var/run/docker.sock
@@ -10,15 +11,13 @@ services:
     environment:
       - TZ=Europe/Moscow
     restart: unless-stopped
-    command: [ "-conf", "/etc/selenoid/browsers.json", "-limit", "3", "-video-output-dir", "/opt/selenoid/video", "-log-output-dir", "/opt/selenoid/logs", "-container-network", "automation_practice-automation_practice-network" ]
+    command: [ "-conf", "/etc/selenoid/browsers.json", "-limit", "3", "-video-output-dir", "/opt/selenoid/video", "-log-output-dir", "/opt/selenoid/logs", "-container-network", "automation_exercise_automation_exercise-network" ]
     ports:
       - "4444:4444"
     networks:
-      - automation_practice-network
+      - automation_exercise-network
 
   selenoid-ui:
-    profiles:
-      - test
     container_name: selenoid-ui
     image: aerokube/selenoid-ui:1.10.11
     depends_on:
@@ -28,8 +27,25 @@ services:
       - "5052:8080"
     command: [ "--selenoid-uri", "http://selenoid:4444" ]
     networks:
-      - automation_practice-network
+      - automation_exercise-network
+
+  automation-exercise-tests:
+    container_name: automation-exercise-tests
+    image: ${PREFIX}/automation-exercise-tests:latest
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    environment:
+      - ENV=${ENV:-ci}
+    volumes:
+      - ./resources/files:/app/resources/files
+      - ./allure-results:/allure-results
+    depends_on:
+      selenoid:
+        condition: service_started
+    networks:
+      - automation_exercise-network
 
 networks:
-  automation_practice-network:
+  automation_exercise-network:
     driver: bridge

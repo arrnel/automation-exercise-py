@@ -5,12 +5,12 @@ from selene import browser
 
 from src.config.config import CFG
 from src.model.test_data import TestData
-from src.model.user import UserDTO
+from src.model.user import User
 from src.service.auth_api_service import AuthApiService
 from src.service.user_api_service import UserApiService
-from src.util.data_generator import DataGenerator
-from src.util.test_thread_id_store import ThreadSafeTestThreadsStore
-from src.util.user_store import ThreadSafeUserStore
+from src.util.api.test_thread_id_store import ThreadSafeTestThreadsStore
+from src.util.api.user_store import ThreadSafeUserStore
+from src.util.test.data_generator import DataGenerator
 
 logging.basicConfig(
     level=logging.INFO,
@@ -18,17 +18,17 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 
-_user_service = UserApiService()
+_USER_SERVICE = UserApiService()
 
 
 @pytest.fixture()
 def create_user(identify_thread_test):
 
     # Data
-    user = DataGenerator().generate_user()
+    user = DataGenerator().random_user()
 
     # Precondition
-    user = _user_service.create_user(user)
+    user = _USER_SERVICE.create_user(user)
     ThreadSafeUserStore().add_user(user)
     return user
 
@@ -37,10 +37,10 @@ def create_user(identify_thread_test):
 def user_tpl(identify_thread_test):
 
     # Data
-    email = DataGenerator().generate_email()
+    email = DataGenerator().random_email()
     password = CFG.default_password
     user = (
-        DataGenerator.generate_user()
+        DataGenerator.random_user()
         .with_email(email)
         .with_password(password)
         .with_test_data(TestData.empty().with_password(password))
@@ -54,10 +54,10 @@ def user_tpl(identify_thread_test):
 def user_credentials(identify_thread_test):
 
     # Data
-    email = DataGenerator().generate_email()
+    email = DataGenerator().random_email()
     password = CFG.default_password
     user = (
-        UserDTO.empty()
+        User.empty()
         .with_email(email)
         .with_password(password)
         .with_test_data(TestData.empty().with_password(password))

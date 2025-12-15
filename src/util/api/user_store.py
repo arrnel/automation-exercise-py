@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from src.model.user import User
 from src.service.user_api_service import UserApiService
-from src.util.test_thread_id_store import ThreadSafeTestThreadsStore
+from src.util.api.test_thread_id_store import ThreadSafeTestThreadsStore
 
 GLOBAL_USERS_KEY = "GLOBAL_USERS"
 
@@ -20,15 +20,14 @@ class ThreadSafeUserStore:
     _user_service = UserApiService()
 
     def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            with cls._lock:
-                if cls._instance is None:
-                    cls._instance = super().__new__(cls)
+        with cls._lock:
+            if cls._instance is None:
+                cls._instance = super().__new__(cls)
         return cls._instance
 
     @staticmethod
     def _get_key() -> str:
-        return ThreadSafeTestThreadsStore().get_current_thread_test_name()
+        return ThreadSafeTestThreadsStore().current_thread_test_name()
 
     def add_user(self, user: User) -> None:
         test_id = self._get_key()
@@ -58,7 +57,8 @@ class ThreadSafeUserStore:
     def get_all_users_as_list(self) -> List[User]:
         with self._storage_lock:
             users: list[User] = []
-            [users.extend(list(user.values())) for user in self._users_store.values()]
+            for user_dict in self._users_store.values():
+                users.extend(user_dict.values())
             return users
 
     def update_user(self, email: str, new_user: User) -> bool:
@@ -100,12 +100,11 @@ class ThreadSafeUserStore:
 
             with self._storage_lock:
                 if self._not_removed_users:
-
                     users_credentials_text = [
                         f"Email = {user.email}, password = [{user.password}], test_data_password = [{user.test_data.password}]"
                         for user in self._not_removed_users
                     ]
 
                     logging.warning(
-                        f"Failed to remove user(s):\n{"\n".join(users_credentials_text)}"
+                        "Failed to remove user(s):\n" + "\n".join(users_credentials_text)
                     )

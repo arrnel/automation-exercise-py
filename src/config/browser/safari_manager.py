@@ -1,21 +1,40 @@
-from selenium.webdriver import Safari, SafariOptions
+from typing import Dict, Any
 
-from src.config.browser.base_browser_options import BrowserStrategy
-from src.config.browser.remote_capabilities import RemoteCapabilitiesFactory
+from selenium.webdriver import Safari
+from selenium.webdriver.safari.options import Options as SafariOptions
+
+from src.config.browser.browser_manager import DriverManager
 from src.config.config import CFG
 
 
-class SafariStrategy(BrowserStrategy):
+class SafariDriverManager(DriverManager):
 
-    def create_options(self):
+    def create_driver(self) -> Safari:
+        return Safari(options=self.safari_options)
+
+    @property
+    def safari_options(self) -> SafariOptions:
         options = SafariOptions()
 
-        if CFG.is_remote:
-            capabilities = RemoteCapabilitiesFactory().capabilities()
-            for key, value in capabilities:
-                options.set_capability(key, value)
+        # Safari не поддерживает headless, но если CFG.browser_headless — кидаем soft warning (или игнорируем)
+        if CFG.browser_headless:
+            print("[WARN] Safari не поддерживает headless режим")
+
+        # Safari Technology Preview если требуется
+        if CFG.browser_version.lower() == "tech-preview":
+            options.use_technology_preview(True)
+
+        caps = self.__capabilities()
+        for k, v in caps.items():
+            options.set_capability(k, v)
 
         return options
 
-    def create_driver(self, options) -> Safari:
-        return Safari()
+    def __capabilities(self) -> Dict[str, Any]:
+        return {
+            "safari.options.cleanSession": True,
+            "safariAllowPopups": False,
+            "safariIgnoreFraudWarning": True,
+            "autoAcceptAlerts": False,
+        }
+

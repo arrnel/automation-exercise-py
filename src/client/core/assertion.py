@@ -9,13 +9,10 @@ class AssertableResponse:
     def __init__(self, response: Response):
         self.response = response
 
-    def check(
-        self, condition: Condition, *conditions: Condition
-    ) -> "AssertableResponse":
+    def check(self, condition: Condition, *conditions: Condition) -> "AssertableResponse":
 
         invalid_checks = []
-        all_conditions = [condition]
-        all_conditions.extend([*conditions])
+        all_conditions = [condition, *conditions]
         for c in all_conditions:
             c_status, c_msg = c.check(self.response)
             if not c_status:

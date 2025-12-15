@@ -3,7 +3,7 @@ from http import HTTPStatus
 import allure
 
 from src.client.core.condition.conditions import Conditions
-from src.util.data_generator import DataGenerator
+from src.util.test.data_generator import DataGenerator
 from tests.api.base_api_test import BaseApiTest
 
 ACCOUNT_NOT_FOUND_MESSAGE = "Account not found with this email, try another email!"
@@ -42,7 +42,7 @@ class TestGetUserApi(BaseApiTest):
     def test_get_user_return_not_found_when_user_not_exists(self):
 
         # Data
-        email = DataGenerator.generate_email()
+        email = DataGenerator.random_email()
 
         # Steps
         response = self.user_api_client.send_get_user_by_email_request(email)

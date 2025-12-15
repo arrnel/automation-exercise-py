@@ -1,27 +1,19 @@
-from pydantic import Field, field_validator
+from dataclasses import dataclass
 
-from src.model.base_model import Model
-from src.model.category import CategoryDTO
-from src.model.price import PriceDTO
+from src.model.category import Category
+from src.model.price import Price
 
 
-class ProductDTO(Model):
-    id: int = Field(alias="id")
-    title: str = Field(alias="name")
-    category: CategoryDTO = Field(alias="category")
-    brand: str = Field(alias="brand")
-    price: PriceDTO = Field(alias="price")
-    availability: str = Field(exclude=True, default="In Stock")
-    condition: str = Field(exclude=True, default="New")
+@dataclass
+class Product:
 
-    @field_validator('price', mode='before')
-    @classmethod
-    def parse_price(cls, v):
-        if isinstance(v, str):
-            return PriceDTO.from_text(v)
-        if isinstance(v, dict):
-            return PriceDTO(**v)
-        return v
+    id: int | None
+    title: str | None
+    category : Category | None
+    brand: str | None
+    price: Price | None
+    availability: str | None = "In Stock"
+    condition: str | None = "New"
 
     def __repr__(self) -> str:
         return (

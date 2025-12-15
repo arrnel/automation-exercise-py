@@ -5,11 +5,13 @@ from typing import Optional
 from src.client.core.condition.conditions import Conditions
 from src.client.user_api_client import UserApiClient
 from src.client.verify_login_api_client import VerifyLoginApiClient
+from src.config.config import CFG
 from src.ex.exception import UserNotFoundError
 from src.mapper.user_mapper import UserMapper
+from src.model.dto.user.user_response import UserResponseDTO
 from src.model.test_data import TestData
-from src.model.user import UserDTO, UserResponseDTO
-from src.util.step_logger import step_log
+from src.model.user import User
+from src.util.allure.step_logger import step_log
 
 _USER_EXIST_MESSAGE = "User exists!"
 _USER_NOT_EXIST_MESSAGE = "User not found!"
@@ -22,7 +24,7 @@ class UserApiService:
         self.verify_user_api_client = VerifyLoginApiClient()
 
     @step_log.log("Create user: {user.email}")
-    def create_user(self, user: UserDTO) -> UserDTO:
+    def create_user(self, user: User) -> User:
         self.user_api_client.send_create_new_user_request(user).check(
             Conditions.status_code(HTTPStatus.OK),
             Conditions.body_status_code(HTTPStatus.CREATED),
@@ -46,11 +48,11 @@ class UserApiService:
         return UserMapper.to_user(user_response, user.test_data)
 
     @step_log.log("Get user by email: {email}")
-    def get_user_by_email(self, email: str) -> Optional[UserDTO]:
+    def get_user_by_email(self, email: str) -> Optional[User]:
         return self.__get_user(email)
 
     @step_log.log("Update user with email: {email}")
-    def update_user(self, user: UserDTO) -> UserDTO:
+    def update_user(self, user: User) -> User:
         if not self.__get_user(user.email):
             raise UserNotFoundError(f"User with email = [{user.email}] not found")
         return (
@@ -60,7 +62,7 @@ class UserApiService:
                 Conditions.body_status_code(HTTPStatus.OK),
             )
             .extract()
-            .as_pojo(UserDTO, "user")
+            .as_pojo(User, "user")
         )
 
     @step_log.log("Delete user with email: {email}")
@@ -97,7 +99,7 @@ class UserApiService:
         else:
             raise ValueError(f"Unexpected response message: {message}")
 
-    def __get_user(self, email: str) -> Optional[UserDTO]:
+    def __get_user(self, email: str) -> Optional[User]:
 
         response = self.user_api_client.send_get_user_by_email_request(email)
         if response.extract().body_status_code() == HTTPStatus.NOT_FOUND:

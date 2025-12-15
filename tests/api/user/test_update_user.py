@@ -5,8 +5,8 @@ import pytest
 
 from src.client.core.condition.conditions import Conditions
 from src.mapper.user_mapper import UserMapper
-from src.model.user import UserDTO
-from src.util.data_generator import DataGenerator
+from src.model.user import User
+from src.util.test.data_generator import DataGenerator
 from tests.api.base_api_test import BaseApiTest
 from tests.data_provider.user_data_provider import UserDataProviderApi
 
@@ -34,13 +34,13 @@ class TestUpdateUserApi(BaseApiTest):
     def test_update_user_with_valid_data(
         self,
         case_title: str,
-        user_to_update: UserDTO,
+        user_to_update: User,
         create_user,
     ):
 
         # Data
         user = (
-            DataGenerator.generate_user()
+            DataGenerator.random_user()
             .with_id(create_user.id)
             .with_email(create_user.email)
             .with_test_data(create_user.test_data)
@@ -73,9 +73,9 @@ class TestUpdateUserApi(BaseApiTest):
     def test_not_update_user_with_invalid_data(
         self,
         case_title: str,
-        user_to_update: UserDTO,
+        user_to_update: User,
         expected_message: str,
-        create_user: UserDTO,
+        create_user: User,
     ):
 
         # Data
@@ -102,7 +102,7 @@ class TestUpdateUserApi(BaseApiTest):
     def test_not_update_user_when_user_not_exists(self):
 
         # Data
-        user = DataGenerator.generate_user()
+        user = DataGenerator.random_user()
 
         # Steps
         response = self.user_api_client.send_update_user_request(user)

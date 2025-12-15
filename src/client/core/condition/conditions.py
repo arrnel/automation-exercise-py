@@ -21,7 +21,7 @@ from src.client.core.condition.header_condition import (
     HeadersExistCondition,
 )
 from src.client.core.condition.status_code_condition import StatusCodeCondition
-from src.model.enum.content_type import ContentType
+from src.model.enum.meta.content_type import ContentType
 
 T = TypeVar("T")
 

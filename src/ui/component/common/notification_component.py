@@ -1,8 +1,9 @@
 import allure
-from selene import Element, have, be
-from selene.support.conditions import not_
+from selene import Element, have
+from selene.support.conditions.have import text
 
 from src.ui.component.base_component import BaseComponent
+from src.ui.element.base_element import Text, Button, Link
 
 _SUCCESS_ADD_PRODUCT_TO_CART_MESSAGE = "Your product has been added to cart."
 _NOT_AUTHORIZED_MESSAGE = "Register / Login account to proceed on checkout."
@@ -16,66 +17,53 @@ class NotificationComponent(BaseComponent):
 
     # ACTIONS
     def close(self) -> None:
-        with allure.step("Close notification"):
-            self.__locator.close().click()
+        self.__locator.close().click()
 
-    def click_on_link(self) -> None:
-        with allure.step("Close notification"):
-            self.__locator.description_link().click()
+    def navigate(self) -> None:
+        self.__locator.link().navigate()
 
     # ASSERTIONS
     def check_notification_has_title(self, text: str) -> None:
         with allure.step(f"Check notification has title: {text}"):
-            self.__locator.title().should(have.text(text))
+            self.__locator.title().should_have_text(text)
 
     def check_notification_has_description(self, text: str) -> None:
         with allure.step(f"Check notification has description: {text}"):
-            self.__locator.description().should(have.text(text))
+            self.__locator.description().should_have_text(text)
 
     def check_notification_has_success_added_product_message(self) -> None:
         with allure.step("Check notification has success added product to cart message"):
-            self.__locator.description().should(have.text(_SUCCESS_ADD_PRODUCT_TO_CART_MESSAGE))
+            self.__locator.description().should_have_text(_SUCCESS_ADD_PRODUCT_TO_CART_MESSAGE)
+
+    def check_notification_is_not_success_added_product(self) -> None:
+        with allure.step("Check notification is not success added product to cart"):
+            self.__locator.description().should_not_have(text(_SUCCESS_ADD_PRODUCT_TO_CART_MESSAGE))
 
     def check_notification_has_not_authorized_message(self) -> None:
         with allure.step("Check notification has not authorized message"):
-            self.__locator.description().should(have.text(_NOT_AUTHORIZED_MESSAGE))
+            self.__locator.description().should_have_text(_NOT_AUTHORIZED_MESSAGE)
 
-    def check_notification_has_description_link(self, text: str) -> None:
+    def check_notification_has_link(self, text: str) -> None:
         with allure.step(f"Check notification has description: {text}"):
             self.__locator.description().should(have.attribute("href", text))
 
-    def check_notification_has_success_description_link_text(self, text: str) -> None:
+    def check_notification_has_link_text(self, text: str) -> None:
         with allure.step("Check notification has success added product to cart message"):
-            self.__locator.description().element("u").should(have.text(text))
-
-    def check_notification_has_screenshot(
-        self,
-        path_to_screenshot: str,
-        percent_of_tolerance: float,
-        rewrite_screenshot: bool,
-    ) -> None:
-        with allure.step("Check notification has screenshot"):
-            self._check_element_have_screenshot(
-                element=self._root,
-                path_to_screenshot=path_to_screenshot,
-                percent_of_tolerance=percent_of_tolerance,
-                rewrite_screenshot=rewrite_screenshot,
-                timeout=0,
-            )
+            self.__locator.link_text().should_have_text(text)
 
     def check_visible_component_elements(self) -> None:
         with allure.step(f"Check [{self._component_title}] elements are visible"):
-            self.__locator.title().should(be.visible)
-            self.__locator.description().should(be.visible)
-            self.__locator.description_link().should(be.visible)
-            self.__locator.close().should(be.visible)
+            self.__locator.title().should_be_visible()
+            self.__locator.description().should_be_visible()
+            self.__locator.link().should_be_visible()
+            self.__locator.close().should_be_visible()
 
     def check_not_visible_component_elements(self) -> None:
         with allure.step(f"Check [{self._component_title}] elements are not exists"):
-            self.__locator.title().should(not_.existing)
-            self.__locator.description().should(not_.existing)
-            self.__locator.description_link().should(not_.existing)
-            self.__locator.close().should(not_.existing)
+            self.__locator.title().should_not_exists()
+            self.__locator.description().should_not_exists()
+            self.__locator.link().should_not_exists()
+            self.__locator.close().should_not_exists()
 
 
 class _NotificationComponentLocator:
@@ -83,14 +71,17 @@ class _NotificationComponentLocator:
     def __init__(self, root: Element):
         self.__root = root
 
-    def title(self) -> Element:
-        return self.__root.element("h4")
+    def title(self) -> Text:
+        return Text(self.__root.element("h4"), "Notification title")
 
-    def description(self) -> Element:
-        return self.__root.element(".modal-body p:first-child")
+    def description(self) -> Text:
+        return Text(self.__root.element(".modal-body p:first-child"), "Notification description")
 
-    def description_link(self) -> Element:
-        return self.__root.element(".modal-body a")
+    def link(self) -> Link:
+        return Link(self.__root.element(".modal-body a"), "Notification link")
 
-    def close(self) -> Element:
-        return self.__root.element(".close-modal")
+    def link_text(self) -> Text:
+        return Text(self.__root.element(".modal-body a"), "Notification link text")
+
+    def close(self) -> Button:
+        return Button(self.__root.element(".close-modal"), "Notification close button")

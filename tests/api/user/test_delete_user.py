@@ -3,7 +3,7 @@ from http import HTTPStatus
 import allure
 
 from src.client.core.condition.conditions import Conditions
-from src.util.data_generator import DataGenerator
+from src.util.test.data_generator import DataGenerator
 from tests.api.base_api_test import BaseApiTest
 
 ACCOUNT_NOT_FOUND_MESSAGE = "Account not found!"
@@ -46,7 +46,7 @@ class TestDeleteUserApi(BaseApiTest):
 
         # Steps
         response = self.user_api_client.send_delete_user_request(
-            DataGenerator.generate_email(), DataGenerator.generate_password()
+            DataGenerator.random_email(), DataGenerator.random_password()
         )
 
         # Assertion
