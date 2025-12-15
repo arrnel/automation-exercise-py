@@ -1,7 +1,8 @@
-from src.model.base_model import Model
+from dataclasses import dataclass
 
 
-class AddressInfo(Model):
+@dataclass
+class AddressInfo:
     title: str
     full_name: str
     company: str

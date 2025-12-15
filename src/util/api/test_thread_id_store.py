@@ -4,7 +4,7 @@ from typing import List, Optional
 
 import pytest
 
-from src.model.user import UserDTO
+from src.model.user import User
 from src.service.user_api_service import UserApiService
 
 GLOBAL_USERS_KEY = "GLOBAL_USERS"

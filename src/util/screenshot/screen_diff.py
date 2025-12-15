@@ -9,7 +9,6 @@ from src.util.image_util import get_img_base64, get_diff_image
 
 _MAX_PERCENT_OF_TOLERANCE = 0.2
 
-
 class ScreenDiffResult:
 
     def __init__(

@@ -1,23 +1,28 @@
 import base64
 import io
+import os
 
 from PIL import Image, ImageChops, ImageOps
 
+from src.util import system_util
 
-def create_new_image(absolute_path: str, from_image: Image.Image) -> None:
+
+def create_blank_image(absolute_path: str, from_image: Image.Image) -> None:
     """
     Create new image with white background, matching the mode and size of from_image.
     :param absolute_path: (str) absolute path to new image
     :param from_image: (PIL.Image.Image)
     """
     # Изменение: Всегда используем "white" — Pillow адаптирует под mode (для RGBA — с альфа=255)
-    Image.new(
-        mode=from_image.mode,
-        size=from_image.size,
-        color="white",
-    ).save(
-        absolute_path, format="PNG"
-    )  # Добавлено: Явный формат для сохранения
+    # Image.new(
+    #     mode=from_image.mode,
+    #     size=from_image.size,
+    #     color="white",
+    # ).save(
+    #     absolute_path, format="PNG"
+    # )
+    Image.new(mode=from_image.mode,size=from_image.size, color="white").save(absolute_path)
+
 
 
 def crop_image(byte_image: bytes, location: dict, size: dict) -> Image.Image:

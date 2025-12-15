@@ -4,8 +4,8 @@ import allure
 from allure_commons.types import AttachmentType
 from httpx import Request, Response
 
-from src.model.enum.content_type import ContentType
-from src.model.enum.log_level import ApiLogLvl
+from src.model.enum.meta.content_type import ContentType
+from src.model.enum.meta.log_level import ApiLogLvl
 from src.util.httpx_log_formatter_util import format_response, format_request
 
 _JSON_CONTENT_TYPES = ["application/json", "application/vnd.github+json"]

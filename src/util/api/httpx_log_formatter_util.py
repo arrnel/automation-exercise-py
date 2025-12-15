@@ -4,8 +4,8 @@ from typing import Optional, Union
 
 from httpx import Request, Response, RequestNotRead
 
-from src.model.enum.content_type import ContentType
-from src.model.enum.log_level import ApiLogLvl
+from src.model.enum.meta.content_type import ContentType
+from src.model.enum.meta.log_level import ApiLogLvl
 
 
 def format_request(request: Request, api_log_lvl: ApiLogLvl) -> Optional[str]:

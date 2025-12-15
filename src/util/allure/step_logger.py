@@ -6,7 +6,7 @@ from typing import Callable, TypeVar, Optional, Generator
 
 import allure
 
-from src.model.enum.log_level import LogLvl
+from src.model.enum.meta.log_level import LogLvl
 
 T = TypeVar("T")
 
@@ -27,7 +27,9 @@ class StepLogger:
         self.default_level = default_level
 
     def log(
-        self, message: str, log_level: Optional[LogLvl] = None
+            self,
+            message: str,
+            log_level: Optional[LogLvl] = None
     ) -> Callable[..., T] | Generator[None, None, None]:
 
         level = log_level or self.default_level

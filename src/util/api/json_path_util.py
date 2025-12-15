@@ -2,13 +2,6 @@ from jsonpath_ng.ext import parse
 
 from src.ex.exception import ParseByJsonPathError
 
-
-# def matches_by_json_path(data: dict, path: str):
-#     expr = parse(path)
-#     matches = expr.find(data)
-#     return [match.value for match in matches]
-
-
 def matches_by_json_path(data: dict, path: str):
     try:
         expr = parse(path)
@@ -22,10 +15,14 @@ def matches_by_json_path(data: dict, path: str):
 
 class JsonPath:
 
-    # BRAND RESPONSE
-    BRAND_BRANDS_TITLE = "brands[*].brand"
+    # ----- BRANDS RESPONSE
+    BRANDS_RESPONSE_BRANDS = "brands[*]"
+    BRANDS_RESPONSE_BRANDS_TITLES = "brands[*].brand"
 
-    # PRODUCT RESPONSE
-    PRODUCT_PRODUCTS = "products[*]"
-    PRODUCT_PRODUCTS_TITLE = "products[*].name"
-    PRODUCT_BRAND_TITLE = "products[*].brand.brand"
+    # ----- PRODUCTS RESPONSE
+    PRODUCTS_RESPONSE_PRODUCTS = "products[*]"
+    PRODUCTS_RESPONSE_PRODUCT_TITLES = "products[*].name"
+    PRODUCTS_RESPONSE_BRAND_TITLES = "products[*].brand.brand"
+
+    # ----- USERS RESPONSE
+    USERS_RESPONSE_USERS = "users[*]"
