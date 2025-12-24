@@ -5,7 +5,7 @@ from selene import Element
 from src.model.review import ReviewInfo
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Button, Text, Input
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _SUCCESS_STATUS_MESSAGE = "Thank you for your review."
 
@@ -73,4 +73,6 @@ class _ProductDetailsComponentLocator:
         return Button(self.__root.element("#button-review"), "Submit")
 
     def status_message(self) -> Text:
-        return Text(self.__root.element("#review-section span"), "Review Status Message")
+        return Text(
+            self.__root.element("#review-section span"), "Review Status Message"
+        )

@@ -5,8 +5,8 @@ from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
 
-@pytest.mark.login
-@allure.tag("auth")
+@pytest.mark.auth_test
+@pytest.mark.auth_component_test
 @allure.epic("Auth")
 @allure.feature("[WEB] Sign in")
 class TestLoginWeb(BaseWebTest):
@@ -15,9 +15,9 @@ class TestLoginWeb(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("Sign in with valid credentials")
     @allure.title("[WEB] Sign in with valid data")
-    def test_should_sign_in_with_valid_credentials(self, created_user_by_ui):
+    def test_should_sign_in_with_valid_credentials(self, create_user):
         # Data
-        user = created_user_by_ui
+        user = create_user
 
         # Steps
         self.login_page.login_component.login(user.email, user.password)
@@ -30,9 +30,9 @@ class TestLoginWeb(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("Sign in with invalid credentials")
     @allure.title("[WEB] Sign in with valid credentials. Case: {case_title}")
-    def test_should_not_sign_in_with_invalid_credentials(self, created_user_by_ui):
+    def test_should_not_sign_in_with_invalid_credentials(self, create_user):
         # Data
-        user = created_user_by_ui
+        user = create_user
 
         # Steps
         self.login_page.login_component.login(
@@ -40,5 +40,6 @@ class TestLoginWeb(BaseWebTest):
         )
 
         # Assertions
-        self.login_page.check_page_is_visible()
-        self.login_page.header.check_user_is_not_authorized()
+        self.login_page.login_component.check_login_error_has_message(
+            "Your email or password is incorrect!"
+        )

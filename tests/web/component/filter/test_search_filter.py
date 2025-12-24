@@ -5,23 +5,23 @@ from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
 
-@pytest.mark.component
-@pytest.mark.search_filter
-@allure.tag("component", "filter", "search_filter")
+@pytest.mark.component_test
+@pytest.mark.filter_test
+@pytest.mark.search_filter_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Search Filter")
 class TestSearchFilter(BaseWebTest):
 
     @pytest.mark.usefixtures("open_products_page")
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Search Filter")
     @allure.title("[WEB Component] Search filter should have expected screenshot")
     def test_search_filter_should_have_screenshot(self):
         # Step & Assertion
         self.products_page.search_filter.check_component_has_screenshot(
-            "files/screenshot/component/filter/search/empty.png"
+            path_to_screenshot="files/screenshot/component/filter/search/empty.png",
+            timeout=1,
         )
 
     @pytest.mark.usefixtures("open_products_page")
@@ -42,7 +42,9 @@ class TestSearchFilter(BaseWebTest):
     @pytest.mark.usefixtures("open_products_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Search Filter")
-    @allure.title("[WEB Component] Search filter should return all products when filter by empty query")
+    @allure.title(
+        "[WEB Component] Search filter should return all products when filter by empty query"
+    )
     def test_search_filter_returns_all_products_when_filter_by_empty_query(self):
         # Data
         query = ""

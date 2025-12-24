@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import allure
+import pytest
 
 from src.client.core.condition.conditions import Conditions
 from src.util.test.data_generator import DataGenerator
@@ -10,7 +11,8 @@ ACCOUNT_NOT_FOUND_MESSAGE = "Account not found!"
 SUCCESSFUL_DELETE_MESSAGE = "Account deleted!"
 
 
-@allure.tag("user")
+@pytest.mark.user_test
+@pytest.mark.user_api_test
 @allure.epic("User")
 @allure.feature("[API] Delete User")
 class TestDeleteUserApi(BaseApiTest):

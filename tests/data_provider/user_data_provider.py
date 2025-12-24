@@ -100,13 +100,17 @@ class UserDataProviderUI:
             (
                 "'mobile_number' length = min + 1",
                 DataGenerator.random_user().with_phone_number(
-                    DataGenerator.random_number(range_util.phone_number_range.min_val + 1)
+                    DataGenerator.random_number(
+                        range_util.phone_number_range.min_val + 1
+                    )
                 ),
             ),
             (
                 "'mobile_number' length = max - 1",
                 DataGenerator.random_user().with_phone_number(
-                    DataGenerator.random_number(range_util.phone_number_range.max_val - 1)
+                    DataGenerator.random_number(
+                        range_util.phone_number_range.max_val - 1
+                    )
                 ),
             ),
             (
@@ -445,13 +449,17 @@ class UserDataProviderUI:
             (
                 "'mobile_number' length = min - 1",
                 DataGenerator.random_user().with_phone_number(
-                    DataGenerator.random_number(range_util.phone_number_range.min_val - 1)
+                    DataGenerator.random_number(
+                        range_util.phone_number_range.min_val - 1
+                    )
                 ),
             ),
             (
                 "'mobile_number' length = max + 1",
                 DataGenerator.random_user().with_phone_number(
-                    DataGenerator.random_number(range_util.phone_number_range.max_val + 1)
+                    DataGenerator.random_number(
+                        range_util.phone_number_range.max_val + 1
+                    )
                 ),
             ),
             (
@@ -653,13 +661,17 @@ class UserDataProviderApi:
             (
                 "'mobile_number' length = min + 1",
                 DataGenerator.random_user().with_phone_number(
-                    DataGenerator.random_number(range_util.phone_number_range.min_val + 1)
+                    DataGenerator.random_number(
+                        range_util.phone_number_range.min_val + 1
+                    )
                 ),
             ),
             (
                 "'mobile_number' length = max - 1",
                 DataGenerator.random_user().with_phone_number(
-                    DataGenerator.random_number(range_util.phone_number_range.max_val - 1)
+                    DataGenerator.random_number(
+                        range_util.phone_number_range.max_val - 1
+                    )
                 ),
             ),
             (
@@ -1050,7 +1062,9 @@ class UserDataProviderApi:
             (
                 "'mobile_number' length = max + 1",
                 DataGenerator.random_user().with_phone_number(
-                    DataGenerator.random_number(range_util.phone_number_range.max_val + 1)
+                    DataGenerator.random_number(
+                        range_util.phone_number_range.max_val + 1
+                    )
                 ),
                 USER_NOT_UPDATED_MESSAGE,
             ),

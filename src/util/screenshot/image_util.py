@@ -1,39 +1,41 @@
 import base64
 import io
 from pathlib import Path
+from typing import Tuple
 
 import numpy as np
 from PIL import Image, ImageChops, ImageOps
 
+_RGB_MODE = "RGB"
 
-def create_blank_image(absolute_path: str, from_image: Image.Image) -> None:
+
+def create_blank_image(absolute_path: str, size: Tuple[int, int]) -> None:
     """
-    Create new image with white background, matching the mode and size of from_image.
-    :param absolute_path: (str) absolute path to new image
-    :param from_image: (PIL.Image.Image)
+    Create new PNG RGB image with white background.
+
+    Args:
+        :param absolute_path: (str) absolute path to new image
+        :param size: (Tuple[int, int]) size of new image
     """
     output_path = Path(absolute_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     Image.new(
-        mode=from_image.mode,
-        size=from_image.size,
+        mode=_RGB_MODE,
+        size=size,
         color="white",
-    ).save(
-        absolute_path, format="PNG"
-    )
+    ).save(absolute_path, format="PNG")
 
 
-def crop_image(byte_image: bytes, location: dict, size: dict) -> Image.Image:
+def crop_image(image: Image.Image, location: dict, size: dict) -> Image.Image:
     """Crop an image from the byte image"""
-    image_file = Image.open(io.BytesIO(byte_image))
-    return image_file.crop(
+    return image.crop(
         (
             float(location["x"]),
             float(location["y"]),
             float(location["x"]) + float(size["width"]),
             float(location["y"]) + float(size["height"]),
         )
-    ).convert("RGB")
+    )
 
 
 def get_img_base64(img: Image.Image, image_format: str = "PNG") -> str:
@@ -53,25 +55,25 @@ def calculate_diff_pixels(image: Image.Image) -> int:
 
 
 def get_diff_image(
-        expected_screenshot: Image.Image, actual_screenshot: Image.Image
+    expected_screenshot: Image.Image, actual_screenshot: Image.Image
 ) -> Image.Image:
     """Make diff image from expected and actual screenshot"""
     diff = ImageChops.difference(expected_screenshot, actual_screenshot)
-    return ImageOps.grayscale(diff)
+    return ImageOps.grayscale(diff).convert(_RGB_MODE)
 
 
 def normalize_images(
-        img1: Image.Image,
-        img2: Image.Image,
-        background_color: str = "white",
+    img1: Image.Image,
+    img2: Image.Image,
+    background_color: str = "white",
 ) -> tuple[Image.Image, Image.Image]:
     """
     Converts two images to the same mode and size.
     If the sizes are different, they are placed on the maximum-sized canvases.
     """
 
-    img1 = img1.convert("RGB")
-    img2 = img2.convert("RGB")
+    img1 = convert_to_rgb(img1)
+    img2 = convert_to_rgb(img2)
 
     if img1.size == img2.size:
         return img1, img2
@@ -79,13 +81,20 @@ def normalize_images(
     max_width = max(img1.width, img2.width)
     max_height = max(img1.height, img2.height)
 
-    canvas1 = Image.new("RGB", (max_width, max_height), background_color)
-    canvas2 = Image.new("RGB", (max_width, max_height), background_color)
+    canvas1 = Image.new(_RGB_MODE, (max_width, max_height), background_color)
+    canvas2 = Image.new(_RGB_MODE, (max_width, max_height), background_color)
 
-    canvas1.paste(img1, (0, 0))
-    canvas2.paste(img2, (0, 0))
+    origin = (0, 0)
+    canvas1.paste(img1, origin)
+    canvas2.paste(img2, origin)
 
     return canvas1, canvas2
+
+
+def convert_to_rgb(img: Image.Image) -> Image.Image:
+    if img.mode == _RGB_MODE:
+        return img
+    return img.convert(_RGB_MODE)
 
 
 def colored_diff_image(expected_image: Image.Image, diff: Image.Image) -> Image.Image:
@@ -93,5 +102,5 @@ def colored_diff_image(expected_image: Image.Image, diff: Image.Image) -> Image.
     grayscale_diff = ImageOps.grayscale(diff)
     mask = Image.eval(grayscale_diff, lambda x: 255 if x > 0 else 0)
 
-    red_layer = Image.new("RGB", expected_image.size, "red")
+    red_layer = Image.new(_RGB_MODE, expected_image.size, "red")
     return Image.composite(red_layer, expected_image, mask)

@@ -9,7 +9,14 @@ export TEST_IMAGE_NAME="automation-exercise-tests"
 export SELENOID_COMPOSE_FILE="docker-compose.yaml"
 export BROWSERS_JSON_FILE="./env/docker/selenoid/browsers.json"
 export PREFIX=${IMAGE_PREFIX}
+export ALLURE_DIR="./allure-results"
 export ARCH=$(uname -m)
+
+# --------------------------------------------------------
+# Step 0: Remove allure-results dir
+# --------------------------------------------------------
+echo "### Remove allure-results dir ###"
+rm -rf $ALLURE_DIR
 
 # --------------------------------------------------------
 # Step 1: Check all browsers in browsers.json exists
@@ -43,9 +50,9 @@ docker compose -f $SELENOID_COMPOSE_FILE rm -f $TEST_IMAGE_NAME || true
 # --------------------------------------------------------
 echo "### Checking for existing test images ###"
 FULL_IMAGE_NAME="${PREFIX:+$PREFIX/}$TEST_IMAGE_NAME"
-echo "### Searching images with: docker images --format '{{.Repository}}:{{.Tag}}' | grep \"$FULL_IMAGE_NAME\" | grep -v '<none>' ###"
+echo "### Searching images with: docker images --format '{{.Repository}}:{{.Tag}}' | grep \"$FULL_IMAGE_NAME\" ###"
 
-test_images=$(docker images --format '{{.Repository}}:{{.Tag}}' | grep "$FULL_IMAGE_NAME" | grep -v '<none>' ) || {
+test_images=$(docker images --format '{{.Repository}}:{{.Tag}}' | grep "$FULL_IMAGE_NAME" ) || {
   echo "### ERROR: Failed to list Docker images! Check 'docker images' manually. ###"
   echo "### Continuing without removing test images ###"
   test_images=""

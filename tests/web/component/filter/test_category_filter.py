@@ -5,86 +5,119 @@ from src.model.enum.user_type import UserType
 from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
+PERCENT_OF_TOLERANCE = 0.002
 
-@pytest.mark.component
-@pytest.mark.brand_filter
-@allure.tag("component", "filter", "category_filter")
+
+@pytest.mark.component_test
+@pytest.mark.filter_test
+@pytest.mark.category_filter_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Category Filter")
 class TestCategoryFilter(BaseWebTest):
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
-    @allure.title("[WEB Component] Category filter should have expected screenshot when collapsed")
+    @allure.title(
+        "[WEB Component] Category filter should have expected screenshot when collapsed"
+    )
     def test_category_filter_should_have_screenshot(self):
         # Steps
         self.main_page.navigate()
 
         # Assertion
-        self.main_page.brand_filter.check_component_has_screenshot(
-            "files/screenshot/component/filter/category/collapsed.png"
+        self.main_page.category_filter.check_component_has_screenshot(
+            path_to_screenshot="files/screenshot/component/filter/category/collapsed.png",
+            percent_tolerance=PERCENT_OF_TOLERANCE,
+            timeout=0.1,
         )
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
-    @allure.title("[WEB Component] Category filter should have expected screenshot when fully expanded")
+    @allure.title(
+        "[WEB Component] Category filter should have expected screenshot when fully expanded"
+    )
     def test_category_filter_should_have_screenshot_when_expanded(self):
         # Component
         category_filter = self.main_page.category_filter
 
         # Data
-        categories_groups = [
-            user_type.value
-            for user_type in [UserType.WOMEN, UserType.MEN, UserType.KIDS]
-        ]
+        group = DataGenerator.random_user_type().value
 
         # Steps
         self.main_page.navigate()
-        category_filter.expand_groups(*categories_groups)
+        category_filter.expand_group(group)
 
         # Assertions
         self.main_page.category_filter.check_component_has_screenshot(
-            path_to_screenshot="files/screenshot/component/filter/category/expanded.png",
-            timeout=1,
+            path_to_screenshot=f"files/screenshot/component/filter/category/expanded_{group.lower()}.png",
+            percent_of_tolerance=PERCENT_OF_TOLERANCE,
+            timeout=0.1,
         )
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
-    @allure.title("[WEB Component] Category filter should have expected screenshot when collapsed after expand")
-    def test_category_filter_should_have_screenshot_when_collapsed_after_expand(self):
+    @allure.title(
+        "[WEB Component] Category filter should have expected screenshot when fully expanded"
+    )
+    def test_category_filter_should_have_screenshot_when_collapse_expanded(self):
         # Component
         category_filter = self.main_page.category_filter
 
         # Data
-        categories_groups = [
-            user_type.value
-            for user_type in [UserType.WOMEN, UserType.MEN, UserType.KIDS]
-        ]
+        group1 = DataGenerator().random_user_type().value
 
         # Steps
         self.main_page.navigate()
-        category_filter.expand_groups(*categories_groups)
-        category_filter.collapse_groups(*categories_groups)
+        category_filter.expand_group(group1)
+        category_filter.collapse_group(group1)
 
         # Assertions
         self.main_page.category_filter.check_component_has_screenshot(
             path_to_screenshot="files/screenshot/component/filter/category/collapsed.png",
-            timeout=1,
+            percent_tolerance=PERCENT_OF_TOLERANCE,
+            timeout=0.1,
+        )
+
+    @pytest.mark.screenshot_test
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Category Filter")
+    @allure.title(
+        "[WEB Component] Category filter should have expected screenshot when fully expanded"
+    )
+    def test_category_filter_should_have_screenshot_when_expand_collapse_expanded(self):
+        # Component
+        category_filter = self.main_page.category_filter
+
+        # Data
+        group1 = DataGenerator().random_user_type().value
+        group2 = DataGenerator().random_user_type_except(UserType(group1)).value
+
+        # Steps
+        self.main_page.navigate()
+        category_filter.expand_group(group1)
+        category_filter.expand_group(group2)
+
+        # Assertions
+        self.main_page.category_filter.check_component_has_screenshot(
+            path_to_screenshot=f"files/screenshot/component/filter/category/expanded_{group2.lower()}.png",
+            percent_tolerance=PERCENT_OF_TOLERANCE,
+            timeout=0.1,
         )
 
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
-    @allure.title("[WEB Component] Category filter should have expected screenshot when fully expanded")
+    @allure.title(
+        "[WEB Component] Category filter should have expected screenshot when fully expanded"
+    )
     def test_category_filter_filter_products_by_category_expand(self):
         # Data
         group, category = DataGenerator.random_user_type_and_category()
-        product_titles = self.product_api_service.get_all_product_titles_by_category(group, category)
+        product_titles = self.product_api_service.get_all_product_titles_by_category(
+            group, category
+        )
 
         # Steps
         self.main_page.navigate()

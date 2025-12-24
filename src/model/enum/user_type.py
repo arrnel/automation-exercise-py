@@ -13,4 +13,11 @@ class UserType(Enum):
 
     @staticmethod
     def random() -> "UserType":
-        return random.choice([UserType.WOMEN, UserType.MEN, UserType.KIDS])
+        user_types = list(UserType)
+        user_types.remove(UserType.EMPTY)
+        return random.choice(user_types)
+
+    @staticmethod
+    def random_except(user_type: "UserType") -> "UserType":
+        user_types = set(UserType) - {UserType.EMPTY, user_type}
+        return random.choice(list(user_types))

@@ -6,8 +6,7 @@ from src.client.core.condition.conditions import Conditions
 from src.mapper.brand_mapper import BrandMapper
 from src.model.brand import Brand
 from src.model.dto.brand_response import BrandResponseDTO
-from src.model.enum.meta.content_type import ContentType
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 from src.util.api.json_path_util import JsonPath
 
 
@@ -28,4 +27,6 @@ class BrandApiService:
             .extract()
             .as_list(BrandResponseDTO, JsonPath.BRANDS_RESPONSE_BRANDS)
         )
-        return [BrandMapper.to_brand(brand_response) for brand_response in brands_response]
+        return [
+            BrandMapper.to_brand(brand_response) for brand_response in brands_response
+        ]

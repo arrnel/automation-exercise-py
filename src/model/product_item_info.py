@@ -1,8 +1,9 @@
 from collections import Counter
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import List, Iterable
+from typing import Iterable
 
+from src.mapper.product_mapper import ProductMapper
 from src.model.category import Category
 from src.model.enum.currency import Currency
 from src.model.price import Price
@@ -46,7 +47,10 @@ class ProductItemsInfo:
         products_dict = {product.title: product for product in products}
         counter = Counter(product_titles)
         products_item_info_list = [
-            ProductMapper.to_product_item_info(products_dict.get(product_title), counter.get(product_title))
+            ProductMapper.to_product_item_info(
+                products_dict.get(product_title),
+                counter.get(product_title)
+            )
             for product_title in product_titles
         ]
 
@@ -69,10 +73,11 @@ class ProductItemsInfo:
 
             self.total_price.add_amount(new_item.total_price.amount)
 
-
     def add_products(self, products: Iterable[Product]) -> None:
-        from src.mapper.product_mapper import ProductMapper
-        products_items_info = [ProductMapper.to_product_item_info(product, 1) for product in products]
+        products_items_info = [
+            ProductMapper.to_product_item_info(product, 1)
+            for product in products
+        ]
         self.add_product_items(products_items_info)
 
     def remove_by_ids(self, product_id: int, *product_ids: int) -> None:
@@ -116,8 +121,11 @@ class ProductItemsInfo:
         if not product:
             raise ValueError(f"Product with id {product_id} not found")
 
-        delta = product.price.amount * product.quantity-quantity
-        product.total_price.add_amount(delta)
+        current_product_total_price = product.price.amount
+        new_product_total_price = Decimal(product.price.amount * quantity)
+        delta = new_product_total_price - current_product_total_price
+
+        product.total_price.set_amount(new_product_total_price)
         self.total_price.add_amount(delta)
         product.quantity = quantity
 
@@ -131,7 +139,10 @@ class ProductItemsInfo:
         if not product:
             raise ValueError(f"Product with title {product_title} not found")
 
-        delta = product.price.amount * product.quantity - quantity
-        product.total_price.add_amount(delta)
+        current_product_total_price = product.price.amount
+        new_product_total_price = Decimal(product.price.amount * quantity)
+        delta = new_product_total_price - current_product_total_price
+
+        product.total_price.set_amount(new_product_total_price)
         self.total_price.add_amount(delta)
         product.quantity = quantity

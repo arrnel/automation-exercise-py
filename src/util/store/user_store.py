@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from src.model.user import User
 from src.service.user_api_service import UserApiService
-from src.util.api.test_thread_id_store import ThreadSafeTestThreadsStore
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 GLOBAL_USERS_KEY = "GLOBAL_USERS"
 
@@ -70,13 +70,13 @@ class ThreadSafeUserStore:
                 return True
             return False
 
-    def remove_users(self) -> None:
+    def remove_test_users(self) -> None:
         with self._storage_lock:
             self._remove_users_from_backend(self.get_users())
             if self._get_key() in self._users_store:
                 del self._users_store[self._get_key()]
 
-    def remove_all_users(self) -> None:
+    def remove_all_tests_users(self) -> None:
         with self._storage_lock:
             self._remove_users_from_backend(self.get_all_users_as_list())
             try:
@@ -101,10 +101,15 @@ class ThreadSafeUserStore:
             with self._storage_lock:
                 if self._not_removed_users:
                     users_credentials_text = [
-                        f"Email = {user.email}, password = [{user.password}], test_data_password = [{user.test_data.password}]"
+                        (
+                            f"Email = {user.email}, "
+                            f"password = [{user.password}], "
+                            f"test_data_password = [{user.test_data.password}]"
+                        )
                         for user in self._not_removed_users
                     ]
 
                     logging.warning(
-                        "Failed to remove user(s):\n" + "\n".join(users_credentials_text)
+                        "Failed to remove user(s):\n"
+                        + "\n".join(users_credentials_text)
                     )

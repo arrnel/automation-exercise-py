@@ -1,9 +1,8 @@
-from selene import Element, by, be, have
-from selene.support.conditions import not_
+from selene import Element, by, be
 
 from src.ui.component.base_component import BaseComponent
-from src.ui.element.base_element import UiElement, TextLink, Text
-from src.util.allure.step_logger import step_log
+from src.ui.element.base_element import UiElement, TextLink, Text, Button
+from src.util.decorator.step_logger import step_log
 
 
 class HeaderComponent(BaseComponent):
@@ -79,8 +78,8 @@ class _HeaderComponentLocator:
     def __init__(self, root: Element):
         self.__root = root
 
-    def logo(self) -> UiElement:
-        return UiElement(self.__root.element(".logo"), "Logo")
+    def logo(self) -> Button:
+        return Button(self.__root.element(".logo"), "Logo")
 
     def nav_bar(self) -> UiElement:
         return UiElement(self.__root.element(".shop-menu"), "Nav Bar")
@@ -104,7 +103,9 @@ class _HeaderComponentLocator:
         return self.nav_bar().element(by.text("Logout"), "Logout", TextLink)
 
     def delete_account(self) -> TextLink:
-        return self.nav_bar().element(by.text("Delete Account"), "Delete Account", TextLink)
+        return self.nav_bar().element(
+            by.text("Delete Account"), "Delete Account", TextLink
+        )
 
     def contact_us(self) -> TextLink:
         return self.nav_bar().element(by.text("Contact us"), "Contact Us", TextLink)

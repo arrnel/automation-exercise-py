@@ -1,4 +1,3 @@
-import allure
 import pytest
 
 from src.client.auth_api_client import AuthApiClient
@@ -13,7 +12,6 @@ from src.service.user_api_service import UserApiService
 from src.util.test.data_generator import DataGenerator
 
 
-@allure.tag("api")
 @pytest.mark.api_test
 class BaseApiTest:
 

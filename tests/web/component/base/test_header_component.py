@@ -4,40 +4,38 @@ import pytest
 from tests.web.base_test import BaseWebTest
 
 
-@pytest.mark.header
-@pytest.mark.component
-@allure.tag("component", "header")
+@pytest.mark.component_test
+@pytest.mark.header_component_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Header Component")
 class TestHeaderComponent(BaseWebTest):
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
     @allure.title("[WEB Component] Header has expected screenshot")
     def test_header_has_expected_screenshot_when_not_authorized(self):
         # Assertions
         self.main_page.header.check_component_has_screenshot(
-            path_to_screenshot="files/img/screenshot/component/header/not_authorized.png",
+            path_to_screenshot="files/screenshot/component/header/not_authorized.png",
         )
 
     @pytest.mark.usefixtures("auth_expected_user")
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
     @allure.title("[WEB Component] Header has expected screenshot when authorized")
     def test_header_has_expected_screenshot_when_authorized(self):
         # Assertions
         self.main_page.header.check_component_has_screenshot(
-            path_to_screenshot="files/img/screenshot/component/header/authorized.png",
+            path_to_screenshot="files/screenshot/component/header/authorized.png",
         )
 
-    @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
-    @allure.title("[WEB Component] Should navigate to main page by click on header logo")
+    @allure.title(
+        "[WEB Component] Should navigate to main page by click on header logo"
+    )
     def test_navigate_to_main_page_from_logo(self):
         # Steps
         self.login_page.header.go_to_main_page_by_logo()
@@ -48,7 +46,9 @@ class TestHeaderComponent(BaseWebTest):
     @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
-    @allure.title("[WEB Component] Should navigate to main page by click on header logo")
+    @allure.title(
+        "[WEB Component] Should navigate to main page by click on header logo"
+    )
     def test_navigate_to_main_page_from_header_menu(self):
         # Steps
         self.login_page.header.go_to_main_page()
@@ -58,7 +58,9 @@ class TestHeaderComponent(BaseWebTest):
 
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
-    @allure.title("[WEB Component] Should navigate to main page by click 'Products' button")
+    @allure.title(
+        "[WEB Component] Should navigate to products page by click 'Products' button"
+    )
     def test_navigate_to_products_page(self):
         # Steps
         self.main_page.header.go_to_products_page()
@@ -78,7 +80,9 @@ class TestHeaderComponent(BaseWebTest):
 
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
-    @allure.title("[WEB Component] Should navigate to login page by click 'Signup / Login' button")
+    @allure.title(
+        "[WEB Component] Should navigate to login page by click 'Signup / Login' button"
+    )
     def test_navigate_to_login_page_if_not_authenticated(self):
         # Steps
         self.main_page.header.go_to_login_page()
@@ -96,7 +100,9 @@ class TestHeaderComponent(BaseWebTest):
     @pytest.mark.usefixtures("auth_user")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
-    @allure.title("[WEB Component] Should delete user name by click on 'Delete Account' button")
+    @allure.title(
+        "[WEB Component] Should delete user name by click on 'Delete Account' button"
+    )
     def test_delete_account_and_redirect_to_deleted_page(self):
         # Steps
         self.main_page.header.delete_account()
@@ -107,7 +113,9 @@ class TestHeaderComponent(BaseWebTest):
     @pytest.mark.usefixtures("auth_user")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
-    @allure.title("[WEB Component] Should navigate to contact us page by click on 'Contact us' button")
+    @allure.title(
+        "[WEB Component] Should navigate to contact us page by click on 'Contact us' button"
+    )
     def test_navigate_to_contact_us_page(self):
         # Steps
         self.main_page.header.go_to_contact_us_page()

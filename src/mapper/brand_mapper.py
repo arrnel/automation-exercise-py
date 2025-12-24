@@ -7,6 +7,6 @@ class BrandMapper:
     @staticmethod
     def to_brand(source: BrandResponseDTO) -> Brand:
         return Brand(
-            id = source.id,
-            title = source.brand,
+            id=source.id,
+            title=source.brand,
         )

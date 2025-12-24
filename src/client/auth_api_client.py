@@ -19,12 +19,15 @@ class AuthApiClient(RestClient):
     def send_get_csrf_token_request(self) -> AssertableResponse:
         return self.get(ApiRoutes.LOGIN.path())
 
-
-    def send_login_request(self, email: str, password: str, csrf: str) -> AssertableResponse:
+    def send_login_request(
+        self, email: str, password: str, csrf: str
+    ) -> AssertableResponse:
         return self.post(
             url=ApiRoutes.LOGIN.path(),
             headers={"Referer": CFG.base_url + ApiRoutes.LOGIN.path()},
-            data=CredentialsRequestDTO(csrf=csrf, email=email, password=password).model_dump(exclude_none=True),
+            data=CredentialsRequestDTO(
+                csrf=csrf, email=email, password=password
+            ).model_dump(exclude_none=True),
         )
 
     def send_logout_request(self) -> AssertableResponse:

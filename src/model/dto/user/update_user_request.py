@@ -24,7 +24,13 @@ class UpdateUserRequestDTO(Model):
     zip_code: str | None = Field(alias="zipcode")
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({id=}, {self.email=}, {self.first_name=}, {self.last_name=}"
+        return (
+            f"{self.__class__.__name__}("
+            f"{id=},"
+            f"{self.email=},"
+            f"{self.first_name=},"
+            f"{self.last_name=}"
+        )
 
     def __str__(self) -> str:
         return (

@@ -12,10 +12,9 @@ class ProductMapper:
     def to_product(dto: ProductResponseDTO) -> Product:
         return Product(
             id=dto.id,
-            title=dto.brand,
+            title=dto.name,
             category=Category(
-                user_type=dto.category.usertype.usertype,
-                title=dto.category.category
+                user_type=dto.category.usertype.usertype, title=dto.category.category
             ),
             brand=dto.brand,
             price=Price.from_text(dto.price),
@@ -33,5 +32,5 @@ class ProductMapper:
             category=product.category,
             price=product.price,
             quantity=quantity,
-            total_price=Price(Currency.RS, product.price.amount * quantity)
+            total_price=Price(Currency.RS, product.price.amount * quantity),
         )

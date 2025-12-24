@@ -5,19 +5,16 @@ from src.model.card import CardInfo
 from tests.web.base_test import BaseWebTest
 
 
-@pytest.mark.component
-@allure.tag("component", "product_card", "animated_product_card")
+@pytest.mark.component_test
+@allure.tag("component_test", "product_card", "animated_product_card")
 @allure.epic("Web Component")
 @allure.feature("[WEB] Address Component")
 class TestProductItem(BaseWebTest):
 
     @pytest.mark.usefixtures(
-        "open_checkout_page",
-        "auth_user",
-        "add_random_products_to_cart"
+        "open_checkout_page", "auth_user", "add_random_products_to_cart"
     )
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Billing Address Component")
     @allure.title("[WEB Component] Billing address has expected data")
@@ -32,6 +29,4 @@ class TestProductItem(BaseWebTest):
 
         # Assertions
         payment_card.check_payment_successful()
-        payment_card.check_component_has_screenshot(
-            path_to_screenshot=""
-        )
+        payment_card.check_component_has_screenshot(path_to_screenshot="")

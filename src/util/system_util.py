@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 
 
@@ -12,11 +13,20 @@ def get_path_in_resources(file_path: str) -> str:
     """
     Returns absolute string path to file in resources
     :param file_path: path to file in resources. Example: "files/file.txt"
-    :return: Example: "/home/$USER/dev_projects/python_lessons/files_practice/resources/files/file.txt"
+    :return: Example: "/home/$USER/dev/python/automation_exercise/resources/files/file.txt"
     """
     root_path = Path(os.path.dirname(__file__)).parent.parent
     folders = file_path.split("/")
     return os.path.join(root_path, "resources", *folders)
+
+
+def get_allure_results_path() -> str:
+    """
+    Returns allure results path
+    :return: Example: "/home/$USER/dev/python/automation_exercise/allure-results"
+    """
+    root_path = Path(os.path.dirname(__file__)).parent.parent
+    return os.path.join(root_path, "allure-results")
 
 
 def parse_file_name_in_path(path: str) -> str:
@@ -79,3 +89,16 @@ def create_folder_in_resources(file_path: str) -> None:
     path_to_file = get_path_in_resources(file_path)
     if not os.path.exists(path_to_file):
         os.mkdir(path_to_file)
+
+
+def remove_all_files_from_folder(abs_path_to_dir: str) -> None:
+    folder = Path(abs_path_to_dir)
+
+    if not folder.exists or not folder.is_dir():
+        raise ValueError("Folder should exists")
+
+    for item in folder.iterdir():
+        if item.is_file() or item.is_symlink():
+            item.unlink()
+        elif item.is_dir():
+            shutil.rmtree(item)

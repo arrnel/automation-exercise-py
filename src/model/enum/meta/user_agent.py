@@ -17,11 +17,17 @@ class UserAgent:
         "(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
     )
 
-    FIREFOX_WINDOWS = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
+    FIREFOX_WINDOWS = (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) "
+        "Gecko/20100101 Firefox/120.0"
+    )
     FIREFOX_LINUX = (
         "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0"
     )
-    FIREFOX_MACOS = "Mozilla/5.0 (Macintosh; Intel Mac OS X 13.2; rv:120.0) Gecko/20100101 Firefox/120.0"
+    FIREFOX_MACOS = (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 13.2; rv:120.0) "
+        "Gecko/20100101 Firefox/120.0"
+    )
     FIREFOX_ANDROID = (
         "Mozilla/5.0 (Android 13; Mobile; rv:120.0) Gecko/120.0 Firefox/120.0"
     )

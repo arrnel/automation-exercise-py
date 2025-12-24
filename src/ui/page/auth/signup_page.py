@@ -6,7 +6,10 @@ class SignUpPage(BasePage):
 
     def __init__(self):
         super().__init__()
-        self.__sign_up_component = SignUpComponent(self._page_container.element(".login-form"), "Sign Up Account Information form")
+        self.__sign_up_component = SignUpComponent(
+            self._page_container.element(".login-form"),
+            "Sign Up Account Information form",
+        )
 
     # COMPONENTS
     @property

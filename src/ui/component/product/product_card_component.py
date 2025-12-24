@@ -6,7 +6,7 @@ from src.model.price import Price
 from src.model.product import Product
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Button, Text, UiElement
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _DEFAULT_TIMEOUT_OVERLAY_WAIT = 0.2
 
@@ -19,6 +19,9 @@ class BaseProductCardComponent(BaseComponent):
 
     def get_product_title(self) -> str:
         return self._locator.title().get_text()
+
+    def get_product_price(self) -> Price:
+        return Price.from_text(self._locator.price().get_text())
 
     @step_log.log("Open [{self._component_title}]")
     def add_to_cart(self) -> None:
@@ -60,7 +63,10 @@ class ProductCardComponent(BaseProductCardComponent):
 
 
 class AnimatedProductCardComponent(BaseProductCardComponent):
-    """Product card used in ProductListComponents in MainPage, ProductsPage and FilteredProductsPage"""
+    """
+    Product card used in ProductListComponents in:
+    MainPage, ProductsPage and FilteredProductsPage
+    """
 
     def __init__(self, root: Element, component_title: str = Optional[None]):
         super().__init__(root, component_title)
@@ -72,8 +78,12 @@ class AnimatedProductCardComponent(BaseProductCardComponent):
 
     @step_log.log("Add to cart from overlay: [{self._component_title}]")
     def add_to_cart_from_overlay(self):
-        self._locator.img().hover(1)
+        self.show_overlay()
         self._locator.overlay_add_to_cart().click()
+
+    @step_log.log("Show product card overlay: [{self._component_title}]")
+    def show_overlay(self):
+        self._locator.product_info().hover(0.5)
 
     # ASSERTIONS
     @step_log.log("Check [{self._component_title}] has title in overlay: {title}")
@@ -83,23 +93,6 @@ class AnimatedProductCardComponent(BaseProductCardComponent):
     @step_log.log("Check [{self._component_title}] has price in overlay: {price}")
     def check_product_has_price_in_overlay(self, price: Price):
         self._locator.overlay_price().should_have_text(price.get_price_text())
-
-    @step_log.log("Check [{self._component_title}] has overlay screenshot")
-    def check_product_overlay_has_screenshot(
-        self,
-        path_to_screenshot: str,
-        percent_of_tolerance: float = 0,
-        rewrite_screenshot: bool = False,
-
-    ):
-        self.check_component_has_screenshot(
-            element=self._locator.overlay().locator,
-            path_to_screenshot=path_to_screenshot,
-            percent_of_tolerance = percent_of_tolerance,
-            rewrite_screenshot=rewrite_screenshot,
-            hover=True,
-            timeout = 1.0,
-        )
 
     @override
     @step_log.log("Check animated product card has data: [{self._component_title}]")
@@ -115,29 +108,32 @@ class _ProductCardComponentLocator:
     def __init__(self, root: Element):
         self.__root = root
 
+    def product_info(self):
+        return UiElement(self.__root.element(".productinfo"), "Product card wrapper")
+
     def img(self) -> UiElement:
-        return UiElement(self.__root.element(".productinfo img"), "Product image")
+        return self.product_info().element("img", "Product image", UiElement)
 
     def price(self) -> Text:
-        return Text(self.__root.element("h2"), "Product Price")
+        return self.product_info().element("h2", "Product Price", Text)
 
     def title(self) -> Text:
-        return Text(self.__root.element(".productinfo p"), "Product Title")
+        return self.product_info().element("p", "Product Title", Text)
 
     def add_to_cart(self) -> Button:
-        return Button(self.__root.element(".productinfo a"), "Product Add To Cart")
+        return self.product_info().element("a", "Product Add To Cart", Button)
 
     def overlay(self) -> UiElement:
         return UiElement(self.__root.element(".product-overlay"), "Product Overlay")
 
-    def overlay_title(self):
-        return Text(self.__root.element("product-overlay p"), "Overlay Product Title")
+    def overlay_title(self) -> Text:
+        return self.overlay().element("p", "Overlay Product Title", Text)
 
-    def overlay_price(self):
-        return Text(self.__root.element("product-overlay h2"), "Overlay Product Price")
+    def overlay_price(self) -> Text:
+        return self.overlay().element("h2", "Overlay Product Price", Text)
 
-    def overlay_add_to_cart(self):
-        return Button(self.__root.element("product-overlay a"), "Overlay Add To Cart")
+    def overlay_add_to_cart(self) -> Button:
+        return self.overlay().element("a", "Overlay Add To Cart", Button)
 
     def view_product(self) -> Button:
         return Button(self.__root.element(".choose a"), "View Product")

@@ -6,7 +6,7 @@ from selene import Element, be
 from src.model.address import AddressInfo
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Text
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _COMPANY_ADDRESS_LINE_SELECTOR = "//li[contains(@class,'address-address1')][%d]"
 _DELIVERY_ADDRESS_TITLE = "Your delivery address"
@@ -48,11 +48,6 @@ class AddressDetailsComponent(BaseComponent):
                         f"Actual: {actual_address_info}\n",
                     )
                 )
-            # match_address_info(
-            #     address_info.title(
-            #         self._DELIVERY_ADDRESS_TITLE if self.__address_type == AddressType.DELIVERY else self._BILLING_ADDRESS_TITLE),
-            #     actual_address_info
-            # )
 
     def check_visible_component_elements(self) -> None:
         with allure.step(f"Check [{self._component_title}] elements are visible"):

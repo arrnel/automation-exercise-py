@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 
 @dataclass
@@ -14,21 +14,25 @@ class TestData:
         return TestData(session_id=None, csrf=None, password=None, phone_number=None)
 
     def with_session_id(self, session_id: str):
-        return TestData(session_id=session_id, csrf=self.csrf, password=self.password, phone_number= self.phone_number)
+        return replace(self, session_id=session_id)
 
     def with_csrf(self, csrf: str):
-        return TestData(session_id=self.session_id, csrf=csrf, password=self.password, phone_number= self.phone_number)
+        return replace(self, csrf=csrf)
 
     def with_password(self, password: str):
-        return TestData(session_id=self.session_id, csrf=self.csrf, password=password, phone_number= self.phone_number)
+        return replace(self, password=password)
 
     def with_phone(self, phone: str):
-        return TestData(session_id=self.session_id, csrf=self.csrf, password=self.password, phone_number= phone)
+        return replace(self, phone_number=phone)
 
     def __repr__(self) -> str:
         return (
-            f"TestData(session_id={self.session_id!r}, csrf={self.csrf!r}, "
-            f"password={self.password!r}, phone={self.phone_number!r})"
+            f"{self.__class__.__name__}("
+            f"session_id={self.session_id!r}, "
+            f"csrf={self.csrf!r}, "
+            f"password={self.password!r}, "
+            f"phone={self.phone_number!r}"
+            ")"
         )
 
     def __str__(self) -> str:

@@ -1,13 +1,12 @@
 [tool.poetry]
-name = "automation-practice"
+name = "automation_exercise"
 version = "0.1.0"
 description = ""
 authors = ["arrnel <arrnel@vk.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-allure-pytest = "^2.15.0"
-faker = "==37.11.0"
+faker = "==39.0.0"
 httpx = ">=0.28,<1.0"
 pydantic = "^2.11.9"
 pytest = "^8.4.2"
@@ -23,13 +22,19 @@ jsonpath-ng = ">=1.7,<2.0"
 beautifulsoup4 = ">=4.12,<5.0"
 dataclasses-json = ">=0.6,<1.0"
 pytest-xdist = ">=3.8,<4.0"
-webdriver-manager = "==3.8.6"
+webdriver-manager = "==4.0.2"
+allure-pytest = "==2.14.2"
+flake8-pyproject = "^1.2.4"
 
 [tool.pytest.ini_options]
-testpaths = ["tests/web/component/auth/**"]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s | %(levelname)s | %(message)s"
+log_cli_date_format = "%H:%M:%S"
+testpaths = ["tests/**"]
 addopts = [
-    "-v",
-    "-n 3"
+    "-vvv",
+#    "-n 3"
 ]
 markers = [
     "api_test: API tests",
@@ -40,22 +45,36 @@ markers = [
     "slow: slow tests",
     "fast: fast tests",
 
+    # ----------
+    # API TESTS
+    # ----------
+    "auth_api_test: Auth API tests",
+    "brand_api_test: Brand API tests",
+    "product_api_test: Product API tests",
+    "user_api_test: User API tests",
+    "verify_login_api_test: Verify login API tests",
+
+    # ----------
+    # UI TESTS
+    # ----------
     # BASE COMPONENTS
     "component_test: Component tests",
-    "breadcrumb_test: Tests of breadcrumb component",
-    "header_test: Tests of site header component",
-    "notification_test: Tests of notification component",
-    "page_scroller_test: Tests of page scroller",
-    "subscription_test: Tests of subscription component (in footer)",
+    "breadcrumb_component: Tests of breadcrumb component",
+    "header_component: Tests of site header component",
+    "notification_component: Tests of notification component",
+    "page_scroller_component: Tests of page scroller",
+    "subscription_component: Tests of subscription component (in footer)",
 
-    "address_test: Tests of address component",
-    "auth_test: Tests of auth component",
-    "login_test: Tests of login component",
-    "carousel_test: Tests of carousel component",
-    "image_carousel_test: Tests of image carousel component",
-    "product_carousel_test: Tests of product carousel component",
-    "product_card_test: Tests of product card component",
-    "product_details_test: Tests of product details component"
+    "address_component: Tests of address component",
+    "auth_component: Tests of auth component",
+    "login_component: Tests of login component",
+    "carousel_component: Tests of carousel component",
+    "image_carousel_component: Tests of image carousel component",
+    "product_carousel_component: Tests of product carousel component",
+    "product_card_component: Tests of product card component",
+    "product_details_component: Tests of product details component",
+
+    "disabled_by_issue(issue_id, reason): skip test if GitHub issue is opened",
 ]
 
 [tool.poetry.group.dev.dependencies]
@@ -65,3 +84,20 @@ matplotlib = "^3.10.8"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.flake8]
+max-line-length = 100
+
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist"
+]
+
+ignore = [
+    "E203",
+    "W503"
+]

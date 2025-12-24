@@ -61,7 +61,10 @@ class _ValidEmail:
     def has_subdomain_name() -> str:
         """Example, `email@subdomain.example.com`"""
         return (
-            f"{_FAKE.first_name()}@{_random_domain_name()}.{_random_domain_name()}.{_random_domain()}."
+            f"{_FAKE.first_name()}@"
+            f"{_random_domain_name()}."
+            f"{_random_domain_name()}."
+            f"{_random_domain()}."
         )
 
     @staticmethod
@@ -85,7 +88,7 @@ class _ValidEmail:
     @staticmethod
     def username_with_quotes() -> str:
         """Example, `\"email\"@example.com`"""
-        return f"\"{_FAKE.user_name()}\"@{_DEFAULT_EMAIL_SERVICE}"
+        return f'"{_FAKE.user_name()}"@{_DEFAULT_EMAIL_SERVICE}'
 
     @staticmethod
     def numerical_username() -> str:
@@ -96,8 +99,12 @@ class _ValidEmail:
     @staticmethod
     def domain_name_contains_dash() -> str:
         """Example, `my.main@do-main.com`"""
-        # Логика совпадает с Java, хотя домен не содержит дефис — оставил как есть.
-        return f"{_FAKE.user_name()}@{_random_domain_name()}-{_random_domain_name()}.{_random_domain()}"
+        return (
+            f"{_FAKE.user_name()}@"
+            f"{_random_domain_name()}-"
+            f"{_random_domain_name()}."
+            f"{_random_domain()}"
+        )
 
     @staticmethod
     def underscore_username() -> str:
@@ -148,7 +155,7 @@ class _InvalidEmail:
     @staticmethod
     def only_special_symbols() -> str:
         """Example, `%$@#%.com`"""
-        special_symbols = ('{', '}', '!', '&', '?', '/', '<', '>', '=', '🜂')
+        special_symbols = ("{", "}", "!", "&", "?", "/", "<", ">", "=", "🜂")
         username = str.join("", random.sample(special_symbols, random.randint(5, 10)))
         domain_name = str.join("", random.sample(special_symbols, random.randint(3, 4)))
         domain = str.join("", random.sample(special_symbols, random.randint(2, 3)))
@@ -208,7 +215,7 @@ class _InvalidEmail:
     @staticmethod
     def without_domain() -> str:
         """Example, `email@example`"""
-        return  f"{_FAKE.user_name().lower()}@{_DEFAULT_DOMAIN_NAME}"
+        return f"{_FAKE.user_name().lower()}@{_DEFAULT_DOMAIN_NAME}"
 
     @staticmethod
     def domain_has_one_letter() -> str:

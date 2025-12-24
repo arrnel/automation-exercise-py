@@ -5,7 +5,7 @@ from typing import Iterable, Dict, Optional
 from httpx import Cookies, Response
 from httpx._types import CookieTypes
 
-from src.util.api.test_thread_id_store import ThreadSafeTestThreadsStore
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class ThreadSafeCookieStore:

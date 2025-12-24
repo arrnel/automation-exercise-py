@@ -5,7 +5,8 @@ import pytest
 
 from src.client.core.condition.conditions import Conditions
 from src.model.user import User
-from src.util.api.user_store import ThreadSafeUserStore
+from src.util.decorator.disabled_by_issue import disabled_by_issue
+from src.util.store.user_store import ThreadSafeUserStore
 from tests.api.base_api_test import BaseApiTest
 from tests.data_provider.user_data_provider import UserDataProviderApi
 
@@ -13,7 +14,8 @@ SUCCESSFUL_CREATE_MESSAGE = "User created!"
 EMAIL_ALREADY_EXIST_MESSAGE = "Email already exists!"
 
 
-@allure.tag("user")
+@pytest.mark.user_test
+@pytest.mark.user_api_test
 @allure.epic("User")
 @allure.feature("[API] Create Users")
 @allure.title("Test Create Users")
@@ -47,6 +49,7 @@ class TestCreateUserApi(BaseApiTest):
             Conditions.body_field_equals("message", SUCCESSFUL_CREATE_MESSAGE),
         )
 
+    @disabled_by_issue(issue_id=1, reason="[WEB] Not validate sensitive data")
     @allure.label("owner", "arrnel")
     @allure.story("Create user with invalid data")
     @pytest.mark.parametrize(
@@ -84,7 +87,8 @@ class TestCreateUserApi(BaseApiTest):
     @allure.label("owner", "arrnel")
     @allure.story("Create user with existing email")
     @allure.title(
-        "[API] Create user should return 400_BAD_REQUEST when send create user request with existing email"
+        "[API] Create user should return 400_BAD_REQUEST "
+        "when send create user request with existing email"
     )
     def test_not_create_user_with_exists_email(self, create_user):
 

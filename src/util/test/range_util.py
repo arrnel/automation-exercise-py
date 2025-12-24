@@ -1,12 +1,14 @@
 from typing import TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class Range[T]:
 
     def __init__(self, min_val: [T], max_val: [T]):
         self.min_val = min_val
         self.max_val = max_val
+
 
 # ----- User
 password_range = Range[int](8, 20)

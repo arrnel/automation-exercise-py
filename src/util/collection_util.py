@@ -1,8 +1,7 @@
 from collections import Counter
 from typing import TypeVar, Iterable
 
-T = TypeVar('T')
-
+T = TypeVar("T")
 
 
 def remove_common_duplicates(l1: Iterable[T], l2: Iterable[T]) -> [list[T], list[T]]:
@@ -17,7 +16,6 @@ def remove_common_duplicates(l1: Iterable[T], l2: Iterable[T]) -> [list[T], list
 
     if not l1 or not l2:
         return list(l1), list(l2)
-
 
     count1 = Counter(l1)
     count2 = Counter(l2)

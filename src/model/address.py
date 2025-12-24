@@ -14,9 +14,16 @@ class AddressInfo:
 
     def __repr__(self) -> str:
         return (
-            f"AddressInfo(title={self.title!r}, full_name={self.full_name!r}, company={self.company!r}, "
-            f"address1={self.address1!r}, address2={self.address2!r}, city_state_zip={self.city_state_zip!r}, "
-            f"country={self.country!r}, phone_number={self.phone_number!r})"
+            f"{self.__class__.__name__}("
+            f"title={self.title!r}, "
+            f"full_name={self.full_name!r}, "
+            f"company={self.company!r}, "
+            f"address1={self.address1!r}, "
+            f"address2={self.address2!r}, "
+            f"city_state_zip={self.city_state_zip!r}, "
+            f"country={self.country!r}, "
+            f"phone_number={self.phone_number!r}"
+            ")"
         )
 
     def __str__(self) -> str:

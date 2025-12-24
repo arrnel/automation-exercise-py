@@ -12,24 +12,19 @@ T = TypeVar("T")
 
 
 class SafeDict(dict):
-    """Безопасный dict для .format_map — не ломается, если ключа нет."""
-
     def __missing__(self, key):
         return f"{{{key}}}"
 
 
 class StepLogger:
-    """
-    Log step and add allure step:
-    """
 
     def __init__(self, default_level: LogLvl = LogLvl.INFO):
         self.default_level = default_level
 
     def log(
-            self,
-            message: str,
-            log_level: Optional[LogLvl] = None
+        self,
+        message: str,
+        log_level: Optional[LogLvl] = None,
     ) -> Callable[..., T] | Generator[None, None, None]:
 
         level = log_level or self.default_level
@@ -84,13 +79,6 @@ class StepLogger:
 
     @staticmethod
     def _is_context_usage() -> bool:
-        """
-        Позволяет отличить использование как `with` от декоратора.
-        Когда используется `with`, Python сразу вызывает __enter__/__exit__,
-        и возвращаемый объект должен быть генератором.
-        """
-        # Никак не проверяем — возвращаем обе версии, но `with` сам подберёт нужную.
-        # Оставлено для гибкости, если захочешь добавить логику.
         return False
 
 

@@ -7,7 +7,7 @@ from selene.core.entity import Element
 from src.model.card import CardInfo
 from src.ui.component.base_component import BaseComponent
 from src.ui.element.base_element import Input, Text, Button
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _SUCCESS_PAYMENT_MESSAGE = "Your order has been placed successfully!"
 
@@ -61,6 +61,7 @@ class PaymentCardComponent(BaseComponent):
 
     def __submit_and_check_status_message(self, message: str):
         from selene import browser
+
         result = browser.driver.execute_async_script(
             """
             const callback = arguments[arguments.length - 1];
@@ -106,7 +107,7 @@ class PaymentCardComponent(BaseComponent):
                 requestAnimationFrame(waitForAlert);
             })();
             """,
-            message
+            message,
         )
 
         if not result.get("success"):
@@ -168,4 +169,6 @@ class _PaymentCardComponentLocator:
         return Text(self.__root.element(".alert"), "Status message")
 
     def pay(self) -> Button:
-        return Button(self.__root.element("[data-qa=pay-button]"), "Pay And Confirm Order")
+        return Button(
+            self.__root.element("[data-qa=pay-button]"), "Pay And Confirm Order"
+        )

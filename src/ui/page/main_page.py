@@ -2,14 +2,20 @@ from typing import override
 
 from selene import browser
 
-from src.ui.component.carousel_component import ImageCarouselComponent, ProductCarouselComponent
+from src.ui.component.carousel_component import (
+    ImageCarouselComponent,
+    ProductCarouselComponent,
+)
 from src.ui.component.filter_component import AccordionFilter, CategoryStatFilter
 from src.ui.component.product.product_card_component import AnimatedProductCardComponent
-from src.ui.component.product.products_cards_collection_component import ProductCardsComponent
+from src.ui.component.product.products_cards_collection_component import (
+    ProductCardsComponent,
+)
 from src.ui.page.base_page import BasePage
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _URL = "/"
+
 
 class MainPage(BasePage):
 
@@ -26,7 +32,8 @@ class MainPage(BasePage):
         self.__products = ProductCardsComponent[AnimatedProductCardComponent](
             root=self._page_container.element(".features_items"),
             component_title="Features Items",
-            cls=AnimatedProductCardComponent)
+            cls=AnimatedProductCardComponent,
+        )
         self.__brand_filter = CategoryStatFilter(
             root=self._page_container.element(".left-sidebar .brands-name"),
             component_title="Brand filter",

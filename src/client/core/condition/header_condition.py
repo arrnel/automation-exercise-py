@@ -84,7 +84,11 @@ class ContentTypeCondition(Condition):
         else:
             return (
                 False,
-                f"Expected Content-Type '{self.content_type.mime_type}', got '{response_content_type}'",
+                (
+                    "Header Content-Type mismatch."
+                    f"Expected: '{self.content_type.mime_type}', "
+                    f"Actual: '{response_content_type}'"
+                ),
             )
 
     def __str__(self):

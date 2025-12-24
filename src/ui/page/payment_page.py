@@ -2,9 +2,10 @@ from selene import browser
 
 from src.ui.component.payment_card_component import PaymentCardComponent
 from src.ui.page.base_page import BasePage
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _URL = "/payment"
+
 
 class PaymentPage(BasePage):
 

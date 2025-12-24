@@ -4,11 +4,12 @@ import pytest
 from tests.web.base_test import BaseWebTest
 
 
-@pytest.mark.web_test
+@pytest.mark.component_test
+@pytest.mark.page_scroller_component_test
 @allure.epic("UI")
 @allure.feature("Component")
 @allure.story("Page scroller")
-class PageScrollerComponentTest(BaseWebTest):
+class TestPageScrollerComponent(BaseWebTest):
 
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Page scroller")
@@ -17,4 +18,6 @@ class PageScrollerComponentTest(BaseWebTest):
         # Steps
         self.main_page.recommended_products.scroll_to_component()
         self.main_page.page_scroller.scroll_to_top()
-        self.main_page.check_page_has_screenshot("files/screenshots/page/main_page.png")
+        self.main_page.check_page_has_screenshot(
+            "files/screenshot/page/main/main_page.png"
+        )

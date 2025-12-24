@@ -5,13 +5,12 @@ from typing import Optional
 from src.client.core.condition.conditions import Conditions
 from src.client.user_api_client import UserApiClient
 from src.client.verify_login_api_client import VerifyLoginApiClient
-from src.config.config import CFG
 from src.ex.exception import UserNotFoundError
 from src.mapper.user_mapper import UserMapper
 from src.model.dto.user.user_response import UserResponseDTO
 from src.model.test_data import TestData
 from src.model.user import User
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _USER_EXIST_MESSAGE = "User exists!"
 _USER_NOT_EXIST_MESSAGE = "User not found!"
@@ -77,7 +76,8 @@ class UserApiService:
             self.delete_user(email, password)
         except Exception as ex:
             logging.info(
-                f"Unable to delete user. Email = [{email}], password = [{password}].\nException: {ex}"
+                f"Unable to delete user. Email = [{email}], password = [{password}].\n"
+                f"Exception: {ex}"
             )
 
     @step_log.log("Verify login with email = [{email}] and password = [{password}]")

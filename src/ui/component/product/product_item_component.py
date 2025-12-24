@@ -6,8 +6,8 @@ from src.model.category import Category
 from src.model.enum.user_type import UserType
 from src.model.price import Price
 from src.ui.component.base_component import BaseComponent
-from src.ui.element.base_element import UiElement, Text, Input, Button, Link, TextLink
-from src.util.allure.step_logger import step_log
+from src.ui.element.base_element import UiElement, Text, Input, Button, TextLink
+from src.util.decorator.step_logger import step_log
 
 
 class BaseProductItemComponent(BaseComponent, ABC):
@@ -27,7 +27,7 @@ class BaseProductItemComponent(BaseComponent, ABC):
 
     def get_category(self) -> Category:
         values = self._locator.category().get_text().split(" > ")
-        return Category(user_type= UserType(values[0]), title=values[1])
+        return Category(user_type=UserType(values[0]), title=values[1])
 
     def get_price(self) -> Price:
         return Price.from_text(self._locator.price().get_text())
@@ -54,9 +54,7 @@ class BaseProductItemComponent(BaseComponent, ABC):
         self._locator.total_price().should_have_text(total_price.get_amount_text())
 
     @step_log.log("Check [{self._component_title}] has correct data")
-    def should_have_data(
-            self, price: Price, quantity: int, total_price: Price
-    ) -> None:
+    def should_have_data(self, price: Price, quantity: int, total_price: Price) -> None:
         self.check_item_have_price(price)
         self.check_item_have_quantity(quantity)
         self.check_item_have_total_price(total_price)
@@ -122,7 +120,7 @@ class _ProductItemComponentLocator:
     def img(self) -> UiElement:
         return UiElement(self.__root.element(".cart_product img"), "Product Image")
 
-    def title(self) -> Link:
+    def title(self) -> TextLink:
         return TextLink(self.__root.element(".cart_description h4 a"), "Product Title")
 
     def category(self) -> Text:
@@ -135,7 +133,7 @@ class _ProductItemComponentLocator:
         return Input(self.__root.element(".cart_quantity button"), "Product Quantity")
 
     def total_price(self) -> Text:
-        return Text(self.__root.element(".cart_total_price p"), "Product Total Price")
+        return Text(self.__root.element(".cart_total p"), "Product Total Price")
 
     def remove(self) -> Button:
         return Button(self.__root.element(".cart_delete"), "Product Remove")

@@ -4,7 +4,6 @@ from selene.core.condition import Condition
 from selene.core.conditions import ElementCondition
 
 
-
 def text_in(expected_texts: set[str]) -> Condition[Element]:
     return ElementCondition.raise_if_not_actual(
         f"text in: {expected_texts}",

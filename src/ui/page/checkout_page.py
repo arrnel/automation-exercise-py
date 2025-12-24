@@ -2,10 +2,12 @@ from selene import browser, Element
 
 from src.ui.component.address_component import AddressDetailsComponent
 from src.ui.component.product.product_item_component import ProductItemComponent
-from src.ui.component.product.products_items_collection_component import ProductItemsComponent
+from src.ui.component.product.products_items_collection_component import (
+    ProductItemsComponent,
+)
 from src.ui.element.base_element import Button, UiElement, Input
 from src.ui.page.base_page import BasePage
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _URL = "/view_cart"
 
@@ -15,8 +17,12 @@ class CheckoutPage(BasePage):
     def __init__(self):
         super().__init__()
         self.__locator = _CheckoutPageLocator(self._page_container)
-        self.__delivery_address = AddressDetailsComponent.from_element(self.__locator.shipping_address())
-        self.__billing_address = AddressDetailsComponent.from_element(self.__locator.billing_address())
+        self.__delivery_address = AddressDetailsComponent.from_element(
+            self.__locator.shipping_address()
+        )
+        self.__billing_address = AddressDetailsComponent.from_element(
+            self.__locator.billing_address()
+        )
         self.__product_items_component = ProductItemsComponent[ProductItemComponent](
             root=self.__locator.products_container().locator,
             component_title=self.__locator.products_container().element_title,

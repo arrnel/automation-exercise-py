@@ -5,11 +5,11 @@ from typing_extensions import override
 
 from src.ui.element.base_element import Text, ElementsCollection, Button
 from src.ui.page.base_page import BasePage
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 
 class BaseConfirmationPage(BasePage, ABC):
-    """Базовая страница для однотипных confirmation-страниц (account created, deleted, order placed)"""
+    """Base Page for typical confirmation-pages (account created, deleted, order placed)"""
 
     _PAGE_TITLE: str = ""
     _PAGE_MESSAGES: tuple[str, ...] = ()
@@ -45,7 +45,10 @@ class AccountCreatedPage(BaseConfirmationPage):
     _PAGE_TITLE = "ACCOUNT CREATED!"
     _PAGE_MESSAGES = (
         "Congratulations! Your new account has been successfully created!",
-        "You can now take advantage of member privileges to enhance your online shopping experience with us.",
+        (
+            "You can now take advantage of member privileges to enhance your "
+            "online shopping experience with us."
+        ),
     )
 
     def __init__(self):
@@ -56,7 +59,10 @@ class AccountDeletedPage(BaseConfirmationPage):
     _PAGE_TITLE = "ACCOUNT DELETED!"
     _PAGE_MESSAGES = (
         "Your account has been permanently deleted!",
-        "You can create new account to take advantage of member privileges to enhance your online shopping experience with us.",
+        (
+            "You can create new account to take advantage of member privileges "
+            "to enhance your online shopping experience with us."
+        ),
     )
 
     def __init__(self):
@@ -98,10 +104,14 @@ class _BaseConfirmationPageLocators:
         return Text(self._root.element("h2 b"), f"{self._page_name} title")
 
     def messages(self) -> ElementsCollection:
-        return ElementsCollection(self._root.all("p"), f"{self._page_name} messages", Text)
+        return ElementsCollection(
+            self._root.all("p"), f"{self._page_name} messages", Text
+        )
 
     def submit(self) -> Button:
         return Button(self._root.element("[data-qa=continue-button]"), "Continue")
 
     def download_invoice(self) -> Button:
-        return Button(self._root.element("a[href^='/download_invoice']"), "Download Invoice")
+        return Button(
+            self._root.element("a[href^='/download_invoice']"), "Download Invoice"
+        )

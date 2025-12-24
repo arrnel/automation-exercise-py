@@ -6,6 +6,7 @@ import pytest
 from src.client.core.condition.conditions import Conditions
 from src.mapper.user_mapper import UserMapper
 from src.model.user import User
+from src.util.decorator.disabled_by_issue import disabled_by_issue
 from src.util.test.data_generator import DataGenerator
 from tests.api.base_api_test import BaseApiTest
 from tests.data_provider.user_data_provider import UserDataProviderApi
@@ -14,7 +15,8 @@ ACCOUNT_NOT_FOUND_MESSAGE = "Account not found!"
 SUCCESSFUL_UPDATE_MESSAGE = "User updated!"
 
 
-@allure.tag("user")
+@pytest.mark.user_test
+@pytest.mark.user_api_test
 @allure.epic("User")
 @allure.feature("[API] Update User")
 class TestUpdateUserApi(BaseApiTest):
@@ -56,6 +58,7 @@ class TestUpdateUserApi(BaseApiTest):
             Conditions.body_field_equals("message", SUCCESSFUL_UPDATE_MESSAGE),
         )
 
+    @disabled_by_issue(issue_id=1, reason="[WEB] Not validate sensitive data")
     @allure.label("owner", "arrnel")
     @allure.story("Update user with invalid data")
     @allure.title(
@@ -97,7 +100,8 @@ class TestUpdateUserApi(BaseApiTest):
     @allure.label("owner", "arrnel")
     @allure.story("Update user if user not exists")
     @allure.title(
-        "[API] Update user should return 404_BAD_REQUEST when send update user request with not existing email"
+        "[API] Update user should return 404_BAD_REQUEST "
+        "when send update user request with not existing email"
     )
     def test_not_update_user_when_user_not_exists(self):
 

@@ -5,34 +5,20 @@ from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
 
-@allure.tag("carousel_component", "image_carousel_component")
-@allure.epic("[Web] Component - Image Carousel")
-@allure.feature("[Web] Component - Image Carousel")
+@pytest.mark.component_test
+@pytest.mark.carousel_component_test
+@pytest.mark.product_carousel_component_test
+@allure.epic("[Web] Component - Products Carousel")
+@allure.feature("[Web] Component - Products Carousel")
 class TestProductCarousel(BaseWebTest):
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Products Carousel")
-    @allure.title("[WEB Component] Products Carousel should show previous image when scroll left")
+    @allure.title(
+        "[WEB Component] Products Carousel should show previous image when scroll left"
+    )
     def test_should_show_previous_products_when_scroll_left(self):
-        # Component
-        recommended_products = self.main_page.recommended_products
-
-        # Steps
-        recommended_products.wait_until_slide_will_be_active(2)
-        recommended_products.next()
-
-        # Assertions
-        recommended_products.check_carousel_has_screenshot(
-            "files/img/screenshot/component/carousel/product/recommended/3.png")
-
-    @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
-    @allure.label("owner", "arrnel")
-    @allure.story("[Web] Component - Products Carousel")
-    @allure.title("[WEB Component] Products Carousel should show next image when scroll right")
-    def test_should_show_next_products_when_scroll_right(self):
         # Component
         recommended_products = self.main_page.recommended_products
 
@@ -41,15 +27,34 @@ class TestProductCarousel(BaseWebTest):
         recommended_products.previous()
 
         # Assertions
-        recommended_products.check_carousel_has_screenshot(
-            "files/img/screenshot/component/carousel/product/recommended/1.png")
+        recommended_products.check_component_has_screenshot(
+            path_to_screenshot="files/screenshot/component/carousel/product/slide_1.png"
+        )
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
-    @allure.story("[Web] Component - Products Carousel")
-    @allure.title("[WEB Component] Products Carousel should last image when scroll left on first image")
-    def test_should_show_last_products_when_scroll_left_on_first_image(self):
+    @allure.title(
+        "[WEB Component] Products Carousel should show next products when scroll right"
+    )
+    def test_should_show_next_products_when_scroll_right(self):
+        # Component
+        recommended_products = self.main_page.recommended_products
+
+        # Steps
+        recommended_products.wait_until_slide_will_be_active(1)
+        recommended_products.next()
+
+        # Assertions
+        recommended_products.check_component_has_screenshot(
+            path_to_screenshot="files/screenshot/component/carousel/product/slide_2.png"
+        )
+
+    @pytest.mark.screenshot_test
+    @allure.label("owner", "arrnel")
+    @allure.title(
+        "[WEB Component] Products Carousel should last products when scroll left on first slide"
+    )
+    def test_should_show_last_products_when_scroll_left_on_first_slide(self):
         # Component
         recommended_products = self.main_page.recommended_products
 
@@ -58,29 +63,29 @@ class TestProductCarousel(BaseWebTest):
         recommended_products.previous()
 
         # Assertions
-        recommended_products.check_carousel_has_screenshot(
-            "files/img/screenshot/component/carousel/product/recommended/3.png")
+        recommended_products.check_component_has_screenshot(
+            path_to_screenshot="files/screenshot/component/carousel/product/slide_2.png"
+        )
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
-    @allure.story("[Web] Component - Products Carousel")
-    @allure.title("[WEB Component] Products Carousel should first image when scroll right on last image")
-    def test_should_show_first_products_when_scroll_right_on_last_image(self):
+    @allure.title(
+        "[WEB Component] Products Carousel should first products when scroll right on last image"
+    )
+    def test_should_show_first_products_when_scroll_right_on_last_slide(self):
         # Component
         recommended_products = self.main_page.recommended_products
 
         # Steps
-        recommended_products.wait_until_slide_will_be_active(3)
+        recommended_products.wait_until_slide_will_be_active(2)
         recommended_products.next()
 
         # Assertions
-        recommended_products.check_carousel_has_screenshot(
-            "files/img/screenshot/component/carousel/product/recommended/1.png",
+        recommended_products.check_component_has_screenshot(
+            path_to_screenshot="files/screenshot/component/carousel/product/slide_1.png"
         )
 
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Products Carousel")
     @allure.title("[WEB Component] Add product to cart from product carousel")

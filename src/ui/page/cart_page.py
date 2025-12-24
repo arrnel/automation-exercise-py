@@ -1,10 +1,14 @@
 from selene import browser, Element
 
-from src.ui.component.product.product_item_component import RemovableProductItemComponent
-from src.ui.component.product.products_items_collection_component import ProductItemsComponent
+from src.ui.component.product.product_item_component import (
+    RemovableProductItemComponent,
+)
+from src.ui.component.product.products_items_collection_component import (
+    ProductItemsComponent,
+)
 from src.ui.element.base_element import Button, UiElement
 from src.ui.page.base_page import BasePage
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _URL = "/view_cart"
 
@@ -14,7 +18,9 @@ class CartPage(BasePage):
     def __init__(self):
         super().__init__()
         self.__locator = _CartPageLocator(self._page_container)
-        self.__product_cards_component = ProductItemsComponent[RemovableProductItemComponent](
+        self.__product_cards_component = ProductItemsComponent[
+            RemovableProductItemComponent
+        ](
             root=self.__locator.products_container().locator,
             component_title=self.__locator.products_container().element_title,
             cls=RemovableProductItemComponent,
@@ -51,7 +57,10 @@ class _CartPageLocator:
         self.__root = root
 
     def proceed_to_checkout(self) -> Button:
-        return Button(self.__root.element("//*[text()='Proceed To Checkout']"), "Proceed to Checkout")
+        return Button(
+            self.__root.element("//*[text()='Proceed To Checkout']"),
+            "Proceed to Checkout",
+        )
 
     def empty_cart(self) -> UiElement:
         return UiElement(self.__root.element("#empty_cart"), "Empty Cart")

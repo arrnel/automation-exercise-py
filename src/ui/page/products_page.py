@@ -2,13 +2,20 @@ from typing import override
 
 from selene import browser
 
-from src.ui.component.filter_component import AccordionFilter, CategoryStatFilter, SearchFilter
+from src.ui.component.filter_component import (
+    AccordionFilter,
+    CategoryStatFilter,
+    SearchFilter,
+)
 from src.ui.component.product.product_card_component import AnimatedProductCardComponent
-from src.ui.component.product.products_cards_collection_component import ProductCardsComponent
+from src.ui.component.product.products_cards_collection_component import (
+    ProductCardsComponent,
+)
 from src.ui.page.base_page import BasePage
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _URL = "/products"
+
 
 class ProductsPage(BasePage):
 
@@ -20,7 +27,7 @@ class ProductsPage(BasePage):
         )
         self.__category_filter = AccordionFilter(
             root=self._page_container.element(".left-sidebar #accordian"),
-            component_title="Category filter"
+            component_title="Category filter",
         )
         self.__products = ProductCardsComponent[AnimatedProductCardComponent](
             root=self._page_container.element(".features_items"),

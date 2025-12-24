@@ -18,7 +18,7 @@ class Extractor:
         self.response = response
 
     def body_status_code(self) -> int:
-        return self.as_value("statusCode")
+        return self.as_value("responseCode")
 
     def cookie(self, title: str) -> str:
         return self.response.cookies.get(title)

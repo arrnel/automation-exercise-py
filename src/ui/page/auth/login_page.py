@@ -2,16 +2,21 @@ from selene import browser
 
 from src.ui.component.auth_component import LoginComponent, LoginSignUpComponent
 from src.ui.page.base_page import BasePage
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 
 _URL = "/login"
+
 
 class LoginPage(BasePage):
 
     def __init__(self):
         super().__init__()
-        self.__login_component = LoginComponent(self._page_container.element(".login-form"))
-        self.__sign_up_component = LoginSignUpComponent(self._page_container.element(".signup-form"))
+        self.__login_component = LoginComponent(
+            self._page_container.element(".login-form")
+        )
+        self.__sign_up_component = LoginSignUpComponent(
+            self._page_container.element(".signup-form")
+        )
 
     # COMPONENTS
     @property

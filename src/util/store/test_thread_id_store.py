@@ -1,7 +1,7 @@
 import threading
 from typing import Optional
 
-_GLOBAL_USERS_KEY = "GLOBAL"
+_GLOBAL_THREAD_TEST_NAME_KEY = "GLOBAL"
 
 
 class ThreadSafeTestThreadsStore:
@@ -32,7 +32,7 @@ class ThreadSafeTestThreadsStore:
             for test_name, thread_ids in self._test_threads_store.items():
                 if thread_id in thread_ids:
                     return test_name
-            return _GLOBAL_USERS_KEY
+            return _GLOBAL_THREAD_TEST_NAME_KEY
 
     def clear_test_threads(self, test_name: str) -> None:
         with self._storage_lock:

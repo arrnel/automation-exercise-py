@@ -2,7 +2,6 @@ import logging
 import typing
 from abc import ABC
 from http import HTTPMethod
-from typing import Union
 
 import allure
 import httpx
@@ -22,27 +21,27 @@ from httpx._types import (
 )
 
 from src.client.core.assertion import AssertableResponse
-from src.client.core.cookie_store import ThreadSafeCookieStore
 from src.config.config import CFG
 from src.model.enum.meta.content_type import ContentType
 from src.model.enum.meta.log_level import ApiLogLvl, LogLvl
-from src.util.allure.step_logger import step_log
+from src.util.decorator.step_logger import step_log
 from src.util.api.httpx_log_formatter_util import format_request, format_response
+from src.util.store.cookie_store import ThreadSafeCookieStore
 
 
 class RestClient(ABC):
     USE_CLIENT_DEFAULT = UseClientDefault()
 
     def __init__(
-            self,
-            base_url: str,
-            content_type: ContentType = ContentType.JSON,
-            user_agent: str = CFG.default_user_agent,
-            http2: bool = False,
-            follow_redirects: bool = True,
-            api_log_lvl: ApiLogLvl = CFG.api_log_lvl,
-            log_lvl: LogLvl = CFG.log_lvl,
-            timeout: float = CFG.http_timeout,
+        self,
+        base_url: str,
+        content_type: ContentType = ContentType.JSON,
+        user_agent: str = CFG.default_user_agent,
+        http2: bool = False,
+        follow_redirects: bool = True,
+        api_log_lvl: ApiLogLvl = CFG.api_log_lvl,
+        log_lvl: LogLvl = CFG.log_lvl,
+        timeout: float = CFG.http_timeout,
     ):
         self._base_url = base_url
         self._follow_redirects = follow_redirects
@@ -78,21 +77,21 @@ class RestClient(ABC):
         return self.__send(HTTPMethod.DELETE, url, **kwargs)
 
     def __send(
-            self,
-            method: HTTPMethod,
-            url: URL,
-            *,
-            content: RequestContent | None = None,
-            data: RequestData | None = None,
-            files: RequestFiles | None = None,
-            json: typing.Any | None = None,
-            params: QueryParamTypes | None = None,
-            headers: HeaderTypes | None = None,
-            cookies: CookieTypes | None = None,
-            auth: AuthTypes | UseClientDefault | None = USE_CLIENT_DEFAULT,
-            follow_redirects: bool | UseClientDefault = USE_CLIENT_DEFAULT,
-            timeout: TimeoutTypes | UseClientDefault = USE_CLIENT_DEFAULT,
-            extensions: RequestExtensions | None = None,
+        self,
+        method: HTTPMethod,
+        url: URL,
+        *,
+        content: RequestContent | None = None,
+        data: RequestData | None = None,
+        files: RequestFiles | None = None,
+        json: typing.Any | None = None,
+        params: QueryParamTypes | None = None,
+        headers: HeaderTypes | None = None,
+        cookies: CookieTypes | None = None,
+        auth: AuthTypes | UseClientDefault | None = USE_CLIENT_DEFAULT,
+        follow_redirects: bool | UseClientDefault = USE_CLIENT_DEFAULT,
+        timeout: TimeoutTypes | UseClientDefault = USE_CLIENT_DEFAULT,
+        extensions: RequestExtensions | None = None,
     ):
         with step_log.log(f"Send request [{method.name}]: {url}"):
             try:
@@ -119,8 +118,8 @@ class RestClient(ABC):
 
                 ThreadSafeCookieStore().update_from_response(response)
 
-                self.__log_and_attach(response.request)
-                self.__log_and_attach(response)
+                self.__log_and_attach_request(response.request)
+                self.__log_and_attach_response(response)
 
                 return AssertableResponse(response)
 
@@ -128,31 +127,26 @@ class RestClient(ABC):
                 logging.exception(f"HTTP request failed: {e}")
                 raise
 
-    def __log_and_attach(
-            self,
-            req_res: Union[Request, Response],
-            attachment_type: AttachmentType = AttachmentType.TEXT,
-    ):
-        if isinstance(req_res, Request):
-            title = "Request"
-            log = format_request(req_res, self._api_log_lvl)
-        else:
-            title = "Response"
-            log = format_response(req_res, self._api_log_lvl)
-        logging.log(self._log_lvl.code, f"{title}\n\n{log}\n")
-        allure.attach(log, title, attachment_type)
+    def __log_and_attach_request(self, request: Request):
+        try:
+            log = format_request(request, self._api_log_lvl)
+            logging.info(f"Request\n\n{log}\n")
+            allure.attach(body=log, name="Request", attachment_type=AttachmentType.TEXT)
+        except Exception as ex:
+            logging.warn(
+                "!!! FAILED TO ADD REQUEST ATTACHMENT TO ALLURE. "
+                f"IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: {ex}"
+            )
 
-    def __save_current_cookies_to_store(self, cookies: CookieTypes | None = None):
-        if cookies:
-            ThreadSafeCookieStore().add_or_update_cookies(cookies)
-
-    def __save_response_cookies_to_store(self, response: httpx.Response):
-
-        # Save cookies if there were any redirects
-        if response.history:
-            for h in response.history:
-                ThreadSafeCookieStore().update_cookies(h.cookies)
-
-        # Save cookies from final response
-        if response.cookies:
-            ThreadSafeCookieStore().update_from_httpx_response(response)
+    def __log_and_attach_response(self, response: Response):
+        try:
+            log = format_response(response, self._api_log_lvl)
+            logging.info(f"Response\n\n{log}\n")
+            allure.attach(
+                body=log, name="Response", attachment_type=AttachmentType.TEXT
+            )
+        except Exception as ex:
+            logging.warn(
+                "!!! FAILED TO ADD RESPONSE ATTACHMENT TO ALLURE. "
+                f"IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: {ex}"
+            )

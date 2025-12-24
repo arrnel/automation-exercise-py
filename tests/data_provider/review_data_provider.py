@@ -45,67 +45,67 @@ class ReviewDataProviderUI:
                 "'email' has not exists email service",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().not_exists_email_service()
-                )
+                ),
             ),
             (
                 "'email' contains subdomain",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().has_subdomain_name()
-                )
+                ),
             ),
             (
                 "'email' username contains '.'",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().username_contains_dot()
-                )
+                ),
             ),
             (
                 "'email' username contains '+'",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().username_contains_plus()
-                )
+                ),
             ),
             (
                 "'email' username contains '-'",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().username_contains_dash()
-                )
+                ),
             ),
             (
                 "'email' username in quotes",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().username_with_quotes()
-                )
+                ),
             ),
             (
                 "'email' username is numerical",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().numerical_username()
-                )
+                ),
             ),
             (
                 "'email' domain contains '-'",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().domain_name_contains_dash()
-                )
+                ),
             ),
             (
                 "'email' username contains only underscore '-'",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().underscore_username()
-                )
+                ),
             ),
             (
                 "'email' domain length = 2",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().domain_length_equal_two()
-                )
+                ),
             ),
             (
                 "'email' domain name length = 2",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().domain_name_length_equal_two()
-                )
+                ),
             ),
             # ----- Message
             (
@@ -117,13 +117,17 @@ class ReviewDataProviderUI:
             (
                 "'message' length = min + 1",
                 DataGenerator.random_review().with_message(
-                    DataGenerator.random_text(range_util.review_message_range.min_val + 1)
+                    DataGenerator.random_text(
+                        range_util.review_message_range.min_val + 1
+                    )
                 ),
             ),
             (
                 "'message' length = max - 1",
                 DataGenerator.random_review().with_message(
-                    DataGenerator.random_text(range_util.review_message_range.max_val - 1)
+                    DataGenerator.random_text(
+                        range_util.review_message_range.max_val - 1
+                    )
                 ),
             ),
             (
@@ -277,14 +281,18 @@ class ReviewDataProviderUI:
             (
                 "'message' length = min + 1",
                 DataGenerator.random_review().with_message(
-                    DataGenerator.random_text(range_util.review_message_range.min_val + 1)
+                    DataGenerator.random_text(
+                        range_util.review_message_range.min_val + 1
+                    )
                 ),
                 INVALID_MESSAGE_ERROR_MESSAGE,
             ),
             (
                 "'message' length = max - 1",
                 DataGenerator.random_review().with_message(
-                    DataGenerator.random_text(range_util.review_message_range.max_val - 1)
+                    DataGenerator.random_text(
+                        range_util.review_message_range.max_val - 1
+                    )
                 ),
                 INVALID_MESSAGE_ERROR_MESSAGE,
             ),
@@ -294,5 +302,5 @@ class ReviewDataProviderUI:
                     DataGenerator.random_text(range_util.review_message_range.max_val)
                 ),
                 INVALID_MESSAGE_ERROR_MESSAGE,
-            )
+            ),
         ]

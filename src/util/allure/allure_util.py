@@ -1,3 +1,4 @@
+import json
 from typing import Optional
 
 import allure
@@ -11,6 +12,7 @@ from src.util.api.httpx_log_formatter_util import format_response, format_reques
 from src.util.screenshot import image_util
 
 _JSON_CONTENT_TYPES = ["application/json", "application/vnd.github+json"]
+_BASE64_PNG_INCEPTION = "data:image/png;base64,"
 
 
 class AllureUtil:
@@ -47,18 +49,18 @@ class AllureUtil:
 
     @staticmethod
     def attach_screen_diff(
-            expected_screenshot: Image.Image,
-            actual_screenshot: Image.Image,
-            diff_image: Image.Image,
+        expected_screenshot: Image.Image,
+        actual_screenshot: Image.Image,
+        diff_image: Image.Image,
     ) -> None:
-        import json
         content = json.dumps(
             {
-                "expected": f"data:image/png;base64,{image_util.get_img_base64(expected_screenshot)}",
-                "actual": f"data:image/png;base64,{image_util.get_img_base64(actual_screenshot)}",
-                "diff": f"data:image/png;base64,{image_util.get_img_base64(diff_image)}",
+                "expected": f"{_BASE64_PNG_INCEPTION}{image_util.get_img_base64(expected_screenshot)}",
+                "actual": f"{_BASE64_PNG_INCEPTION}{image_util.get_img_base64(actual_screenshot)}",
+                "diff": f"{_BASE64_PNG_INCEPTION}{image_util.get_img_base64(diff_image)}",
             }
-        )
+        ).encode()
+
         allure.attach(
             content,
             name="Screenshot diff",
@@ -67,4 +69,8 @@ class AllureUtil:
 
     @staticmethod
     def attach_screen_diff_table(diff_table: str) -> None:
-        allure.attach(name="Screenshot diff data table", body=diff_table)
+        allure.attach(
+            name="Screenshot diff data table",
+            body=diff_table,
+            attachment_type=AttachmentType.TEXT,
+        )

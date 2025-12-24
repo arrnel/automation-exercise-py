@@ -6,8 +6,14 @@ from src.model.category import Category
 from src.model.price import Price
 from src.model.product import Product
 from src.ui.component.base_component import BaseComponent
-from src.ui.element.base_element import Button, Text, UiElement, Input, ElementsCollection
-from src.util.allure.step_logger import step_log
+from src.ui.element.base_element import (
+    Button,
+    Text,
+    UiElement,
+    Input,
+    ElementsCollection,
+)
+from src.util.decorator.step_logger import step_log
 
 
 class ProductDetailsComponent(BaseComponent):
@@ -49,11 +55,16 @@ class ProductDetailsComponent(BaseComponent):
     def check_product_has_category(self, category: Category) -> None:
         group = category.user_type.value
         category = category.title
-        with step_log.log(f"Check product [{self._component_title}] has group = [{group}] and category = [{category}]"):
+        with step_log.log(
+            f"Check product [{self._component_title}] "
+            f"has group = [{group}] and category = [{category}]"
+        ):
             self._locator.category().should_have_text(f"Category: {group} > {category}")
 
     def check_product_has_price(self, price: Price) -> None:
-        with step_log.log(f"Check product [{self._component_title}] has price: {price.get_amount_text()}"):
+        with step_log.log(
+            f"Check product [{self._component_title}] has price: {price.get_amount_text()}"
+        ):
             self._locator.price().should_have_text(price.get_price_text())
 
     @step_log.log("Check product [{self._component_title}] has availability: {status}")
@@ -95,7 +106,9 @@ class _ProductDetailsComponentLocator:
         return UiElement(self.__root.element(".view-product img"), "Product image")
 
     def new_arrival(self) -> Text:
-        return Text(self.__root.element(".product-information img"), "Product New Arrival Badge")
+        return Text(
+            self.__root.element(".product-information img"), "Product New Arrival Badge"
+        )
 
     def title(self) -> Text:
         return Text(self.__root.element(".product-information h2"), "Product Rating")
@@ -104,10 +117,14 @@ class _ProductDetailsComponentLocator:
         return Text(self.__root.element(".product-information p"), "Product Category")
 
     def rating(self) -> UiElement:
-        return UiElement(self.__root.element(".product-information p"), "Product Rating")
+        return UiElement(
+            self.__root.element(".product-information p"), "Product Rating"
+        )
 
     def price(self) -> Text:
-        return Text(self.__root.element(".product-information span span"), "Product Price")
+        return Text(
+            self.__root.element(".product-information span span"), "Product Price"
+        )
 
     def quantity(self) -> Input:
         return Input(self.__root.element("#quantity"), "Product Quantity")
@@ -116,7 +133,9 @@ class _ProductDetailsComponentLocator:
         return Button(self.__root.element("button.cart"), "Add to cart")
 
     def characteristics(self) -> ElementsCollection:
-        return ElementsCollection(self.__root.all(".//p[./b]"), "Product Characteristics")
+        return ElementsCollection(
+            self.__root.all(".//p[./b]"), "Product Characteristics"
+        )
 
     def availability(self) -> Text:
         return Text(self.__root.element("//p[./b][1]"), "Product Availability")

@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import allure
+import pytest
 
 from src.client.core.condition.conditions import Conditions
 from src.config.config import CFG
@@ -8,7 +9,8 @@ from src.model.enum.meta.content_type import ContentType
 from tests.api.base_api_test import BaseApiTest
 
 
-@allure.tag("auth")
+@pytest.mark.auth_test
+@pytest.mark.auth_api_test
 @allure.epic("Auth")
 @allure.feature("[API] Auth")
 @allure.title("Test Auth")

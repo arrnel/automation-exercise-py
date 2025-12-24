@@ -20,3 +20,7 @@ class ParseByJsonPathError(Exception):
 
 class DeserializationError(Exception):
     pass
+
+
+class IssueNotFoundError(RuntimeError):
+    pass

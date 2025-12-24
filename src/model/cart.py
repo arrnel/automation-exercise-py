@@ -11,8 +11,13 @@ class CartProductInfo(Model):
 
     def __repr__(self) -> str:
         return (
-            f"CartProductInfo(title={self.title!r}, category={self.category!r}, price={self.price!r}, "
-            f"quantity={self.quantity!r}, total={self.total!r})"
+            f"{self.__class__.__name__}("
+            f"title={self.title!r}, "
+            f"category={self.category!r}, "
+            f"price={self.price!r}, "
+            f"quantity={self.quantity!r}, "
+            f"total={self.total!r}"
+            f")"
         )
 
     def __str__(self) -> str:

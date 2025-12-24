@@ -40,7 +40,11 @@ class BodyFieldEqualsCondition(Condition):
         else:
             return (
                 False,
-                f"Body field '{self.path}' value mismatch. Expected = [{self.expected}], actual = [{actual}]",
+                (
+                    f"Body field '{self.path}' value mismatch.\b"
+                    f"Expected = [{self.expected}]\b"
+                    f"Actual = [{actual}]\b"
+                ),
             )
 
     def __str__(self):
@@ -52,7 +56,10 @@ class BodyFieldNotEqualsCondition(Condition):
     def __init__(self, path: str, expected_value, *expected_values):
         self.path = path
         self.expected = [expected_value, *expected_values]
-        self.text = f"{"equals: " + self.expected[0] if len(self.expected) == 0 else "in: " + str(self.expected)}"
+        if len(self.expected) == 0:
+            self.text = f"equals: {self.expected[0]}"
+        else:
+            self.text = f"in: {str(self.expected)}"
 
     def check(self, response: Response) -> Tuple[bool, str]:
         actual = Extractor(response).as_value(self.path)
@@ -87,7 +94,11 @@ class BodyArrayHasSizeCondition(Condition):
         if self.expected != actual:
             return (
                 False,
-                f"Invalid body array size: [{self.path}]. Expected = [{self.expected}], actual = [{actual}]",
+                (
+                    f"Invalid body array size: [{self.path}]. "
+                    f"Expected = [{self.expected}],"
+                    f"actual = [{actual}]"
+                ),
             )
         else:
             return True, ""
@@ -185,7 +196,11 @@ class BodyArrayHasCondition(Condition):
         if len(self.expected) != len(actual):
             return (
                 False,
-                f"Different elements count. Expected = [{len(self.expected)}], actual = [{len(actual)}]",
+                (
+                    "Different elements count. "
+                    f"Expected = [{len(self.expected)}], "
+                    f"Actual = [{len(actual)}]"
+                ),
             )
 
         counter_actual = Counter(actual)
@@ -217,7 +232,11 @@ class BodyArrayHasOrderedCondition(Condition):
         if len(self.expected) != len(actual):
             return (
                 False,
-                f"Different elements count. Expected = [{len(self.expected)}], actual = [{len(actual)}]",
+                (
+                    "Different elements count. "
+                    f"Expected = [{len(self.expected)}], "
+                    f"Actual = [{len(actual)}]"
+                ),
             )
         elif actual != self.expected:
             return False, (

@@ -11,6 +11,7 @@ class GithubApiClient(RestClient):
             base_url=CFG.github_api_url,
             content_type=ContentType.GITHUB_JSON,
             api_log_lvl=CFG.api_log_lvl,
+            user_agent=CFG.github_token_name,
         )
 
     def get_issue_state(self, issue_id: str) -> AssertableResponse:
@@ -18,8 +19,10 @@ class GithubApiClient(RestClient):
             url=f"/repos/{CFG.github_account_name}/{CFG.github_repo_name}/issues/{issue_id}",
             headers={
                 "accept": ContentType.GITHUB_JSON.mime_type,
+                # "accept-encoding": None,
+                # "connection": None,
                 "user-agent": CFG.github_token_name,
-                "authorization": CFG.github_token,
+                "authorization": f"Bearer {CFG.github_token}",
                 "X-GitHub-Api-Version": "2022-11-28",
             },
         )

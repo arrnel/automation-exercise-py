@@ -5,8 +5,16 @@ from selene.support.conditions.be import existing
 from src.model.enum.user_title import UserTitle
 from src.model.user import User
 from src.ui.component.base_component import BaseComponent
-from src.ui.element.base_element import Input, Checkbox, Select, Button, Text, RadioButtons, UiElement
-from src.util.allure.step_logger import step_log
+from src.ui.element.base_element import (
+    Input,
+    Checkbox,
+    Select,
+    Button,
+    Text,
+    RadioButtons,
+    UiElement,
+)
+from src.util.decorator.step_logger import step_log
 
 
 class LoginComponent(BaseComponent):

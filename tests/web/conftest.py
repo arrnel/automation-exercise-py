@@ -2,9 +2,8 @@ import random
 
 import pytest
 from selene import browser
-from selenium import webdriver
 
-from src.config.browser.browser_factory import BrowserFactory
+from src.config.browser.browser_manager import BrowserManager
 from src.config.config import CFG
 from src.mapper.user_mapper import UserMapper
 from src.model.product_item_info import ProductItemsInfo
@@ -25,67 +24,47 @@ from src.util.test.data_generator import DataGenerator
 
 @pytest.fixture()
 def open_login_page():
-    configure_browser()
     LoginPage().navigate()
-    yield
-    browser.quit()
 
 
 @pytest.fixture()
 def open_main_page():
-    configure_browser()
     MainPage().navigate()
-    yield
-    browser.quit()
 
 
 @pytest.fixture()
 def open_products_page():
-    configure_browser()
     ProductsPage().navigate()
-    yield
-    browser.quit()
 
 
 @pytest.fixture()
 def open_product_page():
-    configure_browser()
     product = DataGenerator.random_product()
     ProductPage().navigate(product.id)
-    yield product
-    browser.quit()
+    return product
 
 
 @pytest.fixture()
 def open_expected_product_page():
-    configure_browser()
     product = DataGenerator.expected_product()
     ProductPage().navigate(product.id)
-    yield product
-    browser.quit()
+    return product
 
 
 @pytest.fixture()
 def open_cart_page():
-    configure_browser()
     CartPage().navigate()
-    yield
-    browser.quit()
 
 
 @pytest.fixture()
 def open_checkout_page():
-    configure_browser()
     CheckoutPage().navigate()
-    yield
-    browser.quit()
+
 
 @pytest.fixture()
 def open_payment_page():
-    configure_browser()
     PaymentPage().navigate()
-    yield
-    browser.quit()
+
 
 @pytest.fixture()
 def auth_user(create_user):
@@ -95,11 +74,10 @@ def auth_user(create_user):
 
     test_data = UserMapper.lazy_update_test_data(
         create_user.test_data,
-        TestData.empty().with_csrf(
-            auth_data.get(CFG.csrf_cookie_title, None)
-        ).with_session_id(
-            auth_data.get(CFG.session_id_cookie_title, None)
-        ))
+        TestData.empty()
+        .with_csrf(auth_data.get(CFG.csrf_cookie_title, None))
+        .with_session_id(auth_data.get(CFG.session_id_cookie_title, None)),
+    )
     yield create_user.with_test_data(test_data)
 
 
@@ -111,12 +89,13 @@ def auth_expected_user():
 
     user = UserApiService().get_user_by_email(CFG.default_email)
     test_data = TestData(
-        csrf=auth_data[CFG.csrf_cookie_title],
-        session_id=auth_data[CFG.session_id_cookie_title],
+        csrf=auth_data.get(CFG.csrf_cookie_title, None),
+        session_id=auth_data.get(CFG.session_id_cookie_title, None),
         password=CFG.default_password,
         phone_number=None,
     )
     return user.with_test_data(test_data)
+
 
 @pytest.fixture()
 def add_random_product_to_cart() -> ProductItemsInfo:
@@ -126,6 +105,7 @@ def add_random_product_to_cart() -> ProductItemsInfo:
 
     return product_items
 
+
 @pytest.fixture()
 def add_random_products_to_cart() -> ProductItemsInfo:
     product_items = DataGenerator.random_product_items_info(random.randint(2, 10))
@@ -133,6 +113,7 @@ def add_random_products_to_cart() -> ProductItemsInfo:
     browser.driver.refresh()
 
     return product_items
+
 
 @pytest.fixture()
 def add_expected_product_to_cart() -> ProductItemsInfo:
@@ -142,6 +123,7 @@ def add_expected_product_to_cart() -> ProductItemsInfo:
     browser.driver.refresh()
 
     return product_items_info
+
 
 @pytest.fixture()
 def add_expected_products_to_cart() -> ProductItemsInfo:
@@ -160,37 +142,38 @@ def authorized_browser_open_by_expected_user():
         csrf=auth_data[CFG.csrf_cookie_title],
         session_id=auth_data[CFG.session_id_cookie_title],
         password=CFG.default_password,
-        phone_number=None)
+        phone_number=None,
+    )
     user = (
-        UserApiService().get_user_by_email(CFG.default_email)
+        UserApiService()
+        .get_user_by_email(CFG.default_email)
         .with_password(CFG.default_password)
         .with_test_data(test_data)
     )
-    configure_browser()
     CookieUtil.add_app_cookies(auth_data)
     MainPage().navigate()
 
     yield user
 
     # ----- Postcondition
-    browser.quit()
+
 
 @pytest.fixture()
 def authorized_browser_open(create_user):
     # ----- Precondition
     auth_data = AuthApiService().sign_in(create_user.email, create_user.password)
-    configure_browser()
     CookieUtil.add_app_cookies(auth_data)
     MainPage().navigate()
 
     yield create_user
 
     # ----- Postcondition
-    browser.quit()
 
-def configure_browser() -> None:
-    browser.config.driver = BrowserFactory().browser.create_driver()
-    browser.config.base_url = CFG.base_url
-    browser.config.timeout = CFG.browser_timeout
-    browser.config.window_width, browser.config.window_height = CFG.browser_size
-    browser.config.hold_driver_at_exit = CFG.browser_hold_driver_on_exit
+
+@pytest.fixture(autouse=True, scope="function")
+def configure_browser():
+    BrowserManager().init_browser()
+    browser.open("/")
+    yield
+    if CFG.remote_type.lower() == "none" and not CFG.browser_hold_driver_on_exit:
+        browser.driver.quit()

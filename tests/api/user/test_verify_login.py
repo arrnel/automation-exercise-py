@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import allure
+import pytest
 
 from src.client.core.condition.conditions import Conditions
 from src.model.user import User
@@ -11,7 +12,10 @@ USER_EXISTS_MESSAGE = "User exists!"
 USER_NOT_FOUND = "User not found!"
 
 
-@allure.tag("user", "verify_login")
+@pytest.mark.user_test
+@pytest.mark.user_api_test
+@pytest.mark.user_test
+@pytest.mark.verify_login_api_test
 @allure.epic("User")
 @allure.feature("[API] Verify Login")
 class TestVerifyLoginApi(BaseApiTest):

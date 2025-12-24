@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import overload
 
 from src.model.enum.currency import Currency
 
@@ -27,8 +26,16 @@ class Price:
         """
         if self.amount is None:
             raise ValueError("Amount can not be null")
-        stripped_amount = self.amount.quantize(Decimal("1."), rounding="ROUND_DOWN") if self.amount % 1 == 0 else self.amount
+
+        if self.amount % 1 == 0:
+            stripped_amount = self.amount.quantize(Decimal("1."), rounding="ROUND_DOWN")
+        else:
+            stripped_amount = self.amount
+
         return str(int(stripped_amount)) if stripped_amount % 1 == 0 else str(stripped_amount)
+
+    def set_amount(self, amount: Decimal):
+        self.amount = amount
 
     def add_amount(self, amount: Decimal):
         if self.amount is None:

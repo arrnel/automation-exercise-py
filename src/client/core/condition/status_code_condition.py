@@ -15,7 +15,11 @@ class StatusCodeCondition(Condition):
         if expected_status_code != actual_status_code:
             return (
                 False,
-                f"Status code mismatch. Expected = [{expected_status_code}], actual = [{actual_status_code}]",
+                (
+                    "Status code mismatch. "
+                    f"Expected = [{expected_status_code}], "
+                    f"Actual = [{actual_status_code}]"
+                ),
             )
         else:
             return True, ""

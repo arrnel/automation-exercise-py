@@ -1,22 +1,20 @@
 import allure
 import pytest
 
-from src.config.config import CFG
 from src.model.review import ReviewInfo
-from src.util.test.data_generator import DataGenerator
+from src.util.decorator.disabled_by_issue import disabled_by_issue
 from tests.data_provider.review_data_provider import ReviewDataProviderUI
 from tests.web.base_test import BaseWebTest
 
 
-@pytest.mark.component
-@allure.tag("component", "review_component")
+@pytest.mark.component_test
+@allure.tag("component_test", "review_component")
 @allure.epic("Web Component")
 @allure.feature("[WEB] Review Component")
 class TestReviewComponent(BaseWebTest):
 
-    @pytest.mark.usefixtures("open_expected_product_page")
+    @pytest.mark.usefixtures("open_product_page")
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Review Component")
     @allure.title("[WEB] Should have expected screenshot when not send review")
@@ -28,7 +26,6 @@ class TestReviewComponent(BaseWebTest):
 
     @pytest.mark.usefixtures("open_expected_product_page")
     @pytest.mark.screenshot_test
-    @allure.tag("screenshot_test")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Review Component")
     @allure.title("[WEB] Should have expected screenshot when send review")
@@ -55,10 +52,7 @@ class TestReviewComponent(BaseWebTest):
         ReviewDataProviderUI.valid_data_provider(),
         ids=[param[0] for param in ReviewDataProviderUI.valid_data_provider()],
     )
-    @allure.title(
-        "[WEB] Should add product review with valid data. "
-        "Case: {case_title}"
-    )
+    @allure.title("[WEB] Should add product review with valid data. Case: {case_title}")
     def test_add_review_with_valid_data(self, case_title: str, review: ReviewInfo):
         # Component
         review_component = self.product_page.review
@@ -69,6 +63,7 @@ class TestReviewComponent(BaseWebTest):
         # Assertion
         self.product_page.review.check_review_status_message_successful()
 
+    @disabled_by_issue(issue_id=3, reason="[WEB] Not validate sensitive data")
     @pytest.mark.usefixtures("open_expected_product_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Review Component")
@@ -78,14 +73,13 @@ class TestReviewComponent(BaseWebTest):
         ids=[param[0] for param in ReviewDataProviderUI.invalid_data_provider()],
     )
     @allure.title(
-        "[WEB] Should not add product review with invalid data. "
-        "Case: {case_title}"
+        "[WEB] Should not add product review with invalid data. Case: {case_title}"
     )
     def test_not_add_review_with_invalid_data(
-            self,
-            case_title: str,
-            review: ReviewInfo,
-            error_message: str,
+        self,
+        case_title: str,
+        review: ReviewInfo,
+        error_message: str,
     ):
         # Component
         review_component = self.product_page.review

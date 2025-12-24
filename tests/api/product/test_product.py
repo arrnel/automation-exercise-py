@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import allure
+import pytest
 
 from src.client.core.condition.conditions import Conditions
 from src.util.api.json_path_util import JsonPath
@@ -8,7 +9,8 @@ from src.util.test.data_generator import DataGenerator
 from tests.api.base_api_test import BaseApiTest
 
 
-@allure.tag("product")
+@pytest.mark.product_test
+@pytest.mark.product_api_test
 @allure.epic("Product")
 @allure.feature("[API] Get Product")
 @allure.title("Test Get Product")
