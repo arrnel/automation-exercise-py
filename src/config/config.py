@@ -1,5 +1,6 @@
 import ast
 import os
+from pathlib import Path
 from typing import Tuple, Literal, get_args
 
 from pydantic import Field, field_validator, AliasChoices
@@ -8,6 +9,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from src.model.card import CardInfo
 from src.model.enum.meta.log_level import ApiLogLvl, LogLvl
 from src.model.enum.meta.user_agent import UserAgent
+from src.util import system_util
 from src.util.system_util import get_path_in_resources
 
 available_env = Literal["local", "docker", "ci"]
@@ -60,6 +62,10 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("BROWSER_PAGE_LOAD_STRATEGY"),
         default="eager",
     )
+    browser_download_dir: str = Field(
+        validation_alias=AliasChoices("BROWSER_DOWNLOAD_DIR"),
+        default=system_util.get_path_in_resources("files/download"),
+    )
     browser_remote_vnc: bool = Field(
         validation_alias=AliasChoices("BROWSER_REMOTE_VNC"),
         default=True,
@@ -67,6 +73,10 @@ class Settings(BaseSettings):
     browser_remote_video: bool = Field(
         validation_alias=AliasChoices("BROWSER_REMOTE_VIDEO"),
         default=True,
+    )
+    browser_remote_video_id_type: str = Field(
+        validation_alias=AliasChoices("BROWSER_REMOTE_VIDEO_ID_TYPE"),
+        default="test_name",
     )
     browser_remote_logs: bool = Field(
         validation_alias=AliasChoices("BROWSER_REMOTE_LOGS"),
@@ -114,6 +124,10 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("DEFAULT_PERCENT_OF_TOLERANCE"),
         default=0.0,
     )
+    allure_append_test_artifact: str = Field(
+        validation_alias=AliasChoices("ALLURE_APPEND_TEST_ARTIFACT"),
+        default="failed",
+    )
     expected_product_id: int = Field(
         validation_alias=AliasChoices("EXPECTED_PRODUCT_ID"),
         default=3,
@@ -128,6 +142,10 @@ class Settings(BaseSettings):
     )
     expected_credit_card: CardInfo = Field(
         validation_alias=AliasChoices("EXPECTED_CREDIT_CARD")
+    )
+    path_to_files: str = Field(
+        validation_alias=AliasChoices("PATH_TO_FILES"),
+        default=system_util.get_path_in_resources("files"),
     )
 
     # LOGGING
@@ -168,8 +186,10 @@ class Settings(BaseSettings):
         "remote_type",
         "remote_url",
         "browser_name",
+        "browser_remote_video_id_type",
         "browser_page_load_strategy",
         "default_email",
+        "allure_append_test_artifact",
         "email_domain",
         mode="before",
     )
@@ -189,6 +209,15 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             return v.upper()
         return v
+
+    @field_validator("path_to_files", mode="before")
+    @classmethod
+    def relative_resources_folder_path(cls, v: str) -> str:
+        folder_path = system_util.get_path_in_resources(v)
+        path = Path(folder_path)
+        if not path.exists() or not path.is_dir():
+            raise ValueError(f"Path should exists and be a directory: {v}")
+        return folder_path
 
     @field_validator("expected_credit_card", mode="before")
     @classmethod

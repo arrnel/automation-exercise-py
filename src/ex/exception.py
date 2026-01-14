@@ -24,3 +24,7 @@ class DeserializationError(Exception):
 
 class IssueNotFoundError(RuntimeError):
     pass
+
+
+class SelenoidVideoNotFoundError(RuntimeError):
+    pass

@@ -1,15 +1,16 @@
 import allure
 import pytest
 
-from src.util.test.data_generator import DataGenerator
+from src.model.card import CardInfo
+from src.util.decorator.disabled_by_issue import disabled_by_issue
+from tests.data_provider.card_data_provider import CardDataProviderUI
 from tests.web.base_test import BaseWebTest
 
 
 @pytest.mark.component_test
-@pytest.mark.filter_test
-@pytest.mark.review_component_test
+@pytest.mark.payment_component_test
 @allure.epic("Web Component")
-@allure.feature("[WEB] Review Component")
+@allure.feature("[WEB] Payment Component")
 class TestPaymentComponent(BaseWebTest):
 
     @pytest.mark.usefixtures(
@@ -30,10 +31,35 @@ class TestPaymentComponent(BaseWebTest):
     )
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Payment Component")
-    @allure.title("[WEB Component] Payment component should have success status")
-    def test_success_payment(self):
-        # Data
-        card = DataGenerator.random_credit_card()
-
+    @allure.title(
+        "[WEB Component] Pay with valid card should show success status message. Case: {case_title}"
+    )
+    @pytest.mark.parametrize(
+        "case_title, card",
+        CardDataProviderUI.valid_cards(),
+        ids=[param[0] for param in CardDataProviderUI.valid_cards()],
+    )
+    def test_payment_with_valid_card(self, case_title: str, card: CardInfo):
         # Step & Assertion
         self.payment_page.payment_card_component.pay_and_check_payment_success(card)
+
+    @disabled_by_issue(issue_id=4, reason="Missing card data validation")
+    @pytest.mark.usefixtures(
+        "open_payment_page", "auth_user", "add_random_products_to_cart"
+    )
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Payment Component")
+    @allure.title(
+        "[WEB Component] Pay with invalid card should show error message. Case: {case_title}"
+    )
+    @pytest.mark.parametrize(
+        "case_title, card",
+        CardDataProviderUI.invalid_cards(),
+        ids=[param[0] for param in CardDataProviderUI.invalid_cards()],
+    )
+    def test_payment_with_invalid_card(self, case_title: str, card: CardInfo):
+        # Step
+        self.payment_page.payment_card_component.pay(card)
+
+        # Assertion
+        self.order_placed_page.check_page_is_not_visible()

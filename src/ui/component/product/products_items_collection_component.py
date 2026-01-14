@@ -5,7 +5,8 @@ from selene.support.conditions.have import text
 
 from src.ex.exception import ProductNotFoundError
 from src.model.price import Price
-from src.model.product_item_info import ProductItemInfo, ProductItemsInfo
+from src.model.product_item_info import ProductItemInfo
+from src.model.product_items_info import ProductItemsInfo
 from src.ui.component.base_component import BaseComponent
 from src.ui.component.product.product_item_component import BaseProductItemComponent
 from src.ui.element.base_element import ElementsCollection, Text
@@ -58,14 +59,16 @@ class ProductItemsComponent(BaseComponent, Generic[TBaseProductItemComponent]):
             raise AssertionError(f"Cart '{self._component_title}' is not empty")
 
     def check_contains_product_titles(self, title: str, *titles: str):
-        all_titles = {title, *titles}
+        all_expected_titles = {title, *titles}
         with step_log.log(
-            f"Check [{self._component_title}] contains product titles: {all_titles}"
+            f"Check [{self._component_title}] contains product titles: {all_expected_titles}"
         ):
+            all_actual_titles = [item.get_title() for item in self.__items]
+
             not_found_items = [
-                item.get_title()
-                for item in self.__items
-                if item.get_title() not in all_titles
+                item_title
+                for item_title in all_expected_titles
+                if item_title not in all_actual_titles
             ]
 
             if not_found_items:
@@ -134,14 +137,13 @@ class ProductItemsComponent(BaseComponent, Generic[TBaseProductItemComponent]):
             )
 
     def check_not_contains_product_titles(self, title: str, *titles: str):
-        all_titles = {title, *titles}
+        all_expected_titles = {title, *titles}
         with step_log.log(
-            f"Check [{self._component_title}] not contains product titles: {all_titles}"
+            f"Check [{self._component_title}] not contains product titles: {all_expected_titles}"
         ):
+            all_actual_titles = [item.get_title() for item in self.__items]
             found_items = [
-                item.get_title()
-                for item in self.__items
-                if item.get_title() in all_titles
+                title for title in all_expected_titles if title in all_actual_titles
             ]
 
             if found_items:

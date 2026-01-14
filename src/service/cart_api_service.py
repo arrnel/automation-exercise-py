@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 from src.client.cart_api_client import CartApiClient
 from src.client.core.condition.conditions import Conditions
-from src.model.product_item_info import ProductItemsInfo
+from src.model.product_items_info import ProductItemsInfo
 from src.util.decorator.step_logger import step_log
 
 

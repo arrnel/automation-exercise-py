@@ -1,6 +1,7 @@
 import os
 import shutil
 from pathlib import Path
+from typing import Optional, Literal
 
 
 def get_tmp_screenshot_folder() -> str:
@@ -34,11 +35,19 @@ def parse_file_name_in_path(path: str) -> str:
 
 
 def get_files_in_directory(
-    path_to_dir: str, file_extensions: set[str] = frozenset()
+    path_to_dir: str,
+    file_extensions: set[str] = frozenset(),
+    starts_with: Optional[str] = None,
+    order_by: Optional[Literal["name", "date_time"]] = None,
+    order_direction: Optional[Literal["asc", "desc"]] = "asc",
 ) -> list[str]:
+
     files = []
     actual_file_names = os.listdir(path_to_dir)
     for file_name in actual_file_names:
+
+        if starts_with and not file_name.startswith(starts_with):
+            continue
         absolute_path = os.path.join(path_to_dir, file_name)
         is_file = os.path.isfile(absolute_path)
         is_file_matched = not file_extensions or (
@@ -47,6 +56,19 @@ def get_files_in_directory(
         )
         if is_file and is_file_matched:
             files.append(absolute_path)
+
+    if not order_by:
+        return files
+
+    reverse = order_direction.lower() == "desc"
+    if order_by == "name":
+        files.sort(key=lambda path: os.path.basename(path).lower(), reverse=reverse)
+    elif order_by == "date_time":
+        files.sort(key=lambda path: os.path.getmtime(path), reverse=reverse)
+    else:
+        raise ValueError(
+            f"Unsupported order_by value: {order_by}. Available values: 'name', 'date_time'"
+        )
 
     return files
 
@@ -81,24 +103,36 @@ def remove_from_resources(file_path: str) -> None:
         os.remove(file_path)
 
 
-def create_folder_in_resources(file_path: str) -> None:
+def create_folder_in_resources(relative_path_to_dir: str) -> None:
     """
     Creates folder in resources folder
-    :param file_path: path to folder/file from resources. Example: "files/file.txt"
+    :param relative_path_to_dir: path to folder/file from resources. Example: "files/file.txt"
     """
-    path_to_file = get_path_in_resources(file_path)
+    path_to_file = get_path_in_resources(relative_path_to_dir)
     if not os.path.exists(path_to_file):
         os.mkdir(path_to_file)
 
 
-def remove_all_files_from_folder(abs_path_to_dir: str) -> None:
+def remove_all_files_from_folder(
+    abs_path_to_dir: str, by_remove_folder: bool = True
+) -> None:
     folder = Path(abs_path_to_dir)
 
-    if not folder.exists or not folder.is_dir():
-        raise ValueError("Folder should exists")
+    if not folder.exists:
+        os.mkdir(folder)
+        return
 
-    for item in folder.iterdir():
-        if item.is_file() or item.is_symlink():
-            item.unlink()
-        elif item.is_dir():
-            shutil.rmtree(item)
+    if folder.is_file():
+        raise ValueError(
+            f"Invalid path to folder. Provided path is a file: {abs_path_to_dir}"
+        )
+
+    if by_remove_folder:
+        shutil.rmtree(folder)
+        os.mkdir(folder)
+    else:
+        for item in folder.iterdir():
+            if item.is_file() or item.is_symlink():
+                item.unlink()
+            elif item.is_dir():
+                shutil.rmtree(item)

@@ -5,6 +5,7 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from src.config.browser.base_driver_strategy import RemoteDriverStrategy
 from src.config.config import CFG
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class RemoteFirefoxDriverStrategy(RemoteDriverStrategy):
@@ -53,9 +54,11 @@ class RemoteFirefoxDriverStrategy(RemoteDriverStrategy):
         return args
 
     def _browser_prefs(self) -> dict[str, Any]:
+        test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
         return {
             "browser.tabs.warnOnClose": False,
-            "browser.download.useDownloadDir": True,
+            "browser.download.dir": f"{CFG.browser_download_dir}/{test_name}",
+            # "browser.download.useDownloadDir": True,
             "signon.rememberSignons": False,
             "extensions.formautofill.creditCards.enabled": False,
             "dom.webnotifications.enabled": False,

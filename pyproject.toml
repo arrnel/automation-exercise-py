@@ -31,10 +31,9 @@ log_cli = true
 log_cli_level = "INFO"
 log_cli_format = "%(asctime)s | %(levelname)s | %(message)s"
 log_cli_date_format = "%H:%M:%S"
-testpaths = ["tests/**"]
-addopts = [
-    "-vvv",
-#    "-n 3"
+addopts = []
+filterwarnings = [
+    "ignore:Setting per-request cookies=.*:DeprecationWarning"
 ]
 markers = [
     "api_test: API tests",

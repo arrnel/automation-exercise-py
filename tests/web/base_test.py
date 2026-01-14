@@ -24,7 +24,6 @@ from src.ui.page.products_page import ProductsPage
 from src.util.test.data_generator import DataGenerator
 
 
-@allure.tag("web")
 @pytest.mark.web_test
 class BaseWebTest(ABC):
 

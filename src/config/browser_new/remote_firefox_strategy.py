@@ -6,6 +6,7 @@ from src.config.browser_new.base_strategy import BrowserStrategy
 from src.config.browser_new.capabilities_builder import CapabilitiesBuilder
 from src.config.browser_new.firefox_strategy_mixin import FirefoxStrategyMixin
 from src.config.config import CFG
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
@@ -29,7 +30,13 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
     @override
     def firefox_prefs(self) -> Dict[str, Any]:
+        test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
         return {
+            "pdfjs.disabled": True,
+            "browser.download.folderList": 2,
+            "browser.download.dir": f"{CFG.browser_download_dir}/{test_name}",
+            "browser.download.manager.showWhenStarting": False,
+            "browser.download.panel.shown": False,
             "dom.webdriver.enabled": False,
             "useAutomationExtension": False,
             "media.webspeech.synth.enabled": False,

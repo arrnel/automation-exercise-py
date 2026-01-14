@@ -1,25 +1,67 @@
 import random
 
+import allure
 import pytest
 from selene import browser
 
-from src.config.browser.browser_manager import BrowserManager
+from src.config.browser_new.driver_manager import DriverManager
 from src.config.config import CFG
 from src.mapper.user_mapper import UserMapper
-from src.model.product_item_info import ProductItemsInfo
+from src.model.product_items_info import ProductItemsInfo
 from src.model.test_data import TestData
+from src.model.user import User
 from src.service.auth_api_service import AuthApiService
 from src.service.cart_api_service import CartApiService
 from src.service.user_api_service import UserApiService
 from src.ui.page.auth.login_page import LoginPage
 from src.ui.page.cart_page import CartPage
 from src.ui.page.checkout_page import CheckoutPage
+from src.ui.page.contact_us_page import ContactUsPage
 from src.ui.page.main_page import MainPage
 from src.ui.page.payment_page import PaymentPage
 from src.ui.page.product_page import ProductPage
 from src.ui.page.products_page import ProductsPage
+from src.util import system_util
+from src.util.allure.allure_util import AllureUtil
 from src.util.selene.cookie_util import CookieUtil
 from src.util.test.data_generator import DataGenerator
+
+
+# -------------------------------
+# HOOKS
+# -------------------------------
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when != "call":
+        return
+
+    if CFG.allure_append_test_artifact == "none":
+        return
+
+    if CFG.allure_append_test_artifact == "failed" and report.passed:
+        return
+
+    AllureUtil.attach_screenshot()
+    AllureUtil.attach_page_source()
+
+    DriverManager().quit()
+    AllureUtil.attach_selenoid_video()
+
+
+# -------------------------------
+# FIXTURES
+# -------------------------------
+@pytest.fixture(autouse=True, scope="session")
+@allure.title("Before all ui test preconditions")
+def before_all_tests_precondition(global_identify_thread_test):
+
+    # ---------------------------------------------------------------------
+    # CLEAR BROWSER DOWNLOAD DIRECTORY
+    # ---------------------------------------------------------------------
+    system_util.remove_all_files_from_folder(CFG.browser_download_dir, True)
 
 
 @pytest.fixture()
@@ -64,6 +106,11 @@ def open_checkout_page():
 @pytest.fixture()
 def open_payment_page():
     PaymentPage().navigate()
+
+
+@pytest.fixture()
+def open_contact_us_page():
+    ContactUsPage().navigate()
 
 
 @pytest.fixture()
@@ -135,7 +182,7 @@ def add_expected_products_to_cart() -> ProductItemsInfo:
 
 
 @pytest.fixture()
-def authorized_browser_open_by_expected_user():
+def authorized_browser_open_by_expected_user() -> User:
     # ----- Precondition
     auth_data = AuthApiService().sign_in(CFG.default_email, CFG.default_password)
     test_data = TestData(
@@ -153,26 +200,23 @@ def authorized_browser_open_by_expected_user():
     CookieUtil.add_app_cookies(auth_data)
     MainPage().navigate()
 
-    yield user
-
-    # ----- Postcondition
+    return user
 
 
 @pytest.fixture()
-def authorized_browser_open(create_user):
+def authorized_browser_open(create_user) -> User:
     # ----- Precondition
     auth_data = AuthApiService().sign_in(create_user.email, create_user.password)
     CookieUtil.add_app_cookies(auth_data)
     MainPage().navigate()
 
-    yield create_user
-
-    # ----- Postcondition
+    return create_user
 
 
 @pytest.fixture(autouse=True, scope="function")
 def configure_browser():
-    BrowserManager().init_browser()
+    DriverManager().init_driver()
+    # BrowserManager().init_browser()
     browser.open("/")
     yield
     if CFG.remote_type.lower() == "none" and not CFG.browser_hold_driver_on_exit:

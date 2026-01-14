@@ -93,7 +93,7 @@ class TestNotificationComponent(BaseWebTest):
             PLACE_ORDER_WITHOUT_AUTH_NOTIFICATION_DESCRIPTION
         )
         self.cart_page.notification.check_component_has_screenshot(
-            path_to_screenshot="files/screenshot/component/notification/proceed_to_checkout_wo_auth.png"
+            path_to_screenshot="files/screenshot/component/notification/proceed_without_auth.png"
         )
 
     @pytest.mark.usefixtures("open_products_page")

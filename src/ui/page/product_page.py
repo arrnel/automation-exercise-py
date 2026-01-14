@@ -8,7 +8,7 @@ from src.ui.component.review_component import ReviewComponent
 from src.ui.page.base_page import BasePage
 from src.util.decorator.step_logger import step_log
 
-_URL_PATTERN = "/product_details/{product_id}"
+URL_PATTERN = "/product_details/{product_id}"
 
 
 class ProductPage(BasePage):
@@ -49,10 +49,10 @@ class ProductPage(BasePage):
 
     # ACTIONS
     @step_log.log(
-        "Open [Product Page]: /product_details/{_URL_PATTERN.format(product_id=product_id)}"
+        "Open [Product Page]: /product_details/{URL_PATTERN.format(product_id=product_id)}"
     )
     def navigate(self, product_id: int) -> None:
-        browser.open(_URL_PATTERN.format(product_id=product_id))
+        browser.open(URL_PATTERN.format(product_id=product_id))
 
     # ASSERTIONS
     @override

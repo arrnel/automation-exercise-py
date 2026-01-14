@@ -28,7 +28,7 @@ class TestSignUpWeb(BaseWebTest):
         ThreadSafeUserStore().add_user(user)
 
         # Steps
-        self.login_page.sign_up_component.sign_up(user.name, user.email)
+        self.login_page.pre_sign_up_component.sign_up(user.name, user.email)
         self.sign_up_page.sign_up_component.send_user_data(user)
 
         # Assertions
@@ -52,7 +52,7 @@ class TestSignUpWeb(BaseWebTest):
         ThreadSafeUserStore().add_user(user)
 
         # Steps
-        self.login_page.sign_up_component.sign_up(user.name, user.email)
+        self.login_page.pre_sign_up_component.sign_up(user.name, user.email)
         self.sign_up_page.sign_up_component.send_user_data(user)
 
         # Assertions

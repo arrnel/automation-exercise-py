@@ -6,6 +6,7 @@ from src.config.browser_new.base_strategy import BrowserStrategy
 from src.config.browser_new.capabilities_builder import CapabilitiesBuilder
 from src.config.browser_new.firefox_strategy_mixin import FirefoxStrategyMixin
 from src.config.config import CFG
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
@@ -17,7 +18,8 @@ class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
     def firefox_args(self) -> List[str]:
         width, height = CFG.browser_size[0], CFG.browser_size[1]
         args = [
-            f"--window-size={width},{height}",
+            f"--width={width}",
+            f"--height={height}",
             "--disable-dev-shm-usage",
         ]
         if CFG.browser_headless:
@@ -26,7 +28,13 @@ class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
     @override
     def firefox_prefs(self) -> Dict[str, Any]:
+        test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
         return {
+            "pdfjs.disabled": True,
+            "browser.download.folderList": 2,
+            "browser.download.dir": f"{CFG.browser_download_dir}/{test_name}",
+            "browser.download.manager.showWhenStarting": False,
+            "browser.download.panel.shown": False,
             "dom.webdriver.enabled": False,
             "useAutomationExtension": False,
             "media.webspeech.synth.enabled": False,

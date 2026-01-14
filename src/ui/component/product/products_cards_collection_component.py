@@ -19,7 +19,10 @@ TBaseProductCardComponent = TypeVar(
 class ProductCardsComponent(BaseComponent, Generic[TBaseProductCardComponent]):
 
     def __init__(
-        self, root: Element, component_title: str, cls: Type[TBaseProductCardComponent]
+        self,
+        root: Element,
+        component_title: str,
+        cls: Type[TBaseProductCardComponent],
     ):
         super().__init__(root, component_title)
         self.__cards = ElementsCollection[TBaseProductCardComponent](
@@ -114,7 +117,8 @@ class ProductCardsComponent(BaseComponent, Generic[TBaseProductCardComponent]):
         if count != actual_products_quantity:
             raise AssertionError(
                 "Expected and actual products count not equals. "
-                f"Expected = [{count}], actual = [{actual_products_quantity}]"
+                f"Expected = [{count}], "
+                f"Actual = [{actual_products_quantity}]"
             )
 
     def check_visible_component_elements(self) -> None:

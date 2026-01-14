@@ -21,7 +21,6 @@ class CapabilitiesBuilder:
     def __local_capabilities(self) -> dict[str, Any]:
         capabilities = {
             "browserName": CFG.browser_name,
-            "browserVersion": CFG.browser_version,
             "pageLoadStrategy": CFG.browser_page_load_strategy,
             "unhandledPromptBehavior": "dismiss",
         }
@@ -32,20 +31,26 @@ class CapabilitiesBuilder:
         session_timeout = duration_util.seconds_to_golang_duration_str(
             CFG.browser_remote_session_timeout
         )
-        return {
-            "name": test_name,
-            "logName": f"{test_name}.log",
-            "videoName": f"{test_name}.mp4",
+
+        selenoid_data = {
             "enableVNC": CFG.browser_remote_vnc,
             "enableVideo": CFG.browser_remote_video,
-            "enableLog": CFG.browser_remote_log,
+            "enableLog": CFG.browser_remote_logs,
             "timeZone": "Europe/Moscow",
             "labels": {
                 "env": os.getenv("ENV"),
-                "project": "automation-exercise",
+                "project": CFG.github_repo_name,
+                "test_name": test_name,
             },
             "sessionTimeout": session_timeout,
         }
+
+        if CFG.browser_remote_video_id_type == "test_name":
+            selenoid_data["name"] = test_name
+            selenoid_data["logName"] = f"{test_name}.log"
+            selenoid_data["videoName"] = f"{test_name}.mp4"
+
+        return selenoid_data
 
     def __moon_capabilities(self) -> dict[str, Any]:
         test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
@@ -62,7 +67,8 @@ class CapabilitiesBuilder:
             "enableHAR": CFG.browser_remote_logs,
             "labels": {
                 "env": os.getenv("ENV"),
-                "project": "automation-exercise",
+                "project": CFG.github_repo_name,
+                "test_name": test_name,
             },
             "sessionTimeout": session_timeout,
         }

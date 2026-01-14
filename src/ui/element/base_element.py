@@ -267,10 +267,16 @@ class Button(BaseElement):
         super().__init__(root, element_title)
 
     @step_log.log(
-        message="Click on [{self._element_title}] button", log_level=LogLvl.DEBUG
+        message="Click on [{self._element_title}] button",
+        log_level=LogLvl.DEBUG,
     )
-    def click(self) -> None:
-        self._root.click()
+    def click(self, by_js: bool = False) -> None:
+
+        if not by_js:
+            self._root.click()
+            return
+
+        self._root.perform(command.js.click)
 
 
 class Input(BaseElement):
@@ -279,13 +285,15 @@ class Input(BaseElement):
         super().__init__(root, element_title)
 
     @step_log.log(
-        message="Fill [{self._element_title}]: {value}", log_level=LogLvl.DEBUG
+        message="Fill [{self._element_title}]: {value}",
+        log_level=LogLvl.DEBUG,
     )
     def set_value(self, value) -> None:
         self._root.set_value(value)
 
     @step_log.log(
-        message="Fill [{self._element_title}]: {value}", log_level=LogLvl.DEBUG
+        message="Fill [{self._element_title}]: {value}",
+        log_level=LogLvl.DEBUG,
     )
     def type(self, value) -> None:
         self._root.type(value)
@@ -308,7 +316,8 @@ class Select(BaseElement):
         self.__default_value = default_value
 
     @step_log.log(
-        message="Select [{self._element_title}]: {value}", log_level=LogLvl.DEBUG
+        message="Select [{self._element_title}]: {value}",
+        log_level=LogLvl.DEBUG,
     )
     def select(self, value: Union[str | int], submit_by_click: bool = False) -> None:
         self._root.perform(command.js.scroll_into_view)
@@ -367,7 +376,8 @@ class Checkbox(BaseElement):
         super().__init__(root, element_title)
 
     @step_log.log(
-        message="Set checked [{self._element_title}]: {value}", log_level=LogLvl.DEBUG
+        message="Set checked [{self._element_title}]: {value}",
+        log_level=LogLvl.DEBUG,
     )
     def check(self) -> None:
         self._root.click()

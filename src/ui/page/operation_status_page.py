@@ -3,9 +3,14 @@ from abc import ABC
 from selene import Element, browser
 from typing_extensions import override
 
+from src.config.config import CFG
+from src.model.price import Price
 from src.ui.element.base_element import Text, ElementsCollection, Button
 from src.ui.page.base_page import BasePage
+from src.util import system_util
 from src.util.decorator.step_logger import step_log
+from src.util.invoice_util import InvoiceUtil
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class BaseConfirmationPage(BasePage, ABC):
@@ -78,6 +83,56 @@ class OrderPlacedPage(BaseConfirmationPage):
 
     def download_invoice(self) -> None:
         self._locator.download_invoice().click()
+
+    def check_last_invoice_has_data(self, full_name: str, price: Price) -> None:
+        path_to_invoice_dir = (
+            f"{CFG.browser_download_dir}"
+            f"/{ThreadSafeTestThreadsStore().current_thread_test_name()}"
+        )
+        invoice_file_name = system_util.get_files_in_directory(
+            path_to_invoice_dir,
+            file_extensions={"txt"},
+            starts_with="invoice",
+            order_by="date_time",
+            order_direction="desc",
+        )[0]
+        path_to_invoice = f"{path_to_invoice_dir}/{invoice_file_name}"
+        self.compare_invoice_data(path_to_invoice, full_name, price)
+
+    def check_invoice_has_data(
+        self,
+        full_name: str,
+        price: Price,
+        invoice_file_name: str = "invoice.txt",
+    ) -> None:
+        path_to_invoice = (
+            f"{CFG.browser_download_dir}"
+            f"/{ThreadSafeTestThreadsStore().current_thread_test_name()}"
+            f"/{invoice_file_name}"
+        )
+        self.compare_invoice_data(path_to_invoice, full_name, price)
+
+    @step_log.log("Check invoice file has expected data")
+    def compare_invoice_data(
+        self, path_to_invoice: str, full_name: str, price: Price
+    ) -> None:
+        actual_full_name, actual_price = InvoiceUtil.parse_full_name_and_price(
+            path_to_invoice
+        )
+        with step_log.log(f"Check invoice contains full name: {full_name}"):
+            if full_name != actual_full_name:
+                raise AssertionError(
+                    f"Invoice full name does not match actual full name. "
+                    f"Expected: {full_name}, "
+                    f"Actual: {actual_full_name}"
+                )
+        with step_log.log(f"Check invoice contains price: {price}"):
+            if price != actual_price:
+                raise AssertionError(
+                    f"Invoice price does not match actual price."
+                    f"Expected: {price}, "
+                    f"Actual: {actual_price}"
+                )
 
     @override
     @step_log.log("Check [{self._page_name}] is visible")

@@ -74,7 +74,7 @@ class TestProductCard(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Details Component")
     @allure.title(
-        "[WEB Component] Should add product to cart when click on add to cart button"
+        "[WEB Component] Should not add negative products count to cart when click on add to cart button"
     )
     def test_add_negative_products_count_to_card_when_set_negative_products_quantity_and_click_add_to_cart_button(
         self,
@@ -88,4 +88,4 @@ class TestProductCard(BaseWebTest):
         self.product_page.product_details.add_products_to_cart(count)
 
         # Assertions
-        self.main_page.notification.check_notification_is_not_success_added_product_message()
+        self.main_page.notification.check_component_is_not_visible()

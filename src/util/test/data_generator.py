@@ -1,27 +1,27 @@
 import copy
 import string
 from datetime import date, timedelta
-from pathlib import Path
 from random import randint, choice, shuffle
-from typing import List
+from typing import List, Optional
 
 from faker import Faker
 
 from src.config.config import CFG
 from src.ex.exception import ProductNotFoundError
-from src.mapper.product_mapper import ProductMapper
 from src.model.brand import Brand
 from src.model.card import CardInfo
 from src.model.contact import ContactInfo
 from src.model.enum.user_title import UserTitle
 from src.model.enum.user_type import UserType
 from src.model.product import Product
-from src.model.product_item_info import ProductItemsInfo
+from src.model.product_item_info import ProductItemInfo
+from src.model.product_items_info import ProductItemsInfo
 from src.model.review import ReviewInfo
 from src.model.test_data import TestData
 from src.model.user import User
 from src.service.brand_api_service import BrandApiService
 from src.service.product_api_service import ProductApiService
+from src.util import system_util
 
 _FAKE = Faker()
 
@@ -286,25 +286,41 @@ class DataGenerator:
         return copy.deepcopy(choice(_PRODUCTS))
 
     @staticmethod
-    def random_products(count: int) -> List[Product]:
-        products = copy.deepcopy(_PRODUCTS)
-        if count < 1:
+    def random_products(count: Optional[int] = None) -> List[Product]:
+        if not count:
+            products_count = DataGenerator.random_quantity()
+        elif count < 1:
             raise ValueError("Count must be greater than 0")
-        if len(products) < count:
+        else:
+            products_count = count
+
+        products = copy.deepcopy(_PRODUCTS)
+        if len(products) < products_count:
             raise ValueError(
-                f"Invalid products count: {count}. Found products count: {len(products)}"
+                f"Invalid products count: {products_count}. Found products count: {len(products)}"
             )
 
         shuffle(products)
-        return products[:count]
+        return products[:products_count]
 
     @staticmethod
-    def random_product_items_info(count: int) -> ProductItemsInfo:
+    def random_product_items_info(
+        count: Optional[int] = None,
+        item_quantity: Optional[int] = None,
+        item_quantities: Optional[List[int]] = None,
+    ) -> ProductItemsInfo:
         random_products = DataGenerator.random_products(count)
-        products_item_list = [
-            ProductMapper.to_product_item_info(product, DataGenerator.random_quantity())
-            for product in random_products
-        ]
+        products_item_list = []
+        for i in range(count):
+            if item_quantity is not None:
+                quantity = item_quantity
+            elif item_quantities is not None:
+                quantity = item_quantities[i]
+            else:
+                quantity = DataGenerator.random_quantity()
+            products_item_list.append(
+                ProductItemInfo.from_product(random_products[i], quantity)
+            )
         return ProductItemsInfo.from_products_info(products_item_list)
 
     @staticmethod
@@ -378,9 +394,10 @@ class DataGenerator:
 
     @staticmethod
     def random_file_path() -> str:
-        file_names = ["bug.pdf", "file.txt", "img.jpg", "img.png", "img.gif"]
-        random_file = Path(CFG.path_to_files()) / choice(file_names)
-        return random_file.joinpath().absolute().as_posix()
+        files = system_util.get_files_in_directory(CFG.path_to_files)
+        if not files:
+            raise ValueError(f"No files found in directory: {CFG.path_to_files}")
+        return choice(files)
 
     @staticmethod
     def random_contact_info() -> ContactInfo:

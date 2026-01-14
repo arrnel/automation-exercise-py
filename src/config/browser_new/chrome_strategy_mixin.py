@@ -30,8 +30,7 @@ class ChromeStrategyMixin(metaclass=ABCMeta):
             options.add_argument(arg)
 
     def _set_experimental_options(self, options: Options) -> None:
-        for key, value in self.chrome_experimental_options().items():
-            options.add_experimental_option(key, value)
+        options.add_experimental_option("prefs", self.chrome_experimental_options())
 
     def _set_capabilities(self, options: Options, capabilities: dict[str, Any]) -> None:
         for key, value in capabilities.items():

@@ -14,7 +14,7 @@ from src.ui.component.product.products_cards_collection_component import (
 from src.ui.page.base_page import BasePage
 from src.util.decorator.step_logger import step_log
 
-_URL = "/products"
+URL = "/products"
 
 
 class ProductsPage(BasePage):
@@ -57,9 +57,9 @@ class ProductsPage(BasePage):
         return self.__products
 
     # ACTIONS
-    @step_log.log("Open [Products Page]: {_URL}")
+    @step_log.log("Open [Products Page]: {URL}")
     def navigate(self) -> None:
-        browser.open(_URL)
+        browser.open(URL)
 
     # ASSERTIONS
     @override

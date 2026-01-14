@@ -163,8 +163,9 @@ cython_debug/
 !/env/docker/selenoid/browsers.json
 
 # Allure
-**allure-results/
+**/allure-results/**
 
 # Config
-resources/
+resources/**
 !/resources/config/.env.local.example
+!/resources/files/upload/**

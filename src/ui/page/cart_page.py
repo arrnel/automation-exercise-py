@@ -10,7 +10,7 @@ from src.ui.element.base_element import Button, UiElement
 from src.ui.page.base_page import BasePage
 from src.util.decorator.step_logger import step_log
 
-_URL = "/view_cart"
+URL = "/view_cart"
 
 
 class CartPage(BasePage):
@@ -32,9 +32,9 @@ class CartPage(BasePage):
         return self.__product_cards_component
 
     # ACTIONS
-    @step_log.log("Open [Cart Page]: {_URL}")
+    @step_log.log("Open [Cart Page]: {URL}")
     def navigate(self) -> None:
-        browser.open(_URL)
+        browser.open(URL)
 
     def proceed_to_checkout(self) -> None:
         self.__locator.proceed_to_checkout().click()

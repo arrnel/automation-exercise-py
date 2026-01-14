@@ -89,7 +89,8 @@ class RemovableProductItemComponent(ProductItemComponent):
 
     @step_log.log("Remove [{self._component_title}]")
     def remove(self):
-        self._locator.remove().click()
+        self._locator.remove().highlight("blue", 5)
+        self._locator.remove().click(by_js=True)
 
     def check_visible_component_elements(self) -> None:
         self._locator.img().should_be_visible()
@@ -136,4 +137,4 @@ class _ProductItemComponentLocator:
         return Text(self.__root.element(".cart_total p"), "Product Total Price")
 
     def remove(self) -> Button:
-        return Button(self.__root.element(".cart_delete"), "Product Remove")
+        return Button(self.__root.element(".cart_delete a"), "Product Remove")

@@ -10,7 +10,8 @@ ENV TZ=Europe/Moscow \
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+RUN mkdir /test_temp_files && \
+    apt-get update && apt-get install -y \
     curl \
     build-essential \
     git \
@@ -23,10 +24,10 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev \
     liblzma-dev \
     libreadline-dev \
-    xvfb \
-    && rm -rf /var/lib/apt/lists/*
+    xvfb && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -sSL https://install.python-poetry.org | python3 -
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/root/.local/bin:$PATH"
 
 COPY pyproject.toml poetry.lock* ./
@@ -35,4 +36,5 @@ RUN poetry install --no-ansi --with dev
 
 COPY . .
 
-ENTRYPOINT ["pytest", "tests", "--alluredir=/allure-results"]
+ENTRYPOINT ["sh", "-c"]
+CMD ["pytest tests --alluredir=/allure-results $PYTEST_ARGS"]

@@ -62,11 +62,15 @@ class LoginSignUpComponent(BaseComponent):
         super().__init__(root, component_title)
         self.__locator = _LoginSignUpComponentLocator(self._root)
 
-    @step_log.log("Sign up by name = [{name}] and email = [{email}]")
+    @step_log.log("Pre sign up")
     def sign_up(self, name: str, email: str):
+        self.__fill_data(name, email)
+        self.__submit()
+
+    @step_log.log("Fill pre sign up data")
+    def __fill_data(self, name: str, email: str) -> None:
         self.__fill_name(name)
         self.__fill_email(email)
-        self.__submit()
 
     def __fill_name(self, name: str):
         self.__locator.name().set_value(name)
@@ -97,10 +101,12 @@ class SignUpComponent(BaseComponent):
         self.__locator = _SignUpComponentLocator(self._root)
 
     # ACTIONS
+    @step_log.log("Send sign up user data")
     def send_user_data(self, user: User):
         self.__fill_user_data(user)
         self.__submit()
 
+    @step_log.log("Fill user data")
     def __fill_user_data(self, user: User):
         self.__pick_user_title(user.user_title)
         self.__fill_name(user.name)

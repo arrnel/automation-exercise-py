@@ -17,6 +17,9 @@ class Extractor:
     def __init__(self, response: Response):
         self.response = response
 
+    def status_code(self) -> int:
+        return self.response.status_code
+
     def body_status_code(self) -> int:
         return self.as_value("responseCode")
 
@@ -66,7 +69,7 @@ class Extractor:
     def as_list(self, cls: Type[T], path: str = None) -> List[T]:
         """
         Extract vars or objects as list from json. Examples:
-        .as_list(cls = ProductResponseDTO, path = "products[*]") - extract products as list[ProductResponseDTO],
+        .as_list(ProductResponseDTO, "products[*]") - extract products as list[ProductResponseDTO],
         .as_list(cls = str, path "users[*].first_name") - extract users first_name as list[str]
         """
         self.__validate_path_contains_array_symbol(path)
@@ -90,6 +93,9 @@ class Extractor:
             raise DeserializationError(
                 f"Unable to deserialize as type = List[{cls}] by match: {data}.\nException: {ex}"
             )
+
+    def content_as_bytes(self) -> bytes:
+        return self.response.content
 
     def __validate_cls_not_collection(self, cls: type[T]):
         if isinstance(cls, Iterable) and not isinstance(cls, six.string_types):

@@ -20,18 +20,30 @@ class ThreadSafeTestThreadsStore:
 
     def add_current_thread_to_test(self, test_name: str):
         with self._storage_lock:
+            # REMOVE
+            if test_name == "":
+                print("EMPTY")
+            # END
+
             if self._test_threads_store.get(test_name) is None:
                 self._test_threads_store[test_name] = []
             thread_id = threading.get_ident()
-            if thread_id not in self._test_threads_store.get(test_name):
+            if thread_id not in self._test_threads_store.keys():
                 self._test_threads_store[test_name].append(thread_id)
 
     def current_thread_test_name(self) -> Optional[str]:
         thread_id = threading.get_ident()
         with self._storage_lock:
             for test_name, thread_ids in self._test_threads_store.items():
-                if thread_id in thread_ids:
+                if (
+                    thread_id in thread_ids
+                    and test_name != _GLOBAL_THREAD_TEST_NAME_KEY
+                ):
                     return test_name
+
+            # if thread_id not in self._test_threads_store[_GLOBAL_THREAD_TEST_NAME_KEY]:
+            #     return None
+
             return _GLOBAL_THREAD_TEST_NAME_KEY
 
     def clear_test_threads(self, test_name: str) -> None:

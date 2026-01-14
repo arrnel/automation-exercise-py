@@ -3,6 +3,7 @@ import pytest
 
 from src.util.decorator.disabled_by_issue import disabled_by_issue
 from src.util.email_util import EmailUtil
+from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
 _INVALID_EMAIL_TEXT = "Invalid email"
@@ -57,3 +58,21 @@ class TestSubscriptionComponent(BaseWebTest):
         self.main_page.subscription.check_component_with_status_message_has_screenshot(
             "files/screenshot/component/subscription/subscribe_with_invalid_email.png"
         )
+
+    @pytest.mark.usefixtures("open_contact_us_page")
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Subscription component")
+    @allure.title(
+        "[WEB Component] Should have expected success status message after sending contact info"
+    )
+    def test_should_have_success_subscription_status_message_after_sending_contact_form(
+        self,
+    ):
+        # Data
+        contact_info = DataGenerator.random_contact_info()
+
+        # Steps
+        self.contact_us_page.contact_us_component.send(contact_info)
+
+        # Assertion
+        self.contact_us_page.subscription.check_subscribe_has_success_status_message()

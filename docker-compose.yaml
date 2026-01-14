@@ -5,9 +5,9 @@ services:
     image: aerokube/selenoid:1.11.3
     platform: linux/${ARCH}
     volumes:
-      - ./env/docker/selenoid:/opt/selenoid
-      - ./env/docker/selenoid/browsers.json:/opt/selenoid/browsers.json
       - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/selenoid/video:/opt/selenoid/video #
+      - ./env/docker/selenoid/browsers.json:/opt/selenoid/browsers.json
     environment:
       - TZ=Europe/Moscow
     restart: unless-stopped
@@ -43,6 +43,7 @@ services:
       dockerfile: ./Dockerfile
     environment:
       - ENV=${ENV:-docker}
+      - PYTEST_ARGS=${PYTEST_ARGS:-}
     volumes:
       - ./allure-results:/allure-results
       - ./resources/files:/app/resources/files

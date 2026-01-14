@@ -109,8 +109,7 @@ def before_each_test_precondition(identify_thread_test):
     # ---------------------------------------------------------------------
     # SAVE FUNCTION PRECONDITION THREAD ID TO STORE. NEED TO IDENTIFY USERS BY TEST NAME
     # ---------------------------------------------------------------------
-    with step_log.log("Save session thread id to store"):
-        ThreadSafeTestThreadsStore().add_current_thread_to_test("GLOBAL")
+    pass
 
 
 @pytest.fixture()
@@ -169,13 +168,8 @@ def after_all_tests_teardown(global_identify_thread_test):
 
 
 @pytest.fixture(scope="session")
-def global_identify_thread_test(request):
-    test_name = ""
-    try:
-        test_name = request.node.name
-    except Exception:
-        pass
-    ThreadSafeTestThreadsStore().add_current_thread_to_test(test_name)
+def global_identify_thread_test():
+    ThreadSafeTestThreadsStore().add_current_thread_to_test("GLOBAL")
 
 
 @pytest.fixture(scope="function")
@@ -186,3 +180,5 @@ def identify_thread_test(request):
     except Exception:
         pass
     ThreadSafeTestThreadsStore().add_current_thread_to_test(test_name)
+    yield
+    ThreadSafeTestThreadsStore().clear_test_threads(test_name)

@@ -4,6 +4,7 @@ from selenium.webdriver import Chrome, ChromeOptions
 
 from src.config.browser.base_driver_strategy import DriverStrategy
 from src.config.config import CFG
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class ChromeDriverStrategy(DriverStrategy):
@@ -62,9 +63,11 @@ class ChromeDriverStrategy(DriverStrategy):
         ]
 
     def __experimental_options(self) -> dict[str, Any]:
+        test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
         return {
             "autofill.credit_card_enabled": False,
             "autofill.profile_enabled": False,
+            "download.default_directory": f"{CFG.browser_download_dir}/{test_name}",
             "profile.default_content_settings.popups": 0,
             "profile.default_content_setting_values.notifications": 2,
             "profile.managed_default_content_settings.geolocation": 2,

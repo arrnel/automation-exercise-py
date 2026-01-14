@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from src.config.browser.base_driver_strategy import RemoteDriverStrategy
 from src.config.config import CFG
 from src.util.duration_util import seconds_to_golang_duration_str
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 _SESSION_TIMEOUT = seconds_to_golang_duration_str(CFG.browser_remote_session_timeout)
 
@@ -71,10 +72,12 @@ class RemoteChromeDriverStrategy(RemoteDriverStrategy):
         return args
 
     def _experimental_options(self) -> dict[str, Any]:
+        test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
         return {
             "autofill.credit_card_enabled": False,
             "autofill.profile_enabled": False,
             "credentials_enable_service": False,
+            "download.default_directory": f"{CFG.browser_download_dir}/{test_name}",
             "profile.password_manager_enabled": False,
             "profile.default_content_settings.popups": 0,
             "profile.default_content_setting_values.notifications": 2,
