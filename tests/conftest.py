@@ -84,7 +84,7 @@ def before_all_tests_precondition(global_identify_thread_test):
     # ---------------------------------------------------------------------
     # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
     # ---------------------------------------------------------------------
-    if CFG.remote_type == "none":
+    if CFG.is_local():
         with allure.step("Clear allure-results directory"):
             allure_results_dir = system_util.get_allure_results_path()
             shutil.rmtree(allure_results_dir, ignore_errors=True)

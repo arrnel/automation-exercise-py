@@ -110,7 +110,6 @@ class TestHeaderComponent(BaseWebTest):
         # Assertion
         self.account_deleted_page.check_title_and_message_have_expected_texts()
 
-    @pytest.mark.usefixtures("auth_user")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Header Component")
     @allure.title(

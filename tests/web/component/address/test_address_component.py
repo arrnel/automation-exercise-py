@@ -6,6 +6,8 @@ from tests.web.base_test import BaseWebTest
 
 
 @pytest.mark.component_test
+@pytest.mark.address_component_test
+@pytest.mark.checkout_page_test
 @allure.tag("component_test", "product_card", "animated_product_card")
 @allure.epic("Web Component")
 @allure.feature("[WEB] Address Component")

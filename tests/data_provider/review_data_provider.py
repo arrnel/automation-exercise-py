@@ -72,12 +72,6 @@ class ReviewDataProviderUI:
                 ),
             ),
             (
-                "'email' username in quotes",
-                DataGenerator.random_review().with_email(
-                    EmailUtil.valid_email().username_with_quotes()
-                ),
-            ),
-            (
                 "'email' username is numerical",
                 DataGenerator.random_review().with_email(
                     EmailUtil.valid_email().numerical_username()

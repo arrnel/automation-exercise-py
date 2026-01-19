@@ -11,9 +11,8 @@ _INVALID_EMAIL_TEXT = "Invalid email"
 
 @pytest.mark.component_test
 @pytest.mark.subscription_component_test
-@allure.epic("UI")
-@allure.feature("Component")
-@allure.story("Subscription")
+@allure.epic("Web Component")
+@allure.feature("[WEB] Subscription Component")
 class TestSubscriptionComponent(BaseWebTest):
 
     @pytest.mark.screenshot_test
@@ -73,6 +72,7 @@ class TestSubscriptionComponent(BaseWebTest):
 
         # Steps
         self.contact_us_page.contact_us_component.send(contact_info)
+        self.contact_us_page.subscription.subscribe(contact_info.email)
 
         # Assertion
         self.contact_us_page.subscription.check_subscribe_has_success_status_message()

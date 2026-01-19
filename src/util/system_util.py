@@ -1,5 +1,6 @@
 import os
 import shutil
+import subprocess
 from pathlib import Path
 from typing import Optional, Literal
 
@@ -73,23 +74,23 @@ def get_files_in_directory(
     return files
 
 
-def save_as_file(file_path: str, content) -> None:
+def save_as_file(abs_file_path: str, content) -> None:
     """
     Save content as a file (rewrites file if exists)
-    :param file_path: path to file from resources. Example: "files/file.txt"
+    :param file_path: abs path to file from resources. Example: "files/file.txt"
     """
-    with open(file_path, "wb") as file:
+    with open(abs_file_path, "wb") as file:
         file.write(content)
 
 
-def save_in_file(file_path: str, content) -> None:
+def save_in_file(abs_file_path: str, content) -> None:
     """
     Save content in a file (only append content into file)
-    :param file_path: path to file from resources. Example: "files/file.txt"
+    :param file_path: abs path to file from resources. Example: "files/file.txt"
     :param content:
     :return:
     """
-    with open(file_path, "wb") as file:
+    with open(abs_file_path, "wb") as file:
         file.write(content)
 
 
@@ -103,14 +104,24 @@ def remove_from_resources(file_path: str) -> None:
         os.remove(file_path)
 
 
+def create_folder(abs_path_to_dir: str) -> None:
+    """
+    Creates folder in resources folder
+    :param abs_path_to_dir: absolute path to folder. Example: "/home/selenium/Downloads"
+    """
+    path_to_dir = Path(abs_path_to_dir)
+    if not (path_to_dir.exists() or path_to_dir.is_dir()):
+        path_to_dir.mkdir()
+
+
 def create_folder_in_resources(relative_path_to_dir: str) -> None:
     """
     Creates folder in resources folder
     :param relative_path_to_dir: path to folder/file from resources. Example: "files/file.txt"
     """
-    path_to_file = get_path_in_resources(relative_path_to_dir)
-    if not os.path.exists(path_to_file):
-        os.mkdir(path_to_file)
+    path_to_dir = get_path_in_resources(relative_path_to_dir)
+    if not os.path.exists(path_to_dir):
+        os.mkdir(path_to_dir)
 
 
 def remove_all_files_from_folder(
@@ -119,7 +130,6 @@ def remove_all_files_from_folder(
     folder = Path(abs_path_to_dir)
 
     if not folder.exists:
-        os.mkdir(folder)
         return
 
     if folder.is_file():
@@ -136,3 +146,38 @@ def remove_all_files_from_folder(
                 item.unlink()
             elif item.is_dir():
                 shutil.rmtree(item)
+
+
+def execute_docker_container_command(
+    container_id: str,
+    *commands: str,
+    timeout=None,
+) -> str:
+    print(f"Container id: {container_id}, commands: {commands}")
+    return subprocess.run(
+        [
+            "docker",
+            "exec",
+            "-i",
+            container_id,
+            *commands,
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        timeout=timeout,
+    ).stdout.strip()
+
+
+def file_exists_in_docker_container(container_id: str, path_to_file: str) -> bool:
+    return bool(
+        int(
+            execute_docker_container_command(
+                container_id,
+                "sh",
+                "-c",
+                f"[ -f {path_to_file} ] && echo 1 || echo 0",
+                timeout=2,
+            )
+        )
+    )

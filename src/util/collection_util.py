@@ -1,7 +1,24 @@
+import random
 from collections import Counter
+from copy import deepcopy
 from typing import TypeVar, Iterable
 
 T = TypeVar("T")
+
+
+def get_random_unique_values(collection: Iterable[T], count=1) -> list[T]:
+
+    collection = list(deepcopy(collection))
+    collection_size = len(collection)
+
+    if count > collection_size:
+        raise ValueError(
+            "Count should be less than collection size. "
+            f"Count = {count}, collection_size = {collection_size}"
+        )
+
+    random.shuffle(collection)
+    return collection if count == collection_size else collection[:count]
 
 
 def remove_common_duplicates(l1: Iterable[T], l2: Iterable[T]) -> [list[T], list[T]]:

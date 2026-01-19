@@ -94,6 +94,9 @@ class Extractor:
                 f"Unable to deserialize as type = List[{cls}] by match: {data}.\nException: {ex}"
             )
 
+    def as_json(self) -> dict:
+        return self.response.json()
+
     def content_as_bytes(self) -> bytes:
         return self.response.content
 

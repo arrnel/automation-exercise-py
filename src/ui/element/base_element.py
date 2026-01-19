@@ -1,7 +1,18 @@
 import logging
+import os
 import time
 from abc import ABC
-from typing import Optional, override, Union, Tuple, Type, Iterable, Generic, List
+from pathlib import Path
+from typing import (
+    Optional,
+    override,
+    Union,
+    Tuple,
+    Type,
+    Iterable,
+    Generic,
+    List,
+)
 
 import matplotlib
 from selene import Element, query, have, be, command, browser, Collection
@@ -11,8 +22,13 @@ from selene.support.conditions.be import existing, visible, not_
 from selene.support.conditions.have import text, css_class
 
 from src.config.config import CFG
+from src.model.enum.remote_type import RemoteType
+from src.service.remote.moon_artifact_service import MoonArtifactApiService
+from src.service.remote.selenoid_artifact_service import SelenoidArtifactApiService
+from src.util import system_util
 from src.util.decorator.step_logger import step_log, LogLvl
 from src.util.screenshot import screenshot_util
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 from src.util.type_util import TBaseElement, TElementOrComponent
 
 
@@ -279,6 +295,99 @@ class Button(BaseElement):
         self._root.perform(command.js.click)
 
 
+class DownloadableButton(Button):
+
+    def __init__(self, root: Element, element_title: str):
+        super().__init__(root, element_title)
+
+    # def download(
+    #     self,
+    #     file_name: str,
+    #     by_js: bool = False,
+    #     retries: int = 5,
+    #     delay: float = 1.0,
+    # ) -> str:
+    #     """
+    #     Download file. If test runs in remote env, copy file from browser container into test container.
+    #     Args:
+    #         file_name (str): Name of file to download.
+    #         by_js (bool): If true, click on button by js.
+    #         retries (int): Number of times to retry.
+    #         delay (float): Delay between retries.
+    #     Returns:
+    #         str: Path to downloaded file.
+    #     """
+    #     self.click(by_js=by_js)
+    #     test_title = ThreadSafeTestThreadsStore().current_thread_test_name()
+    #
+    #     if CFG.is_local():
+    #         test_dir = f"{CFG.browser_download_dir}/{test_title}"
+    #         browser.driver.download_file(file_name, test_dir)
+    #         return f"{test_dir}/{file_name}"
+    #
+    #     remote_artifact_service = remote_artifact_factory.instance()
+    #     test_dir = f"{CFG.browser_override_downloaded_file_dir}/{test_title}"
+    #     abs_file_path = test_dir + "/" + file_name
+    #
+    #     file_content = remote_artifact_service.get_file(
+    #         session_id=browser.driver.session_id,
+    #         file_name=file_name,
+    #         retries=retries,
+    #         delay=delay,
+    #     )
+    #
+    #     system_util.create_folder(test_dir)
+    #     system_util.save_as_file(abs_file_path, file_content)
+    #     return abs_file_path
+
+    def download(
+        self,
+        file_name: str,
+        by_js: bool = False,
+        retries: int = 5,
+        delay: float = 1.0,
+    ) -> str:
+        """
+        Download file. If test runs in remote env, copy file from browser container into test container.
+        Args:
+            file_name (str): Name of file to download.
+            by_js (bool): If true, click on button by js.
+            retries (int): Number of times to retry.
+            delay (float): Delay between retries.
+        Returns:
+            str: Path to downloaded file.
+        """
+
+        self.click(by_js=by_js)
+        test_title = ThreadSafeTestThreadsStore().current_thread_test_name()
+        test_dir = f"{CFG.browser_download_dir}/{test_title}"
+        abs_file_path = f"{test_dir}/{file_name}"
+
+        if CFG.is_local():
+            browser.wait_until(
+                lambda _: Path(abs_file_path).is_file(),
+            )
+            return abs_file_path
+
+        override_test_dir = f"{CFG.browser_override_downloaded_file_dir}/{test_title}"
+        override_abs_file_path = f"{override_test_dir}/{file_name}"
+        remote_service = (
+            SelenoidArtifactApiService()
+            if CFG.remote_type == RemoteType.SELENOID
+            else MoonArtifactApiService()
+        )
+        container_id = remote_service.get_container_id(browser.driver.session_id)
+        browser.wait_until(
+            lambda _: system_util.file_exists_in_docker_container(
+                container_id, abs_file_path
+            )
+        )
+        content = remote_service.get_file(browser.driver.session_id, file_name)
+        system_util.create_folder(override_test_dir)
+        system_util.save_as_file(override_abs_file_path, content)
+        return override_abs_file_path
+
+
 class Input(BaseElement):
 
     def __init__(self, root: Element, element_title: str):
@@ -376,21 +485,21 @@ class Checkbox(BaseElement):
         super().__init__(root, element_title)
 
     @step_log.log(
-        message="Set checked [{self._element_title}]: {value}",
+        message="Set checked [{self._element_title}]",
         log_level=LogLvl.DEBUG,
     )
     def check(self) -> None:
         self._root.click()
 
     @step_log.log(
-        message="Check [{self._element_title}] value {value} is checked",
+        message="Check [{self._element_title}] is checked",
         log_level=LogLvl.DEBUG,
     )
     def check_value_is_checked(self) -> None:
         self._root.should(have.value(1))
 
     @step_log.log(
-        message="Check [{self._element_title}] value {value} is unchecked",
+        message="Check [{self._element_title}] is unchecked",
         log_level=LogLvl.DEBUG,
     )
     def check_value_is_unchecked(self) -> None:

@@ -7,6 +7,7 @@ from tests.web.base_test import BaseWebTest
 @pytest.mark.component_test
 @pytest.mark.carousel_component_test
 @pytest.mark.image_carousel_component_test
+@pytest.mark.main_page_test
 @allure.epic("[Web] Component - Image Carousel")
 @allure.feature("[Web] Component - Image Carousel")
 class TestImageCarousel(BaseWebTest):

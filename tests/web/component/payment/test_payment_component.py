@@ -9,6 +9,7 @@ from tests.web.base_test import BaseWebTest
 
 @pytest.mark.component_test
 @pytest.mark.payment_component_test
+@pytest.mark.payment_page_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Payment Component")
 class TestPaymentComponent(BaseWebTest):

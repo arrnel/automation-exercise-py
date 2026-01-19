@@ -8,9 +8,9 @@ class FirefoxStrategyMixin(metaclass=ABCMeta):
 
     def _build_firefox_options(self) -> Options:
         options = Options()
-        self._set_firefox_args(options)
-        self._set_prefs(options)
-        self._set_capabilities(options, self.capabilities())
+        self.__set_firefox_args(options)
+        self.__set_prefs(options)
+        self.__set_capabilities(options)
         return options
 
     @abstractmethod
@@ -25,14 +25,14 @@ class FirefoxStrategyMixin(metaclass=ABCMeta):
     def capabilities(self) -> dict[str, Any]:
         pass
 
-    def _set_firefox_args(self, options: Options) -> None:
+    def __set_firefox_args(self, options: Options) -> None:
         for arg in self.firefox_args():
             options.add_argument(arg)
 
-    def _set_prefs(self, options: Options) -> None:
+    def __set_prefs(self, options: Options) -> None:
         for key, value in self.firefox_prefs().items():
             options.set_preference(key, value)
 
-    def _set_capabilities(self, options: Options, capabilities: dict[str, Any]) -> None:
-        for key, value in capabilities.items():
+    def __set_capabilities(self, options: Options) -> None:
+        for key, value in self.capabilities().items():
             options.set_capability(key, value)

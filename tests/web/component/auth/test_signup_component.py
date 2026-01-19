@@ -10,6 +10,7 @@ from tests.web.base_test import BaseWebTest
 
 @pytest.mark.user_test
 @pytest.mark.sign_up_component_test
+@pytest.mark.sign_up_page_test
 @allure.epic("Auth")
 @allure.feature("[WEB] Sign up")
 class TestSignUpWeb(BaseWebTest):
@@ -38,7 +39,7 @@ class TestSignUpWeb(BaseWebTest):
     @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")
     @allure.story("Sign up with invalid credentials")
-    @allure.title("[WEB] Sign up with valid data. Case: {case_title}")
+    @allure.title("[WEB] Sign up with invalid data. Case: {case_title}")
     @pytest.mark.parametrize(
         "case_title,user",
         UserDataProviderUI.valid_sensitive_data_provider(),

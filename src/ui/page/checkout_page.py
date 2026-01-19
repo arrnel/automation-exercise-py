@@ -9,7 +9,7 @@ from src.ui.element.base_element import Button, UiElement, Input
 from src.ui.page.base_page import BasePage
 from src.util.decorator.step_logger import step_log
 
-URL = "/view_cart"
+URL = "/checkout"
 
 
 class CheckoutPage(BasePage):

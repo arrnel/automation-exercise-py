@@ -1,6 +1,7 @@
 from abc import ABC
 
 from selene import Element, query
+from selene.support.conditions.be import existing
 
 from src.model.category import Category
 from src.model.enum.user_type import UserType
@@ -89,8 +90,8 @@ class RemovableProductItemComponent(ProductItemComponent):
 
     @step_log.log("Remove [{self._component_title}]")
     def remove(self):
-        self._locator.remove().highlight("blue", 5)
         self._locator.remove().click(by_js=True)
+        self._locator.remove().wait_until_not(existing)
 
     def check_visible_component_elements(self) -> None:
         self._locator.img().should_be_visible()

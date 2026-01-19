@@ -21,7 +21,7 @@ from src.model.test_data import TestData
 from src.model.user import User
 from src.service.brand_api_service import BrandApiService
 from src.service.product_api_service import ProductApiService
-from src.util import system_util
+from src.util import system_util, collection_util
 
 _FAKE = Faker()
 
@@ -293,15 +293,7 @@ class DataGenerator:
             raise ValueError("Count must be greater than 0")
         else:
             products_count = count
-
-        products = copy.deepcopy(_PRODUCTS)
-        if len(products) < products_count:
-            raise ValueError(
-                f"Invalid products count: {products_count}. Found products count: {len(products)}"
-            )
-
-        shuffle(products)
-        return products[:products_count]
+        return collection_util.get_random_unique_values(_PRODUCTS, products_count)
 
     @staticmethod
     def random_product_items_info(

@@ -5,8 +5,9 @@ from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
 
+@pytest.mark.component_test
 @pytest.mark.auth_test
-@pytest.mark.auth_component_test
+@pytest.mark.login_page_test
 @allure.epic("Auth")
 @allure.feature("[WEB] Sign in")
 class TestLoginWeb(BaseWebTest):

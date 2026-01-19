@@ -11,6 +11,8 @@ PERCENT_OF_TOLERANCE = 0.002
 @pytest.mark.component_test
 @pytest.mark.filter_test
 @pytest.mark.category_filter_test
+@pytest.mark.main_page_test
+@pytest.mark.products_page_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Category Filter")
 class TestCategoryFilter(BaseWebTest):

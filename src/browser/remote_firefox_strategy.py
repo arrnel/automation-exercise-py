@@ -2,17 +2,22 @@ from typing import List, override, Dict, Any
 
 from selenium import webdriver
 
-from src.config.browser_new.base_strategy import BrowserStrategy
-from src.config.browser_new.capabilities_builder import CapabilitiesBuilder
-from src.config.browser_new.firefox_strategy_mixin import FirefoxStrategyMixin
+from src.browser.base_strategy import BrowserStrategy
+from src.browser.capability_builder import CapabilitiesBuilder
+from src.browser.firefox_strategy_mixin import FirefoxStrategyMixin
 from src.config.config import CFG
-from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
-class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
+class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
-    def create_driver(self) -> webdriver.Firefox:
-        return webdriver.Firefox(options=self._build_firefox_options())
+    @override
+    def create_driver(self) -> webdriver.Remote:
+        options = self._build_firefox_options()
+        options.enable_downloads = True
+        return webdriver.Remote(
+            command_executor=CFG.remote_url,
+            options=options,
+        )
 
     @override
     def firefox_args(self) -> List[str]:
@@ -28,11 +33,10 @@ class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
     @override
     def firefox_prefs(self) -> Dict[str, Any]:
-        test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
         return {
             "pdfjs.disabled": True,
             "browser.download.folderList": 2,
-            "browser.download.dir": f"{CFG.browser_download_dir}/{test_name}",
+            "browser.download.dir": f"{CFG.browser_download_dir}",
             "browser.download.manager.showWhenStarting": False,
             "browser.download.panel.shown": False,
             "dom.webdriver.enabled": False,

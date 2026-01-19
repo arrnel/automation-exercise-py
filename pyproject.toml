@@ -37,43 +37,78 @@ filterwarnings = [
 ]
 markers = [
     "api_test: API tests",
-    "web_test: Web tests (contains screenshot_test)",
+    "web_test: Web tests (contains component_test, screenshot_test, e2e_test)",
+    "component_test: WEB component tests",
     "screenshot_test: Screenshot tests",
-    "e2e_test: e2e tests",
+    "e2e_test: E2E tests",
 
     "slow: slow tests",
     "fast: fast tests",
 
     # ----------
-    # API TESTS
+    # TESTS
     # ----------
-    "auth_api_test: Auth API tests",
-    "brand_api_test: Brand API tests",
-    "product_api_test: Product API tests",
-    "user_api_test: User API tests",
-    "verify_login_api_test: Verify login API tests",
+    "auth_test: Auth tests",
+    "brand_test: Brand tests",
+    "product_test: Product tests",
+    "user_test: User tests",
+    "verify_login_test: Verify login tests (API)",
 
     # ----------
     # UI TESTS
     # ----------
     # BASE COMPONENTS
-    "component_test: Component tests",
-    "breadcrumb_component: Tests of breadcrumb component",
-    "header_component: Tests of site header component",
-    "notification_component: Tests of notification component",
-    "page_scroller_component: Tests of page scroller",
-    "subscription_component: Tests of subscription component (in footer)",
+    "breadcrumb_component_test: Tests of breadcrumb component",
+    "header_component_test: Tests of site header component",
+    "notification_component_test: Tests of notification component",
+    "page_scroller_component_test: Tests of page scroller",
+    "subscription_component_test: Tests of subscription component (in footer)",
 
-    "address_component: Tests of address component",
-    "auth_component: Tests of auth component",
-    "login_component: Tests of login component",
-    "carousel_component: Tests of carousel component",
-    "image_carousel_component: Tests of image carousel component",
-    "product_carousel_component: Tests of product carousel component",
-    "product_card_component: Tests of product card component",
-    "product_details_component: Tests of product details component",
+    # CAROUSEL COMPONENTS
+    "carousel_component_test: Tests of all carousel web components",
+    "image_carousel_component_test: Image carousel web component tests",
+    "product_carousel_component_test: Product carousel web component tests",
 
+    # FILTER TEST
+    "filter_test: Tests of all web filter components",
+    "brand_filter_test: Brand filter web component tests",
+    "category_filter_test: Category filter web component tests",
+    "search_filter_test: Search filter web component tests",
+
+    # PRODUCT
+    "product_card_component_test: Tests of all product card web components",
+    "simple_product_card_component_test: Non animated product card web components tests",
+    "animated_product_card_component_test: Animated product card web component tests",
+    "product_details_component_test: Tests of product details component",
+    "product_item_component_test: Tests of all product item web component (Cart or checkout table items)",
+
+    # FILE
+    "upload_file_test: Upload files tests",
+    "download_file_test: Download files tests",
+
+    # OTHER COMPONENTS
+    "address_component_test: Tests of address component",
+    "sign_up_component_test: Sign up web component tests",
+    "login_component_test: Tests of login component",
+    "payment_component_test: Payment web component tests",
+    "invoice_component_test: Download invoice tests",
+    "review_component_test: Review web component tests",
+
+    # PAGES TESTS
+    "sign_up_page_test: Sign up page web components tests",
+    "login_page_test: Login page web components tests",
+    "main_page_test: Main page web components tests",
+    "products_page_test: Products page web components tests",
+    "product_page_test: Expected product page web components tests",
+    "cart_page_test: Cart page web components tests",
+    "checkout_page_test: Checkout page web components tests",
+    "payment_page_test: Payment page web components tests",
+    "order_placed_page_test: Order placed page web components tests",
+    "contact_us_page_test: Contact us page web components tests",
+
+    # OTHER
     "disabled_by_issue(issue_id, reason): skip test if GitHub issue is opened",
+    "debug_test: just run tests",
 ]
 
 [tool.poetry.group.dev.dependencies]

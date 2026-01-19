@@ -1,3 +1,5 @@
+import time
+
 import allure
 import pytest
 
@@ -6,8 +8,9 @@ from tests.web.base_test import BaseWebTest
 
 
 @pytest.mark.component_test
-@pytest.mark.filter_test
-@pytest.mark.review_component_test
+@pytest.mark.invoice_component_test
+@pytest.mark.download_file_test
+@pytest.mark.order_placed_page_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Place Order Component")
 class TestPaymentComponent(BaseWebTest):
@@ -33,6 +36,7 @@ class TestPaymentComponent(BaseWebTest):
             path_to_screenshot="files/screenshot/page/order_placed/order_placed_page.png",
         )
 
+    @pytest.mark.debug_test
     @pytest.mark.usefixtures("open_payment_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Payment Component")
@@ -47,10 +51,11 @@ class TestPaymentComponent(BaseWebTest):
 
         # Step
         self.payment_page.payment_card_component.pay(card)
-        self.order_placed_page.download_invoice()
+        path_to_invoice = self.order_placed_page.download_invoice("invoice.txt")
 
         # Assertion
         self.order_placed_page.check_invoice_has_data(
+            path_to_invoice,
             auth_user.name,
             add_random_products_to_cart.total_price,
         )
@@ -69,16 +74,17 @@ class TestPaymentComponent(BaseWebTest):
 
         # Step
         self.payment_page.payment_card_component.pay(card)
-        self.order_placed_page.download_invoice()
-        self.order_placed_page.download_invoice()
+        path_to_invoice1 = self.order_placed_page.download_invoice("invoice.txt")
+        path_to_invoice2 = self.order_placed_page.download_invoice("invoice(1).txt")
 
         # Assertion
         self.order_placed_page.check_invoice_has_data(
+            path_to_invoice1,
             auth_user.name,
             add_random_products_to_cart.total_price,
         )
         self.order_placed_page.check_invoice_has_data(
+            path_to_invoice2,
             auth_user.name,
             add_random_products_to_cart.total_price,
-            "invoice(1).txt",
         )

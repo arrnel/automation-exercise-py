@@ -5,7 +5,12 @@ from typing_extensions import override
 
 from src.config.config import CFG
 from src.model.price import Price
-from src.ui.element.base_element import Text, ElementsCollection, Button
+from src.ui.element.base_element import (
+    Text,
+    ElementsCollection,
+    Button,
+    DownloadableButton,
+)
 from src.ui.page.base_page import BasePage
 from src.util import system_util
 from src.util.decorator.step_logger import step_log
@@ -81,8 +86,10 @@ class OrderPlacedPage(BaseConfirmationPage):
     def __init__(self):
         super().__init__("Order Placed")
 
-    def download_invoice(self) -> None:
-        self._locator.download_invoice().click()
+    @step_log.log("Download invoice file with expected title: {expected_file_name}")
+    def download_invoice(self, expected_file_name: str) -> str:
+        """Returns path to downloaded file."""
+        return self._locator.download_invoice().download(expected_file_name)
 
     def check_last_invoice_has_data(self, full_name: str, price: Price) -> None:
         path_to_invoice_dir = (
@@ -101,16 +108,11 @@ class OrderPlacedPage(BaseConfirmationPage):
 
     def check_invoice_has_data(
         self,
+        path_to_file: str,
         full_name: str,
         price: Price,
-        invoice_file_name: str = "invoice.txt",
     ) -> None:
-        path_to_invoice = (
-            f"{CFG.browser_download_dir}"
-            f"/{ThreadSafeTestThreadsStore().current_thread_test_name()}"
-            f"/{invoice_file_name}"
-        )
-        self.compare_invoice_data(path_to_invoice, full_name, price)
+        self.compare_invoice_data(path_to_file, full_name, price)
 
     @step_log.log("Check invoice file has expected data")
     def compare_invoice_data(
@@ -166,7 +168,7 @@ class _BaseConfirmationPageLocators:
     def submit(self) -> Button:
         return Button(self._root.element("[data-qa=continue-button]"), "Continue")
 
-    def download_invoice(self) -> Button:
-        return Button(
+    def download_invoice(self) -> DownloadableButton:
+        return DownloadableButton(
             self._root.element("a[href^='/download_invoice']"), "Download Invoice"
         )

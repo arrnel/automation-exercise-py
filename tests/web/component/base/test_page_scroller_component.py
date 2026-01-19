@@ -11,6 +11,7 @@ from tests.web.base_test import BaseWebTest
 @allure.story("Page scroller")
 class TestPageScrollerComponent(BaseWebTest):
 
+    @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Page scroller")
     @allure.title("[WEB Component] Page scroller scroll page to top")

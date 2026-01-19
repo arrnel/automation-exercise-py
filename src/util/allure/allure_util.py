@@ -10,7 +10,7 @@ from selene import browser
 from src.config.config import CFG
 from src.model.enum.meta.content_type import ContentType
 from src.model.enum.meta.log_level import ApiLogLvl
-from src.service.selenoid_api_service import SelenoidApiService
+from src.service.remote import remote_artifact_factory
 from src.util.api.httpx_log_formatter_util import format_response, format_request
 from src.util.screenshot import image_util
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
@@ -101,14 +101,14 @@ class AllureUtil:
         )
 
     @staticmethod
-    def attach_selenoid_video() -> None:
+    def attach_test_video() -> None:
 
         if CFG.browser_remote_video_id_type == "test_name":
             test_id = ThreadSafeTestThreadsStore().current_thread_test_name()
         else:
             test_id = browser.driver.session_id
 
-        content = SelenoidApiService().get_video(test_id)
+        content = remote_artifact_factory.instance().get_video(test_id)
 
         allure.attach(
             content,

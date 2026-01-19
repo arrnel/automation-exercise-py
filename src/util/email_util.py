@@ -64,7 +64,7 @@ class _ValidEmail:
             f"{_FAKE.first_name()}@"
             f"{_random_domain_name()}."
             f"{_random_domain_name()}."
-            f"{_random_domain()}."
+            f"{_random_domain()}"
         )
 
     @staticmethod
@@ -109,18 +109,18 @@ class _ValidEmail:
     @staticmethod
     def underscore_username() -> str:
         """Example, `_______@example.com`"""
-        return f"{"_" * random.randint(5, 20)}.{_DEFAULT_EMAIL_SERVICE}"
+        return f"{"_" * random.randint(5, 20)}@{_DEFAULT_EMAIL_SERVICE}"
 
     @staticmethod
     def domain_length_equal_two() -> str:
         """Example, `example@domain.ru`"""
-        return f"{_FAKE.user_name()}@.{_random_domain_name()}.{choice(_DOMAINS_WITH_2_LETTERS)}"
+        return f"{_FAKE.user_name()}@{_random_domain_name()}.{choice(_DOMAINS_WITH_2_LETTERS)}"
 
     @staticmethod
     def domain_name_length_equal_two() -> str:
         """Example, `example@co.jp`"""
         domain_name = _FAKE.lexify(text="??").lower()
-        return f"{_FAKE.user_name()}@.{domain_name}.{_random_domain()}"
+        return f"{_FAKE.user_name()}@{domain_name}.{_random_domain()}"
 
 
 class _InvalidEmail:

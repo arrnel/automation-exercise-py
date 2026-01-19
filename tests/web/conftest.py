@@ -4,7 +4,7 @@ import allure
 import pytest
 from selene import browser
 
-from src.config.browser_new.driver_manager import DriverManager
+from src.browser.driver_manager import DriverManager
 from src.config.config import CFG
 from src.mapper.user_mapper import UserMapper
 from src.model.product_items_info import ProductItemsInfo
@@ -47,8 +47,9 @@ def pytest_runtest_makereport(item, call):
     AllureUtil.attach_screenshot()
     AllureUtil.attach_page_source()
 
-    DriverManager().quit()
-    AllureUtil.attach_selenoid_video()
+    if CFG.is_remote():
+        DriverManager().quit()
+        AllureUtil.attach_test_video()
 
 
 # -------------------------------
@@ -61,7 +62,12 @@ def before_all_tests_precondition(global_identify_thread_test):
     # ---------------------------------------------------------------------
     # CLEAR BROWSER DOWNLOAD DIRECTORY
     # ---------------------------------------------------------------------
-    system_util.remove_all_files_from_folder(CFG.browser_download_dir, True)
+    download_path_dir = (
+        CFG.browser_override_downloaded_file_dir
+        if CFG.is_remote()
+        else CFG.browser_download_dir
+    )
+    system_util.remove_all_files_from_folder(download_path_dir, False)
 
 
 @pytest.fixture()
@@ -219,5 +225,5 @@ def configure_browser():
     # BrowserManager().init_browser()
     browser.open("/")
     yield
-    if CFG.remote_type.lower() == "none" and not CFG.browser_hold_driver_on_exit:
+    if CFG.is_local() and not CFG.browser_hold_driver_on_exit:
         browser.driver.quit()

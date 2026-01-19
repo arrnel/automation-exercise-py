@@ -1,14 +1,15 @@
 import ast
 import os
 from pathlib import Path
-from typing import Tuple, Literal, get_args
+from typing import Tuple, Literal
 
 from pydantic import Field, field_validator, AliasChoices
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict, DotEnvSettingsSource
 
 from src.model.card import CardInfo
 from src.model.enum.meta.log_level import ApiLogLvl, LogLvl
 from src.model.enum.meta.user_agent import UserAgent
+from src.model.enum.remote_type import RemoteType
 from src.util import system_util
 from src.util.system_util import get_path_in_resources
 
@@ -26,7 +27,7 @@ class Settings(BaseSettings):
     )
 
     # BROWSER
-    remote_type: str = Field(
+    remote_type: RemoteType = Field(
         validation_alias=AliasChoices("REMOTE_TYPE"),
         default="none",
     )
@@ -54,6 +55,10 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("BROWSER_TIMEOUT"),
         default=4,
     )
+    browser_scripts_timeout: int = Field(
+        validation_alias=AliasChoices("BROWSER_SCRIPTS_TIMEOUT"),
+        default=10,
+    )
     browser_page_load_timeout: int = Field(
         validation_alias=AliasChoices("BROWSER_PAGE_LOAD_TIMEOUT"),
         default=10,
@@ -64,6 +69,10 @@ class Settings(BaseSettings):
     )
     browser_download_dir: str = Field(
         validation_alias=AliasChoices("BROWSER_DOWNLOAD_DIR"),
+        default="home/selenium/Downloads",
+    )
+    browser_override_downloaded_file_dir: str = Field(
+        validation_alias=AliasChoices("BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR"),
         default=system_util.get_path_in_resources("files/download"),
     )
     browser_remote_vnc: bool = Field(
@@ -180,10 +189,17 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    @staticmethod
+    def is_remote():
+        return CFG.remote_type in RemoteType.remote_types()
+
+    @staticmethod
+    def is_local():
+        return CFG.remote_type not in RemoteType.remote_types()
+
     @field_validator(
         "base_url",
         "base_api_url",
-        "remote_type",
         "remote_url",
         "browser_name",
         "browser_remote_video_id_type",
@@ -209,6 +225,16 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             return v.upper()
         return v
+
+    @field_validator("remote_type", mode="before")
+    @classmethod
+    def parse_remote_type(cls, v: str) -> RemoteType:
+        try:
+            return RemoteType(v.lower())
+        except ImportError:
+            raise ValueError(
+                f"Invalid remote type: {v}. Available values: {[rt.value for rt in RemoteType]}"
+            )
 
     @field_validator("path_to_files", mode="before")
     @classmethod
@@ -240,21 +266,75 @@ class Settings(BaseSettings):
             return ApiLogLvl[v]
         return v
 
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls,
+        init_settings,
+        env_settings,
+        dotenv_settings,
+        file_secret_settings,
+    ):
+        env = os.getenv("ENV", "local").lower()
+        env_file_path = get_path_in_resources(f"config/.env.{env}")
 
-def load_settings() -> Settings:
-    env = os.getenv("ENV", "local").lower()
-    if env not in get_args(available_env):
-        raise EnvironmentError(f"Environment {env} not supported.")
-
-    class EnvSettings(Settings):
-        model_config = SettingsConfigDict(
-            env_file=get_path_in_resources(f"config/.env.{env}"),
+        custom_dotenv_source = DotEnvSettingsSource(
+            settings_cls,
+            env_file=env_file_path if Path(env_file_path).exists() else None,
             env_file_encoding="utf-8",
-            extra="ignore",
-            frozen=True,
         )
 
-    return EnvSettings()
+        return init_settings, env_settings, custom_dotenv_source, file_secret_settings
+
+
+# def load_settings() -> Settings:
+#     env = os.getenv("ENV", "local").lower()
+#     if env not in get_args(available_env):
+#         raise EnvironmentError(f"Environment {env} not supported.")
+#
+#     class EnvSettings(Settings):
+#         model_config = SettingsConfigDict(
+#             env_file=get_path_in_resources(f"config/.env.{env}"),
+#             env_file_encoding="utf-8",
+#             extra="ignore",
+#             frozen=True,
+#         )
+#
+#     return EnvSettings()
+# =============================================
+# NEW
+# def load_settings() -> Settings:
+#     env = os.getenv("ENV", "local").lower()
+#     if env not in get_args(available_env):
+#         raise EnvironmentError(f"Environment {env} not supported.")
+#
+#     env_file_path = get_path_in_resources(f"config/.env.{env}")
+#
+#     class EnvSettings(Settings):
+#         @classmethod
+#         def settings_customise_sources(
+#             cls,
+#             settings_cls,
+#             init_settings,
+#             env_settings,
+#             dotenv_settings,
+#             file_secret_settings,
+#         ):
+#             return (
+#                 env_settings,  # 1. реальные переменные окружения
+#                 dotenv_settings,  # 2. .env файл
+#                 init_settings,  # 3. аргументы конструктора
+#                 file_secret_settings,  # 4. secrets
+#             )
+#
+#         model_config = SettingsConfigDict(
+#             env_file=env_file_path,
+#             env_file_encoding="utf-8",
+#             extra="ignore",
+#             frozen=True,
+#         )
+#
+#     return EnvSettings()
 
 
 def configuration_text() -> str:
@@ -275,5 +355,5 @@ def configuration_text() -> str:
     return f"ENV: '{os.environ.get('ENV')}'\n" + config_to_str(CFG)
 
 
-CFG = load_settings()
+CFG = Settings()
 CONFIGURATION_TEXT = configuration_text()

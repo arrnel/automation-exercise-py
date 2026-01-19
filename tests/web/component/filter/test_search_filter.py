@@ -8,6 +8,7 @@ from tests.web.base_test import BaseWebTest
 @pytest.mark.component_test
 @pytest.mark.filter_test
 @pytest.mark.search_filter_test
+@pytest.mark.products_page_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Search Filter")
 class TestSearchFilter(BaseWebTest):
@@ -56,6 +57,7 @@ class TestSearchFilter(BaseWebTest):
         # Assertions
         self.products_page.products.check_contains_products(*products)
 
+    @pytest.mark.usefixtures("open_products_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Search Filter")
     @allure.title("[WEB Component] Search filter should return empty products catalog")

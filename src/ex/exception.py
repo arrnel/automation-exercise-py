@@ -26,5 +26,13 @@ class IssueNotFoundError(RuntimeError):
     pass
 
 
-class SelenoidVideoNotFoundError(RuntimeError):
+class RemoteFileNotFoundError(RuntimeError):
+    pass
+
+
+class RemoteVideoNotFoundError(RuntimeError):
+    pass
+
+
+class SelenoidError(RuntimeError):
     pass

@@ -5,20 +5,21 @@ import allure
 import pytest
 
 from src.model.product_item_info import ProductItemInfo
+from src.util import collection_util
 from src.util.test.data_generator import DataGenerator
 from tests.web.base_test import BaseWebTest
 
 
 @pytest.mark.component_test
 @pytest.mark.product_test
-@pytest.mark.product_item_test
+@pytest.mark.product_item_component_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Product Card")
 class TestProductItem(BaseWebTest):
 
     @pytest.mark.usefixtures("open_cart_page", "auth_user")
     @pytest.mark.screenshot_test
-    @pytest.mark.cart_test
+    @pytest.mark.cart_page_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Item Component")
     @allure.title("[WEB Component] Product item should have expected data")
@@ -36,8 +37,11 @@ class TestProductItem(BaseWebTest):
         )
 
     @pytest.mark.usefixtures(
-        "open_cart_page", "auth_user", "add_expected_product_to_cart"
+        "open_cart_page",
+        "auth_user",
+        "add_expected_product_to_cart",
     )
+    @pytest.mark.cart_page_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Item Component")
     @allure.title(
@@ -54,6 +58,7 @@ class TestProductItem(BaseWebTest):
         self.product_page.product_details.check_product_has_title(title)
 
     @pytest.mark.usefixtures("open_cart_page", "auth_user")
+    @pytest.mark.cart_page_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Item Component")
     @allure.title("[WEB Component] Should increase product item quantity")
@@ -80,7 +85,7 @@ class TestProductItem(BaseWebTest):
         )
 
     @pytest.mark.usefixtures("auth_user", "open_cart_page")
-    @pytest.mark.cart_test
+    @pytest.mark.checkout_page_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Item Component")
     @allure.title("[WEB Component] Should remove product from cart")
@@ -92,9 +97,9 @@ class TestProductItem(BaseWebTest):
         cart_products = self.cart_page.products
 
         # Data
-        random_expected_products = random.choices(
+        random_expected_products = collection_util.get_random_unique_values(
             add_expected_products_to_cart.products_info,
-            k=2,
+            count=2,
         )
         removed_product_title = random_expected_products[0].title
         exists_product_title = random_expected_products[1].title
@@ -103,11 +108,11 @@ class TestProductItem(BaseWebTest):
         cart_products.get_item_by_title(removed_product_title).remove()
 
         # Assertions
-        cart_products.check_not_contains_product_titles(removed_product_title)
         cart_products.check_contains_product_titles(exists_product_title)
+        cart_products.check_not_contains_product_titles(removed_product_title)
 
     @pytest.mark.usefixtures("auth_user", "open_checkout_page")
-    @pytest.mark.cart_test
+    @pytest.mark.checkout_page_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Item Component")
     @allure.title("[WEB Component] Should have all products expected total price")
@@ -118,7 +123,7 @@ class TestProductItem(BaseWebTest):
         )
 
     @pytest.mark.usefixtures("auth_user", "open_checkout_page")
-    @pytest.mark.cart_test
+    @pytest.mark.checkout_page_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Item Component")
     @allure.title("[WEB Component] Should increase all products total price")
@@ -145,7 +150,7 @@ class TestProductItem(BaseWebTest):
         )
 
     @pytest.mark.usefixtures("auth_user", "open_cart_page")
-    @pytest.mark.cart_test
+    @pytest.mark.checkout_page_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Item Component")
     @allure.title("[WEB Component] Should decrease all products total price")

@@ -37,4 +37,4 @@ RUN poetry install --no-ansi --with dev
 COPY . .
 
 ENTRYPOINT ["sh", "-c"]
-CMD ["pytest tests --alluredir=/allure-results $PYTEST_ARGS"]
+CMD ["pytest tests --alluredir=/allure-results -m \"$PYTEST_MARK_EXPR\" $PYTEST_ARGS"]

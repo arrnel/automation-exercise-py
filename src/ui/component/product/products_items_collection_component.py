@@ -151,24 +151,29 @@ class ProductItemsComponent(BaseComponent, Generic[TBaseProductItemComponent]):
 
     def check_has_product_titles(self, title: str, *titles: str):
         """Check items in card has products with titles"""
-        all_titles = {title, *titles}
-        with step_log.log(f"Check [{self._component_title}] has items: {all_titles}"):
-            actual_titles = {item.get_product_title() for item in self.__items}
+        all_expected_titles = {title, *titles}
+        with step_log.log(
+            f"Check [{self._component_title}] has items: {all_expected_titles}"
+        ):
+            all_actual_titles = [item.get_title() for item in self.__items]
             not_found_expected, extra_actual = collection_util.remove_common_duplicates(
-                all_titles, actual_titles
+                all_expected_titles, all_actual_titles
             )
             if not_found_expected or extra_actual:
                 raise AssertionError(
                     "Actual products has diff:\n"
                     f"Not found product titles: {not_found_expected}\n"
                     f"Extra product titles: {extra_actual}\n"
-                    f"Expected product titles: {all_titles}\n"
-                    f"Actual product titles: {actual_titles}\n"
+                    f"Expected product titles: {all_expected_titles}\n"
+                    f"Actual product titles: {all_actual_titles}\n"
                 )
 
     @step_log.log("Check all products total price")
     def check_all_products_total_price(self, price: Price):
-        total_price_el = Text(self._root.element("p.cart_total_price"), "Total Price")
+        total_price_el = Text(
+            self._root.element("td:not(.cart_total) p.cart_total_price"),
+            "Total Price",
+        )
         total_price_el.should_have_text(price.get_price_text())
 
     def check_checkout_table_data(self, items_info: ProductItemsInfo):

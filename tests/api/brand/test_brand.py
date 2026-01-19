@@ -10,7 +10,6 @@ from tests.api.base_api_test import BaseApiTest
 
 
 @pytest.mark.brand_test
-@pytest.mark.brand_api_test
 @allure.epic("Brand")
 @allure.feature("[API] Get Brands")
 @allure.title("Test Get Brands")

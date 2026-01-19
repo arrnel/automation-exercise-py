@@ -1,6 +1,5 @@
 from abc import ABC
 
-import allure
 import pytest
 
 from src.service.auth_api_service import AuthApiService

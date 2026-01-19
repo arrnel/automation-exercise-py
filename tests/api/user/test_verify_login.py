@@ -12,10 +12,7 @@ USER_EXISTS_MESSAGE = "User exists!"
 USER_NOT_FOUND = "User not found!"
 
 
-@pytest.mark.user_test
-@pytest.mark.user_api_test
-@pytest.mark.user_test
-@pytest.mark.verify_login_api_test
+@pytest.mark.verify_login_test
 @allure.epic("User")
 @allure.feature("[API] Verify Login")
 class TestVerifyLoginApi(BaseApiTest):

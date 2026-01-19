@@ -12,6 +12,7 @@ class BrandApiClient(RestClient):
             base_url=CFG.base_api_url,
             content_type=ContentType.JSON,
             follow_redirects=True,
+            timeout=CFG.http_timeout,
         )
 
     def send_get_all_brands_request(self) -> AssertableResponse:

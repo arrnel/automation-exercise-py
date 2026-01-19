@@ -8,9 +8,9 @@ class ChromeStrategyMixin(metaclass=ABCMeta):
 
     def _build_chrome_options(self) -> Options:
         options = Options()
-        self._set_chrome_args(options)
-        self._set_experimental_options(options)
-        self._set_capabilities(options, self.capabilities())
+        self.__set_chrome_args(options)
+        self.__set_experimental_options(options)
+        self.__set_capabilities(options)
         return options
 
     @abstractmethod
@@ -25,13 +25,13 @@ class ChromeStrategyMixin(metaclass=ABCMeta):
     def capabilities(self) -> dict[str, Any]:
         pass
 
-    def _set_chrome_args(self, options: Options) -> None:
+    def __set_chrome_args(self, options: Options) -> None:
         for arg in self.chrome_args():
             options.add_argument(arg)
 
-    def _set_experimental_options(self, options: Options) -> None:
+    def __set_experimental_options(self, options: Options) -> None:
         options.add_experimental_option("prefs", self.chrome_experimental_options())
 
-    def _set_capabilities(self, options: Options, capabilities: dict[str, Any]) -> None:
-        for key, value in capabilities.items():
+    def __set_capabilities(self, options: Options) -> None:
+        for key, value in self.capabilities().items():
             options.set_capability(key, value)

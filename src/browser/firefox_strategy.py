@@ -2,26 +2,30 @@ from typing import List, override, Dict, Any
 
 from selenium import webdriver
 
-from src.config.browser_new.base_strategy import BrowserStrategy
-from src.config.browser_new.capabilities_builder import CapabilitiesBuilder
-from src.config.browser_new.firefox_strategy_mixin import FirefoxStrategyMixin
+from src.browser.base_strategy import BrowserStrategy
+from src.browser.capability_builder import CapabilitiesBuilder
+from src.browser.firefox_strategy_mixin import FirefoxStrategyMixin
 from src.config.config import CFG
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
-class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
+class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
-    def create_driver(self) -> webdriver.Remote:
-        return webdriver.Remote(
-            command_executor=CFG.remote_url,
-            options=self._build_firefox_options(),
-        )
+    @override
+    def create_driver(self) -> webdriver.Firefox:
+        options = self._build_firefox_options()
+        options.enable_downloads = True
+        return webdriver.Firefox(options=options)
 
     @override
     def firefox_args(self) -> List[str]:
         width, height = CFG.browser_size[0], CFG.browser_size[1]
         args = [
-            f"--window-size={width},{height}",
+            f"--width={width}",
+            f"--height={height}",
+            "--disable-notifications",
+            "--disable-infobars",
+            "--disable-gpu",
             "--disable-dev-shm-usage",
         ]
         if CFG.browser_headless:

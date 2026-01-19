@@ -8,6 +8,7 @@ from tests.web.base_test import BaseWebTest
 @pytest.mark.component_test
 @pytest.mark.carousel_component_test
 @pytest.mark.product_carousel_component_test
+@pytest.mark.main_page_test
 @allure.epic("[Web] Component - Products Carousel")
 @allure.feature("[Web] Component - Products Carousel")
 class TestProductCarousel(BaseWebTest):
@@ -107,6 +108,9 @@ class TestProductCarousel(BaseWebTest):
     def test_should_contains_expected_product(self):
         # Data
         product_title = DataGenerator.expected_product().title
+
+        # Steps
+        self.main_page.recommended_products.scroll_to_component()
 
         # Assertions
         self.main_page.recommended_products.check_contains_product(product_title)

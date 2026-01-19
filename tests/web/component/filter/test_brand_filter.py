@@ -7,6 +7,9 @@ from tests.web.base_test import BaseWebTest
 @pytest.mark.component_test
 @pytest.mark.filter_test
 @pytest.mark.brand_filter_test
+@pytest.mark.brand_test
+@pytest.mark.main_page_test
+@pytest.mark.products_page_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Brand Filter")
 class TestBrandFilter(BaseWebTest):

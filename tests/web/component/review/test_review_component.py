@@ -8,7 +8,7 @@ from tests.web.base_test import BaseWebTest
 
 
 @pytest.mark.component_test
-@allure.tag("component_test", "review_component")
+@pytest.mark.review_component_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Review Component")
 class TestReviewComponent(BaseWebTest):

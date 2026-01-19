@@ -7,8 +7,8 @@ from tests.web.base_test import BaseWebTest
 
 @pytest.mark.component_test
 @pytest.mark.product_test
-@pytest.mark.product_card_test
-@pytest.mark.animated_product_card_test
+@pytest.mark.product_card_component_test
+@pytest.mark.animated_product_card_component_test
 @allure.epic("Web Component")
 @allure.feature("[WEB] Product Card")
 class TestProductCard(BaseWebTest):
