@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import Optional
 
 import allure
@@ -7,13 +8,12 @@ from allure_commons.types import AttachmentType
 from httpx import Request, Response
 from selene import browser
 
-from src.config.config import CFG
+from src.config.config import CFG, CFG_TEXT
 from src.model.enum.meta.content_type import ContentType
 from src.model.enum.meta.log_level import ApiLogLvl
 from src.service.remote import remote_artifact_factory
 from src.util.api.httpx_log_formatter_util import format_response, format_request
 from src.util.screenshot import image_util
-from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 _JSON_CONTENT_TYPES = ["application/json", "application/vnd.github+json"]
 _BASE64_PNG_INCEPTION = "data:image/png;base64,"
@@ -84,34 +84,57 @@ class AllureUtil:
 
     @staticmethod
     def attach_screenshot() -> None:
-        screenshot = browser.driver.get_screenshot_as_png()
-        allure.attach(
-            screenshot,
-            name="Screenshot",
-            attachment_type=AttachmentType.PNG,
-        )
+        try:
+            screenshot = browser.driver.get_screenshot_as_png()
+            allure.attach(
+                screenshot,
+                name="Screenshot",
+                attachment_type=AttachmentType.PNG,
+            )
+        except Exception as ex:
+            logging.error(f"Unable to attach screenshot to allure. Reason: {ex}")
 
     @staticmethod
     def attach_page_source() -> None:
-        page_source = browser.driver.page_source
-        allure.attach(
-            page_source,
-            name="Page Source",
-            attachment_type=AttachmentType.HTML,
-        )
+        try:
+            page_source = browser.driver.page_source
+            allure.attach(
+                page_source,
+                name="Page Source",
+                attachment_type=AttachmentType.HTML,
+            )
+        except Exception as ex:
+            logging.error(f"Unable to attach page source to allure. Reason: {ex}")
 
     @staticmethod
-    def attach_test_video() -> None:
+    def attach_test_video(test_title: str = None, session_id: str = None) -> None:
+        try:
+            if not test_title and not session_id:
+                logging.error(
+                    "Unable to attach test video. Kwargs 'test_title' or 'session_id' should be provided."
+                    f"{test_title=}, {session_id=}"
+                )
+                return
 
-        if CFG.browser_remote_video_id_type == "test_name":
-            test_id = ThreadSafeTestThreadsStore().current_thread_test_name()
-        else:
-            test_id = browser.driver.session_id
+            test_id = (
+                test_title
+                if CFG.browser_remote_video_id_type == "test_name"
+                else session_id
+            )
+            content = remote_artifact_factory.instance().get_video(test_id)
 
-        content = remote_artifact_factory.instance().get_video(test_id)
+            allure.attach(
+                content,
+                name="Test video",
+                attachment_type=AttachmentType.MP4,
+            )
+        except Exception as ex:
+            logging.error(f"Unable to attach test video to allure. Reason: {ex}")
 
+    @staticmethod
+    def attach_config_data():
         allure.attach(
-            content,
-            name="Test video",
-            attachment_type=AttachmentType.MP4,
+            CFG_TEXT,
+            name="Configuration",
+            attachment_type=AttachmentType.TEXT,
         )

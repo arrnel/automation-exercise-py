@@ -30,7 +30,7 @@ class TestLoginWeb(BaseWebTest):
     @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")
     @allure.story("Sign in with invalid credentials")
-    @allure.title("[WEB] Sign in with valid credentials. Case: {case_title}")
+    @allure.title("[WEB] Sign in with invalid credentials. Case: {case_title}")
     def test_should_not_sign_in_with_invalid_credentials(self, create_user):
         # Data
         user = create_user

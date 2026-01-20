@@ -1,7 +1,7 @@
 import copy
 import string
 from datetime import date, timedelta
-from random import randint, choice, shuffle
+from random import randint, choice
 from typing import List, Optional
 
 from faker import Faker

@@ -1,5 +1,4 @@
 import logging
-import os
 import time
 from abc import ABC
 from pathlib import Path
@@ -35,8 +34,6 @@ from src.util.type_util import TBaseElement, TElementOrComponent
 # ==========================================================
 # ELEMENTS
 # ==========================================================
-
-
 class BaseElement(ABC):
 
     def __init__(self, root: Element, element_title: str):
@@ -257,7 +254,7 @@ class Link(BaseElement):
     def __init__(self, root: Element, element_title: str):
         super().__init__(root, element_title)
 
-    @step_log.log("Click to [{self._element_title}]")
+    @step_log.log("Click on [{self._element_title}]")
     def click(self) -> None:
         self._root.click()
 
@@ -299,46 +296,6 @@ class DownloadableButton(Button):
 
     def __init__(self, root: Element, element_title: str):
         super().__init__(root, element_title)
-
-    # def download(
-    #     self,
-    #     file_name: str,
-    #     by_js: bool = False,
-    #     retries: int = 5,
-    #     delay: float = 1.0,
-    # ) -> str:
-    #     """
-    #     Download file. If test runs in remote env, copy file from browser container into test container.
-    #     Args:
-    #         file_name (str): Name of file to download.
-    #         by_js (bool): If true, click on button by js.
-    #         retries (int): Number of times to retry.
-    #         delay (float): Delay between retries.
-    #     Returns:
-    #         str: Path to downloaded file.
-    #     """
-    #     self.click(by_js=by_js)
-    #     test_title = ThreadSafeTestThreadsStore().current_thread_test_name()
-    #
-    #     if CFG.is_local():
-    #         test_dir = f"{CFG.browser_download_dir}/{test_title}"
-    #         browser.driver.download_file(file_name, test_dir)
-    #         return f"{test_dir}/{file_name}"
-    #
-    #     remote_artifact_service = remote_artifact_factory.instance()
-    #     test_dir = f"{CFG.browser_override_downloaded_file_dir}/{test_title}"
-    #     abs_file_path = test_dir + "/" + file_name
-    #
-    #     file_content = remote_artifact_service.get_file(
-    #         session_id=browser.driver.session_id,
-    #         file_name=file_name,
-    #         retries=retries,
-    #         delay=delay,
-    #     )
-    #
-    #     system_util.create_folder(test_dir)
-    #     system_util.save_as_file(abs_file_path, file_content)
-    #     return abs_file_path
 
     def download(
         self,
@@ -382,7 +339,9 @@ class DownloadableButton(Button):
                 container_id, abs_file_path
             )
         )
-        content = remote_service.get_file(browser.driver.session_id, file_name)
+        content = remote_service.get_file(
+            browser.driver.session_id, file_name, retries=retries, delay=delay
+        )
         system_util.create_folder(override_test_dir)
         system_util.save_as_file(override_abs_file_path, content)
         return override_abs_file_path

@@ -27,6 +27,10 @@ def get_allure_results_path() -> str:
     Returns allure results path
     :return: Example: "/home/$USER/dev/python/automation_exercise/allure-results"
     """
+    from src.config.config import CFG
+
+    if CFG.is_remote():
+        return "/allure-results"
     root_path = Path(os.path.dirname(__file__)).parent.parent
     return os.path.join(root_path, "allure-results")
 

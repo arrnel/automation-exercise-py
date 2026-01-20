@@ -35,7 +35,7 @@ class ProductCardsComponent(BaseComponent, Generic[TBaseProductCardComponent]):
         card = self.__cards.find_element_by_child(
             child=".productinfo p",
             condition=text(title),
-            element_title=f"Product card '{title}'",
+            element_title=f"{title}",
         )
         if card is None:
             raise ProductNotFoundError(f"Product card '{title}' not found")

@@ -242,7 +242,7 @@ class ProductCarouselComponent(BaseCarouselComponent):
         *product_titles: str,
     ) -> list[str]:
 
-        start_product_title = ""
+        start_product_title = None
         not_found_product_titles = [product_title, *product_titles]
 
         while True:
@@ -257,7 +257,7 @@ class ProductCarouselComponent(BaseCarouselComponent):
             # Stop scrolling if all products found or elements repeated
             if (
                 not not_found_product_titles
-                and start_product_title in actual_product_titles
+                or start_product_title in actual_product_titles
             ):
                 return not_found_product_titles
 

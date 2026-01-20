@@ -38,9 +38,9 @@ class TestCategoryFilter(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
     @allure.title(
-        "[WEB Component] Category filter should have expected screenshot when fully expanded"
+        "[WEB Component] Category filter should have expected screenshot when group expanded"
     )
-    def test_category_filter_should_have_screenshot_when_expanded(self):
+    def test_category_filter_should_have_screenshot_when_group_expanded(self):
         # Component
         category_filter = self.main_page.category_filter
 
@@ -62,7 +62,7 @@ class TestCategoryFilter(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
     @allure.title(
-        "[WEB Component] Category filter should have expected screenshot when fully expanded"
+        "[WEB Component] Category filter group should be collapsed after collapse expanded group"
     )
     def test_category_filter_should_have_screenshot_when_collapse_expanded(self):
         # Component
@@ -87,7 +87,7 @@ class TestCategoryFilter(BaseWebTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
     @allure.title(
-        "[WEB Component] Category filter should have expected screenshot when fully expanded"
+        "[WEB Component] [WEB Component] Category filter group should be collapsed after expand another group"
     )
     def test_category_filter_should_have_screenshot_when_expand_collapse_expanded(self):
         # Component

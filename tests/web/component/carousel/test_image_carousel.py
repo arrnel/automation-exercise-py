@@ -54,7 +54,7 @@ class TestImageCarousel(BaseWebTest):
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")
     @allure.title(
-        "[WEB Component] Image Carousel should last image when scroll left on first image"
+        "[WEB Component] Image Carousel should show last image when scroll left on first image"
     )
     def test_should_show_last_image_when_scroll_left_on_first_image(self):
 
@@ -73,7 +73,7 @@ class TestImageCarousel(BaseWebTest):
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")
     @allure.title(
-        "[WEB Component] Image Carousel should first image when scroll right on last image"
+        "[WEB Component] Image Carousel should show first image when scroll right on last image"
     )
     def test_should_show_first_image_when_scroll_right_on_last_image(self):
 

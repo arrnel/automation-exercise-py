@@ -34,6 +34,7 @@ class PaymentCardComponent(BaseComponent):
         with step_log.log(f"Check payment status has message: {message}"):
             self.__submit_and_check_status_message(message)
 
+    @step_log.log("Fill card data")
     def __fill_form(self, card_info: CardInfo):
         self.__fill_card_name(card_info.name)
         self.__fill_card_number(card_info.number)

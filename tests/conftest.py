@@ -1,16 +1,12 @@
-import shutil
-from pathlib import Path
-
 import allure
 import pytest
-from selene import browser
 
 from src.config.config import CFG
 from src.model.enum.github_issue_type import IssueType
-from src.service.auth_api_service import AuthApiService
 from src.service.github_api_service import GithubApiService
 from src.service.user_api_service import UserApiService
 from src.util import system_util
+from src.util.allure.allure_util import AllureUtil
 from src.util.decorator.step_logger import step_log
 from src.util.store.issue_store import ThreadSafeIssuesStore
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
@@ -18,7 +14,6 @@ from src.util.store.user_store import ThreadSafeUserStore
 from src.util.test.data_generator import DataGenerator
 
 _GLOBAL = "GLOBAL"
-_USER_SERVICE = UserApiService()
 
 
 # ------------------------------
@@ -78,107 +73,79 @@ def pytest_runtest_setup(item):
 # FIXTURES
 # -------------------------------
 @pytest.fixture(autouse=True, scope="session")
-@allure.title("Before all test preconditions")
-def before_all_tests_precondition(global_identify_thread_test):
+@allure.title("All test fixtures")
+def all_tests_fixtures():
+
+    ThreadSafeTestThreadsStore().add_current_thread_to_test(_GLOBAL)
 
     # ---------------------------------------------------------------------
     # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
     # ---------------------------------------------------------------------
-    if CFG.is_local():
-        with allure.step("Clear allure-results directory"):
-            allure_results_dir = system_util.get_allure_results_path()
-            shutil.rmtree(allure_results_dir, ignore_errors=True)
-            Path(allure_results_dir).mkdir(parents=True, exist_ok=True)
+    with allure.step("Clear allure-results directory"):
+        allure_results_dir = system_util.get_allure_results_path()
+        system_util.create_folder(allure_results_dir)
+        system_util.remove_all_files_from_folder(
+            allure_results_dir, by_remove_folder=False
+        )
+
+    # ---------------------------------------------------------------------
+    # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
+    # ---------------------------------------------------------------------
+    with allure.step("Clear test temp files directory"):
+        test_temp_dir = (
+            CFG.browser_override_downloaded_file_dir
+            if CFG.is_remote()
+            else CFG.browser_download_dir
+        )
+        system_util.create_folder(test_temp_dir)
+        system_util.remove_all_files_from_folder(test_temp_dir, by_remove_folder=False)
 
     # ---------------------------------------------------------------------
     # ATTACH TEST CONFIGURATION DATA TO ALLURE
     # ---------------------------------------------------------------------
     with step_log.log("Tests configuration data"):
-        from src.config import config
-
-        allure.attach(
-            body=config.CONFIGURATION_TEXT,
-            name="Configuration data",
-            attachment_type=allure.attachment_type.TEXT,
-        )
-
-
-@pytest.fixture(autouse=True, scope="function")
-@allure.title("Before each test preconditions")
-def before_each_test_precondition(identify_thread_test):
-    # ---------------------------------------------------------------------
-    # SAVE FUNCTION PRECONDITION THREAD ID TO STORE. NEED TO IDENTIFY USERS BY TEST NAME
-    # ---------------------------------------------------------------------
-    pass
-
-
-@pytest.fixture()
-def create_user(identify_thread_test):
-
-    # Data
-    user = DataGenerator().random_user()
-
-    # Precondition
-    user = _USER_SERVICE.create_user(user)
-    ThreadSafeUserStore().add_user(user)
-    return user
-
-
-@pytest.fixture()
-def auth(email: str, password: str):
-    cookies = AuthApiService().sign_in(email, password)
-    for key, value in cookies.items():
-        browser.driver.add_cookie(
-            {
-                "name": key,
-                "value": str(value),
-                "domain": CFG.base_url,
-                "path": "/",
-                "secure": True,
-                "httpOnly": False,
-            }
-        )
-    browser.driver.refresh()
-
-
-@pytest.fixture(autouse=True, scope="session")
-@allure.title("Tear down after each test")
-def after_each_test_teardown():
+        AllureUtil.attach_config_data()
 
     yield
 
-    # ---------------------------------------------------------------------
-    # REMOVE ENDED TEST USERS FROM BACKEND AFTER EACH TESTS
-    # ---------------------------------------------------------------------
-    with step_log.log("Remove current test users from backend"):
-        ThreadSafeUserStore().remove_test_users()
-
-
-@pytest.fixture(autouse=True, scope="session")
-@allure.title("Tear down after all test (after after each test precondition)")
-def after_all_tests_teardown(global_identify_thread_test):
-
-    yield
+    ThreadSafeTestThreadsStore().add_current_thread_to_test(_GLOBAL)
 
     # ---------------------------------------------------------------------
-    # REMOVE ALL TESTS USERS FROM BACKEND AFTER ALL TESTS
+    # REMOVE USERS AFTER ALL TESTS
     # ---------------------------------------------------------------------
     with step_log.log("Remove users from backend after all tests"):
         ThreadSafeUserStore().remove_all_tests_users()
 
 
-@pytest.fixture(scope="session")
-def global_identify_thread_test():
-    ThreadSafeTestThreadsStore().add_current_thread_to_test("GLOBAL")
-
-
-@pytest.fixture(scope="function")
-def identify_thread_test(request):
-    test_name = ""
-    try:
-        test_name = request.node.name
-    except Exception:
-        pass
+@pytest.fixture(autouse=True, scope="function")
+@allure.title("Each test fixtures")
+def each_test_fixtures(request):
+    test_name = request.node.name
     ThreadSafeTestThreadsStore().add_current_thread_to_test(test_name)
+
     yield
+    ThreadSafeTestThreadsStore().add_current_thread_to_test(test_name)
+
+    # ---------------------------------------------------------------------
+    # REMOVE ALL TEST USERS AFTER TEST
+    # ---------------------------------------------------------------------
+    with step_log.log("Remove current test users from backend"):
+        ThreadSafeUserStore().remove_test_users()
+
+    # ---------------------------------------------------------------------
+    # CLEAR TEST THREADS IDENTITIES
+    # ---------------------------------------------------------------------
     ThreadSafeTestThreadsStore().clear_test_threads(test_name)
+
+
+@pytest.fixture()
+@allure.title("Create random user by api")
+def create_user(request):
+
+    # Data
+    user = DataGenerator().random_user()
+
+    # Precondition
+    user = UserApiService().create_user(user)
+    ThreadSafeUserStore().add_user(user)
+    return user

@@ -12,23 +12,23 @@ class HeaderComponent(BaseComponent):
         self.__locator = _HeaderComponentLocator(root)
 
     # ACTIONS
-    @step_log.log("Navigate to the [Main] page by logo")
+    @step_log.log("Navigate to the [Main] page by header logo")
     def go_to_main_page_by_logo(self) -> None:
         self.__locator.logo().click()
 
-    @step_log.log("Navigate to the [Main] page")
+    @step_log.log("Navigate to the [Main] page by header")
     def go_to_main_page(self) -> None:
         self.__locator.home().click()
 
-    @step_log.log("Navigate to the [Products] page")
+    @step_log.log("Navigate to the [Products] page by header")
     def go_to_products_page(self) -> None:
         self.__locator.products().click()
 
-    @step_log.log("Navigate to the [Cart] page")
+    @step_log.log("Navigate to the [Cart] page by header")
     def go_to_cart_page(self) -> None:
         self.__locator.cart().click()
 
-    @step_log.log("Navigate to the [Login] page")
+    @step_log.log("Navigate to the [Login] page by header")
     def go_to_login_page(self) -> None:
         self.__locator.login().click()
 
@@ -40,7 +40,7 @@ class HeaderComponent(BaseComponent):
     def delete_account(self) -> None:
         self.__locator.delete_account().click()
 
-    @step_log.log("Navigate to the [Contact us] page")
+    @step_log.log("Navigate to the [Contact us] page by header")
     def go_to_contact_us_page(self) -> None:
         self.__locator.contact_us().click()
 
@@ -48,11 +48,11 @@ class HeaderComponent(BaseComponent):
         return self.__locator.logged_in().matching(be.visible)
 
     # ACTIONS
-    @step_log.log("Check user is logged in")
+    @step_log.log("Check user is logged in in header")
     def check_user_is_logged_in(self) -> None:
         self.__locator.logged_in().should_be_visible()
 
-    @step_log.log("Check user is logged in as: {text}")
+    @step_log.log("Check user is logged in in header as: {text}")
     def check_user_is_logged_in_as(self, text: str) -> None:
         self.__locator.logged_in_as().should_have_text(text)
 
@@ -60,7 +60,7 @@ class HeaderComponent(BaseComponent):
     def check_user_is_not_authorized(self) -> None:
         self.__locator.login().should_be_visible()
 
-    @step_log.log("Check [{self._component_title}] elements are visible}")
+    @step_log.log("Check [{self._component_title}] elements are visible")
     def check_visible_component_elements(self) -> None:
         self.__locator.logo().should_be_visible()
         self.__locator.home().should_be_visible()

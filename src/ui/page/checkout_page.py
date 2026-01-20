@@ -18,7 +18,7 @@ class CheckoutPage(BasePage):
         super().__init__()
         self.__locator = _CheckoutPageLocator(self._page_container)
         self.__delivery_address = AddressDetailsComponent.from_element(
-            self.__locator.shipping_address()
+            self.__locator.delivery_address()
         )
         self.__billing_address = AddressDetailsComponent.from_element(
             self.__locator.billing_address()
@@ -70,8 +70,8 @@ class _CheckoutPageLocator:
     def __init__(self, root: Element):
         self.__root = root
 
-    def shipping_address(self):
-        return UiElement(self.__root.element("#address_delivery"), "Shipping Address")
+    def delivery_address(self):
+        return UiElement(self.__root.element("#address_delivery"), "Delivery Address")
 
     def billing_address(self):
         return UiElement(self.__root.element("#address_invoice"), "Billing Address")

@@ -46,9 +46,9 @@ def compare_and_save_screenshot(
 ) -> None:
 
     abs_path = system_util.get_path_in_resources(path_to_screenshot)
-    expected_exists = os.path.exists(abs_path)
+    expected_not_exists = not os.path.exists(abs_path)
 
-    if not expected_exists:
+    if expected_not_exists:
         image_util.create_blank_image(abs_path, actual_screenshot.size)
 
     expected_screenshot = Image.open(abs_path, formats=["PNG"])
@@ -58,21 +58,19 @@ def compare_and_save_screenshot(
         percent_of_tolerance=percent_of_tolerance,
     )
 
-    if (
-        not expected_exists
-        or CFG.rewrite_all_screenshots
-        or (rewrite_screenshot and screen_diff.has_diff)
-    ):
+    if expected_not_exists or CFG.rewrite_all_screenshots or rewrite_screenshot:
         actual_screenshot.save(abs_path, save_all=True)
 
     screen_diff.attach_diff_to_allure()
 
-    if screen_diff.has_diff:
+    if screen_diff.has_diff and not CFG.rewrite_all_screenshots:
         raise AssertionError(f"{component_name} screenshot mismatch")
 
 
 def __transform_coordinates(
-    driver: WebDriver, location: dict[str, int], size: dict[str, int]
+    driver: WebDriver,
+    location: dict[str, int],
+    size: dict[str, int],
 ) -> tuple[dict[str, int], dict[str, int]]:
     dpr: float = float(driver.execute_script("return window.devicePixelRatio;") or 1)
     location = {

@@ -23,19 +23,19 @@ class BaseProductCardComponent(BaseComponent):
     def get_product_price(self) -> Price:
         return Price.from_text(self._locator.price().get_text())
 
-    @step_log.log("Open [{self._component_title}]")
+    @step_log.log("Add product to cart: {self._component_title}")
     def add_to_cart(self) -> None:
         self._locator.add_to_cart().click()
 
-    @step_log.log("Check [{self._component_title}] has title: {title}")
+    @step_log.log("Check product card [{self._component_title}] has title: {title}")
     def check_product_has_title(self, title: str) -> None:
         self._locator.title().should_have_text(title)
 
-    @step_log.log("Check [{self._component_title}] has price: {price}")
+    @step_log.log("Check product card [{self._component_title}] has price: {price}")
     def check_product_has_price(self, price: Price) -> None:
         self._locator.price().should_have_text(price.get_price_text())
 
-    @step_log.log("Check [{self._component_title}] has data")
+    @step_log.log("Check product card [{self._component_title}] has expected data")
     def check_product_card_has_data(self, product: Product) -> None:
         self.check_product_has_title(product.title)
         self.check_product_has_price(product.price)

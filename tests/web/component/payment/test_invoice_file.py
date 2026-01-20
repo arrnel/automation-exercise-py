@@ -1,5 +1,3 @@
-import time
-
 import allure
 import pytest
 
@@ -17,7 +15,7 @@ class TestPaymentComponent(BaseWebTest):
 
     @pytest.mark.usefixtures(
         "open_payment_page",
-        "auth_user",
+        "auth_expected_user",
         "add_random_products_to_cart",
     )
     @pytest.mark.screenshot_test
@@ -36,7 +34,6 @@ class TestPaymentComponent(BaseWebTest):
             path_to_screenshot="files/screenshot/page/order_placed/order_placed_page.png",
         )
 
-    @pytest.mark.debug_test
     @pytest.mark.usefixtures("open_payment_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Payment Component")

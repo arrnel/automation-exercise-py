@@ -3,7 +3,7 @@ from typing import Any
 
 from src.config.config import CFG
 from src.model.enum.remote_type import RemoteType
-from src.util import duration_util
+from src.util import time_util
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 _SELENOID_OPTIONS_TITLE = "selenoid:options"
@@ -33,7 +33,7 @@ class CapabilitiesBuilder:
 
     def __selenoid_capabilities(self) -> dict[str, Any]:
         test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
-        session_timeout = duration_util.seconds_to_golang_duration_str(
+        session_timeout = time_util.seconds_to_golang_duration_str(
             CFG.browser_remote_session_timeout
         )
 
@@ -65,7 +65,7 @@ class CapabilitiesBuilder:
 
     def __moon_capabilities(self) -> dict[str, Any]:
         test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
-        session_timeout = duration_util.seconds_to_golang_duration_str(
+        session_timeout = time_util.seconds_to_golang_duration_str(
             CFG.browser_remote_session_timeout
         )
         remote_options = {

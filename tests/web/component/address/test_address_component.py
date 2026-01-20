@@ -1,7 +1,6 @@
 import allure
 import pytest
 
-from src.model.card import CardInfo
 from tests.web.base_test import BaseWebTest
 
 
@@ -14,21 +13,31 @@ from tests.web.base_test import BaseWebTest
 class TestProductItem(BaseWebTest):
 
     @pytest.mark.usefixtures(
-        "open_checkout_page", "auth_user", "add_random_products_to_cart"
+        "auth_expected_user",
+        "add_random_products_to_cart",
+        "open_checkout_page",
     )
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Billing Address Component")
     @allure.title("[WEB Component] Billing address has expected data")
-    def test_billing_address_has_expected_data(self, card: CardInfo):
-
-        # Component
-        payment_card = self.payment_page.payment_card_component
-
-        # Steps
-        self.checkout_page.place_order()
-        payment_card.pay(card)
-
+    def test_billing_address_has_expected_data(self):
         # Assertions
-        payment_card.check_payment_successful()
-        payment_card.check_component_has_screenshot(path_to_screenshot="")
+        self.checkout_page.billing_address_component.check_component_has_screenshot(
+            path_to_screenshot="files/screenshot/component/address/billing_address.png"
+        )
+
+    @pytest.mark.usefixtures(
+        "auth_expected_user",
+        "add_random_products_to_cart",
+        "open_checkout_page",
+    )
+    @pytest.mark.screenshot_test
+    @allure.label("owner", "arrnel")
+    @allure.story("[Web] Component - Delivery Address Component")
+    @allure.title("[WEB Component] Delivery address has expected data")
+    def test_delivery_address_has_expected_data(self):
+        # Assertions
+        self.checkout_page.delivery_address_component.check_component_has_screenshot(
+            path_to_screenshot="files/screenshot/component/address/delivery_address.png"
+        )

@@ -36,9 +36,11 @@ class CartPage(BasePage):
     def navigate(self) -> None:
         browser.open(URL)
 
+    @step_log.log("Proceed to Checkout")
     def proceed_to_checkout(self) -> None:
         self.__locator.proceed_to_checkout().click()
 
+    @step_log.log("Check cart is empty")
     def check_cart_is_empty(self):
         self.__locator.empty_cart().should_be_visible()
 

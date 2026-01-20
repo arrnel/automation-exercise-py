@@ -133,8 +133,12 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("DEFAULT_PERCENT_OF_TOLERANCE"),
         default=0.0,
     )
-    allure_append_test_artifact: str = Field(
-        validation_alias=AliasChoices("ALLURE_APPEND_TEST_ARTIFACT"),
+    allure_attach_test_artifacts: str = Field(
+        validation_alias=AliasChoices("ALLURE_ATTACH_TEST_ARTIFACTS"),
+        default="failed",
+    )
+    allure_attach_test_video: str = Field(
+        validation_alias=AliasChoices("ALLURE_ATTACH_TEST_VIDEO"),
         default="failed",
     )
     expected_product_id: int = Field(
@@ -205,7 +209,7 @@ class Settings(BaseSettings):
         "browser_remote_video_id_type",
         "browser_page_load_strategy",
         "default_email",
-        "allure_append_test_artifact",
+        "allure_attach_test_artifacts",
         "email_domain",
         mode="before",
     )
@@ -287,56 +291,6 @@ class Settings(BaseSettings):
         return init_settings, env_settings, custom_dotenv_source, file_secret_settings
 
 
-# def load_settings() -> Settings:
-#     env = os.getenv("ENV", "local").lower()
-#     if env not in get_args(available_env):
-#         raise EnvironmentError(f"Environment {env} not supported.")
-#
-#     class EnvSettings(Settings):
-#         model_config = SettingsConfigDict(
-#             env_file=get_path_in_resources(f"config/.env.{env}"),
-#             env_file_encoding="utf-8",
-#             extra="ignore",
-#             frozen=True,
-#         )
-#
-#     return EnvSettings()
-# =============================================
-# NEW
-# def load_settings() -> Settings:
-#     env = os.getenv("ENV", "local").lower()
-#     if env not in get_args(available_env):
-#         raise EnvironmentError(f"Environment {env} not supported.")
-#
-#     env_file_path = get_path_in_resources(f"config/.env.{env}")
-#
-#     class EnvSettings(Settings):
-#         @classmethod
-#         def settings_customise_sources(
-#             cls,
-#             settings_cls,
-#             init_settings,
-#             env_settings,
-#             dotenv_settings,
-#             file_secret_settings,
-#         ):
-#             return (
-#                 env_settings,  # 1. реальные переменные окружения
-#                 dotenv_settings,  # 2. .env файл
-#                 init_settings,  # 3. аргументы конструктора
-#                 file_secret_settings,  # 4. secrets
-#             )
-#
-#         model_config = SettingsConfigDict(
-#             env_file=env_file_path,
-#             env_file_encoding="utf-8",
-#             extra="ignore",
-#             frozen=True,
-#         )
-#
-#     return EnvSettings()
-
-
 def configuration_text() -> str:
     def config_to_str(settings) -> str:
         lines: list[str] = []
@@ -352,8 +306,8 @@ def configuration_text() -> str:
 
         return "\n".join(lines)
 
-    return f"ENV: '{os.environ.get('ENV')}'\n" + config_to_str(CFG)
+    return f"ENV: '{os.getenv("ENV", "local").lower()}'\n" + config_to_str(CFG)
 
 
 CFG = Settings()
-CONFIGURATION_TEXT = configuration_text()
+CFG_TEXT = configuration_text()

@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
     command: [
       "-conf", "/opt/selenoid/browsers.json",
-      "-limit", "3",
+      "-limit", "2",
       "-video-output-dir", "/opt/selenoid/video",
       "-log-output-dir", "/opt/selenoid/logs",
       "-container-network", "automation_exercise_automation_exercise-network"
@@ -48,11 +48,9 @@ services:
       - ENV=${ENV:-docker}
       - PYTEST_MARK_EXPR=${PYTEST_MARK_EXPR:-}
       - PYTEST_ARGS=${PYTEST_ARGS:-}
-      - BROWSER_NAME=${BROWSER_NAME:-}
     volumes:
       - ./allure-results:/allure-results
       - ./resources/files:/app/resources/files
-#      - test_files_volume:/home/selenium/Downloads
       - test_files_volume:/test_temp_files:rw
     depends_on:
       selenoid:
