@@ -1,10 +1,15 @@
 import ast
 import os
 from pathlib import Path
-from typing import Tuple, Literal
+from typing import Tuple, Literal, Any
 
 from pydantic import Field, field_validator, AliasChoices
-from pydantic_settings import BaseSettings, SettingsConfigDict, DotEnvSettingsSource
+from pydantic_settings import (
+    BaseSettings,
+    SettingsConfigDict,
+    DotEnvSettingsSource,
+    EnvSettingsSource,
+)
 
 from src.model.card import CardInfo
 from src.model.enum.meta.log_level import ApiLogLvl, LogLvl
@@ -13,7 +18,19 @@ from src.model.enum.remote_type import RemoteType
 from src.util import system_util
 from src.util.system_util import get_path_in_resources
 
-available_env = Literal["local", "docker", "ci"]
+_AVAILABLE_ENV = Literal["local", "docker", "ci"]
+
+
+class NonEmptyEnvSettingsSource(EnvSettingsSource):
+    """Source of env vars, which ignore empty env vars"""
+
+    def get_field_value(self, field, field_name: str) -> tuple[Any, str | None, bool]:
+        value, key, is_complex = super().get_field_value(field, field_name)
+
+        if isinstance(value, str) and not value.strip():
+            return None, None, False
+
+        return value, key, is_complex
 
 
 class Settings(BaseSettings):
@@ -282,13 +299,19 @@ class Settings(BaseSettings):
         env = os.getenv("ENV", "local").lower()
         env_file_path = get_path_in_resources(f"config/.env.{env}")
 
+        custom_env_source = NonEmptyEnvSettingsSource(settings_cls)
         custom_dotenv_source = DotEnvSettingsSource(
             settings_cls,
             env_file=env_file_path if Path(env_file_path).exists() else None,
             env_file_encoding="utf-8",
         )
 
-        return init_settings, env_settings, custom_dotenv_source, file_secret_settings
+        return (
+            init_settings,
+            custom_env_source,
+            custom_dotenv_source,
+            file_secret_settings,
+        )
 
 
 def configuration_text() -> str:
