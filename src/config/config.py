@@ -36,11 +36,12 @@ class NonEmptyEnvSettingsSource(EnvSettingsSource):
 class Settings(BaseSettings):
     # URL
     base_url: str = Field(
-        validation_alias="BASE_URL", default="https://automationexercise.com"
+        validation_alias="BASE_URL",
+        default="https://automationexercise.com",
     )
     base_api_url: str = Field(
         validation_alias="BASE_API_URL",
-        default="/api",
+        default="https://automationexercise.com/api",
     )
 
     # BROWSER
@@ -175,7 +176,7 @@ class Settings(BaseSettings):
     )
     path_to_files: str = Field(
         validation_alias=AliasChoices("PATH_TO_FILES"),
-        default=system_util.get_path_in_resources("files"),
+        default=system_util.get_path_in_resources("files/downloads"),
     )
 
     # LOGGING
