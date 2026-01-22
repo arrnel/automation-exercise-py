@@ -167,5 +167,7 @@ cython_debug/
 
 # Config
 resources/**
-!/resources/config/.env.local.example
 !/resources/files/upload/**
+
+# Env
+!/env/.env.local.example

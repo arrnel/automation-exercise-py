@@ -16,7 +16,6 @@ from src.model.enum.meta.log_level import ApiLogLvl, LogLvl
 from src.model.enum.meta.user_agent import UserAgent
 from src.model.enum.remote_type import RemoteType
 from src.util import system_util
-from src.util.system_util import get_path_in_resources
 
 _AVAILABLE_ENV = Literal["local", "docker", "ci"]
 
@@ -298,7 +297,7 @@ class Settings(BaseSettings):
         file_secret_settings,
     ):
         env = os.getenv("ENV", "local").lower()
-        env_file_path = get_path_in_resources(f"config/.env.{env}")
+        env_file_path = system_util.get_path_in_root(f"env/.env.{env}")
 
         custom_env_source = NonEmptyEnvSettingsSource(settings_cls)
         custom_dotenv_source = DotEnvSettingsSource(
