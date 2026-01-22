@@ -22,6 +22,17 @@ def get_path_in_resources(file_path: str) -> str:
     return os.path.join(root_path, "resources", *folders)
 
 
+def get_path_in_root(file_path: str) -> str:
+    """
+    Returns absolute string path to file in resources
+    :param file_path: path to file in resources. Example: "env/.env.local"
+    :return: Example: "/home/$USER/dev/python/automation_exercise/env/.env.local"
+    """
+    root_path = Path(os.path.dirname(__file__)).parent.parent
+    folders = file_path.split("/")
+    return os.path.join(root_path, *folders)
+
+
 def get_allure_results_path() -> str:
     """
     Returns allure results path
