@@ -364,7 +364,6 @@ class DataGenerator:
         expiry_date = _FAKE.credit_card_expire(
             start=date.today().replace(year=start_expiry_year),
             end=date.today().replace(year=end_expiry_year),
-            date_format="MM/yyyy",
         ).split("/")
         return CardInfo(
             name=_FAKE.name(),
