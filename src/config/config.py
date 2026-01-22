@@ -58,7 +58,7 @@ class Settings(BaseSettings):
     )
     browser_version: str = Field(
         validation_alias=AliasChoices("BROWSER_VERSION"),
-        default="145.0",
+        default="125.0",
     )
     browser_size: Tuple[int, int] = Field(
         validation_alias=AliasChoices("BROWSER_SIZE"),
