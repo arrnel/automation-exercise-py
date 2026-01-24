@@ -147,7 +147,7 @@ jobs:
           
           if [ "$show_logs" = "true" ]; then
             echo "### Test logs ###"
-            docker logs rococo-tests
+            docker logs automation-exercise-tests
           fi
 
       - name: Generate Allure Report
