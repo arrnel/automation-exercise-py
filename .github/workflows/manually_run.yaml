@@ -146,6 +146,7 @@ jobs:
           
           if [ show_logs == "true" ]; then
             docker logs rococo-tests
+          fi
 
       - name: Generate Allure Report
         run: |
