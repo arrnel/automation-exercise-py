@@ -296,10 +296,17 @@ class Settings(BaseSettings):
         dotenv_settings,
         file_secret_settings,
     ):
-        env = os.getenv("ENV", "local").lower()
-        env_file_path = system_util.get_path_in_root(f"env/.env.{env}")
-
         custom_env_source = NonEmptyEnvSettingsSource(settings_cls)
+        env = os.getenv("ENV", "local").lower()
+
+        if env == "ci":
+            return (
+                init_settings,
+                custom_env_source,
+                file_secret_settings,
+            )
+
+        env_file_path = system_util.get_path_in_root(f"env/.env.{env}")
         custom_dotenv_source = DotEnvSettingsSource(
             settings_cls,
             env_file=env_file_path if Path(env_file_path).exists() else None,
