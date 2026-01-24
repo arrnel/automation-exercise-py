@@ -5,34 +5,34 @@ on:
     inputs:
 
       run_id:
-        description: Type run id
+        description: Run id
         type: string
         required: true
 
       run_title:
-        description: Type run title
+        description: Run title
         type: string
         required: true
         default: "Manually Test Run"
 
       pytest_mark_expr:
-        description: Set PYTEST_MARK_EXPRESSION
+        description: PYTEST_MARK_EXPRESSION
         type: string
         required: true
 
       pytest_args:
-        description: Set PYTEST_ARGS
+        description: PYTEST_ARGS
         type: string
         required: false
 
       browser_enabled:
-        description: Select enable browser. (Set unchecked if contains only API tests)
+        description: Enable browser. (Set unchecked if contains only API tests)
         type: boolean
         required: false
         default: true
 
       page_load_strategy:
-        description: Set BROWSER_PAGE_LOAD_STRATEGY. (Select 'normal' if contains SCREENSHOT tests)
+        description: BROWSER_PAGE_LOAD_STRATEGY. (Select 'normal' if contains SCREENSHOT tests)
         type: choice
         required: true
         options:
@@ -120,10 +120,12 @@ jobs:
           fi
 
       - name: Pull Selenoid video-recorder
+        shell: bash
         run: |
-          browser_enabled = ${{ inputs.browser_enabled }}
-          is_video_record = ${{ env.ALLURE_ATTACH_TEST_VIDEO }}
-          if [ "${{ inputs.browser_enabled }}" = "true" ] -a [ $is_video_record == "true" ] ; then
+          browser_enabled="${{ inputs.browser_enabled }}"
+          record_video="${{ env.ALLURE_ATTACH_TEST_VIDEO }}"
+
+          if [ "$browser_enabled" = "true" ] && [ "$is_video_record" = "true" ]; then
             docker pull selenoid/video-recorder:latest-release
           fi
       
