@@ -101,7 +101,7 @@ jobs:
         run: |
           echo "PYTEST_MARK_EXPR = [${{ inputs.pytest_mark_expr }}]"
           echo "PYTEST_ARGS = [${{ inputs.pytest_args }}]"
-          echo "BROWSER_PAGE_LOAD_STRATEGY[${{ inputs.page_load_strategy }}]"
+          echo "BROWSER_PAGE_LOAD_STRATEGY = [${{ inputs.page_load_strategy }}]"
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -113,10 +113,18 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - name: Pull Browser
+      - name: Pull Browser selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
         run: |
           if [ "${{ inputs.browser_enabled }}" = "true" ]; then
             docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
+          fi
+
+      - name: Pull Selenoid video-recorder
+        run: |
+          browser_enabled = ${{ inputs.browser_enabled }}
+          is_video_record = ${{ env.ALLURE_ATTACH_TEST_VIDEO }}
+          if [ "${{ inputs.browser_enabled }}" = "true" ] -a [ $is_video_record == "true" ] ; then
+            docker pull selenoid/video-recorder:latest-release
           fi
       
       - name: Get the last commit message
