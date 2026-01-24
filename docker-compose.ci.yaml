@@ -77,12 +77,15 @@ services:
     volumes:
       - ./allure-results:/allure-results
       - ./resources/files:/app/resources/files
-      - test_files_volume:/test_temp_files:rw
+      - test_files_volume:/test_temp_files
     depends_on:
       selenoid:
         condition: service_started
     networks:
       - automation_exercise-network
+
+volumes:
+  test_files_volume:
 
 networks:
   automation_exercise-network:

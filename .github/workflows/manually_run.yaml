@@ -44,6 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PREFIX: ${{ github.repository_owner }}
+      ARCH: ${{ vars.ARCH }}
       # ---------- SECRETS
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
