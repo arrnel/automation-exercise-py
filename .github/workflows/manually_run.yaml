@@ -114,8 +114,9 @@ jobs:
 
       - name: Pull Browser
         run: |
-          if [ ${{ inputs.browser_enabled }} == true ]
-           docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
+          if [ "${{ inputs.browser_enabled }}" = "true" ]; then
+            docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
+          fi
       
       - name: Get the last commit message
         run: |
