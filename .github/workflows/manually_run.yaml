@@ -117,15 +117,6 @@ jobs:
         run: |
           if [ "${{ inputs.browser_enabled }}" = "true" ]; then
             docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-          fi
-
-      - name: Pull Selenoid video-recorder
-        shell: bash
-        run: |
-          browser_enabled="${{ inputs.browser_enabled }}"
-          record_video="${{ env.ALLURE_ATTACH_TEST_VIDEO }}"
-
-          if [ "$browser_enabled" = "true" ] && [ "$is_video_record" = "true" ]; then
             docker pull selenoid/video-recorder:latest-release
           fi
       
