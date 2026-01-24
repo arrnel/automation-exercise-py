@@ -1,0 +1,250 @@
+name: manually-run
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      run_id:
+        description: Type run id
+        type: string
+        required: true
+
+      run_title:
+        description: Type run title
+        type: string
+        required: true
+        default: "Manually Test Run #${{ inputs.run_id }}"
+
+      pytest_mark_expr:
+        description: Set PYTEST_MARK_EXPRESSION
+        type: string
+        required: true
+
+      pytest_args:
+        description: Set PYTEST_ARGS
+        type: string
+        required: false
+
+      browser_enabled:
+        description: Select enable browser. (Set unchecked if contains only API tests)
+        type: boolean
+        required: false
+        default: true
+
+      page_load_strategy:
+        description: Set BROWSER_PAGE_LOAD_STRATEGY. (Select 'normal' if contains SCREENSHOT tests)
+        type: choice
+        required: true
+        options:
+          - eager
+          - normal
+
+jobs:
+  manually-run:
+    runs-on: ubuntu-latest
+    env:
+      PREFIX: ${{ github.repository_owner }}
+      # ---------- SECRETS
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
+      DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
+      EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
+      # ---------- VARS
+      ENV: ci
+      PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
+      PYTEST_MARK_EXPR: ${{ inputs.pytest_mark_expr }}
+      PYTEST_ARGS: ${{ inputs.PYTEST_ARGS }}
+      BASE_URL: ${{ vars.BASE_URL }}
+      BASE_API_URL: ${{ vars.BASE_API_URL }}
+      REMOTE_TYPE: ${{ vars.REMOTE_TYPE }}
+      REMOTE_URL: ${{ vars.REMOTE_URL }}
+      BROWSER_NAME: ${{ vars.BROWSER_NAME }}
+      BROWSER_VERSION: ${{ vars.BROWSER_VERSION }}
+      BROWSER_SIZE: ${{ vars.BROWSER_SIZE }}
+      BROWSER_HEADLESS: ${{ vars.BROWSER_HEADLESS }}
+      BROWSER_TIMEOUT: ${{ vars.BROWSER_TIMEOUT }}
+      BROWSER_SCRIPTS_TIMEOUT: ${{ vars.BROWSER_SCRIPTS_TIMEOUT }}
+      BROWSER_PAGE_LOAD_TIMEOUT: ${{ vars.BROWSER_PAGE_LOAD_TIMEOUT }}
+      BROWSER_PAGE_LOAD_STRATEGY: ${{ inputs.page_load_strategy }}
+      BROWSER_DOWNLOAD_DIR: ${{ vars.BROWSER_DOWNLOAD_DIR }}
+      BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR: ${{ vars.BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR }}
+      BROWSER_REMOTE_VNC: ${{ vars.BROWSER_REMOTE_VNC }}
+      BROWSER_REMOTE_VIDEO: ${{ vars.BROWSER_REMOTE_VIDEO }}
+      BROWSER_REMOTE_LOGS: ${{ vars.BROWSER_REMOTE_LOGS }}
+      BROWSER_REMOTE_AUDIO: ${{ vars.BROWSER_REMOTE_AUDIO }}
+      BROWSER_REMOTE_SESSION_TIMEOUT: ${{ vars.BROWSER_REMOTE_SESSION_TIMEOUT }}
+      DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
+      HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
+      REWRITE_ALL_SCREENSHOTS: ${{ vars.REWRITE_ALL_SCREENSHOTS }}
+      DEFAULT_PERCENT_OF_TOLERANCE: ${{ vars.DEFAULT_PERCENT_OF_TOLERANCE }}
+      ALLURE_ATTACH_TEST_ARTIFACTS: ${{ vars.ALLURE_ATTACH_TEST_ARTIFACTS }}
+      ALLURE_ATTACH_TEST_VIDEO: ${{ vars.ALLURE_ATTACH_TEST_VIDEO }}
+      EXPECTED_PRODUCT_ID: ${{ vars.EXPECTED_PRODUCT_ID }}
+      EXPECTED_PRODUCT_IDS: ${{ vars.EXPECTED_PRODUCT_IDS }}
+      RECOMMENDED_PRODUCT_IDS: ${{ vars.RECOMMENDED_PRODUCT_IDS }}
+      EXPECTED_CREDIT_CARD: ${{ vars.EXPECTED_CREDIT_CARD }}
+      PATH_TO_FILES: ${{ vars.PATH_TO_FILES }}
+      TESTS_PASS_RATE: ${{ vars.TESTS_PASSED_RATE }}
+      LOG_LVL: ${{ vars.LOG_LVL }}
+      API_LOG_LVL: ${{ vars.API_LOG_LVL }}
+      GITHUB_API_URL: ${{ github.GITHUB_API_URL }}
+      GITHUB_TOKEN_NAME: ${{ vars.GITHUB_TOKEN_NAME }}
+      GITHUB_ACCOUNT_NAME: ${{ github.repository_owner }}
+      GITHUB_REPO_NAME: ${{ github.repository }}
+      LAST_TEST_STAT_URL: ${{ vars.LAST_TEST_STAT_URL }}
+      BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    steps:
+
+      - name: Print run info
+        run: |
+          echo "PYTEST_MARK_EXPR = [${{ inputs.pytest_mark_expr }}]"
+          echo "PYTEST_ARGS = [${{ inputs.pytest_args }}]"
+          echo "BROWSER_PAGE_LOAD_STRATEGY[${{ inputs.page_load_strategy }}]"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.GITHUB_SHA }}
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "${{ env.PYTHON_VERSION }}"
+
+      - name: Pull Browser
+        run: |
+          if [ ${{ inputs.browser_enabled }} == true ]
+           docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
+      
+      - name: Get the last commit message
+        run: |
+          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
+
+      - name: Run tests
+        id: test_run
+        run: |
+          
+          show_logs=${{ vars.SHOW_TEST_CONTAINER_LOGS }}
+          
+          docker compose -f docker-compose.ci.yaml up -d
+          docker ps -a
+          docker wait automation-exercise-tests
+          echo "### Test logs ###"
+          
+          if [ show_logs == "true" ]; then
+            docker logs rococo-tests
+
+      - name: Generate Allure Report
+        run: |
+          docker run --rm -v $(pwd)/allure-results:/allure-results -v $(pwd)/allure-report:/allure-report mlex/allure:2.25.0 generate /allure-results -o /allure-report --clean
+
+      - name: Deploy Allure report with history
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Deploy report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
+
+      - name: Parse Test Statistics
+        id: stats
+        run: |
+          # Install jq for JSON parsing
+          sudo apt-get install -y jq
+          # Parse categories from Allure results (assuming categories.json exists in allure-results)
+          if [ -f allure-results/categories.json ]; then
+            PASSED=$(jq '.[] | select(.name == "passed") | .matched' allure-results/categories.json || echo 0)
+            FAILED=$(jq '.[] | select(.name == "failed") | .matched' allure-results/categories.json || echo 0)
+            BROKEN=$(jq '.[] | select(.name == "broken") | .matched' allure-results/categories.json || echo 0)
+            SKIPPED=$(jq '.[] | select(.name == "skipped") | .matched' allure-results/categories.json || echo 0)
+            UNKNOWN=$(jq '.[] | select(.name == "unknown") | .matched' allure-results/categories.json || echo 0)
+          else
+            # Fallback: count result files
+            PASSED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "passed")
+            FAILED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "failed")
+            BROKEN=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "broken")
+            SKIPPED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "skipped")
+            UNKNOWN=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "unknown")
+          fi
+          TOTAL=$((PASSED + FAILED + BROKEN + SKIPPED + UNKNOWN))
+          PASS_RATE=$(awk "BEGIN {printf \"%.3f\", ($PASSED / $TOTAL) * 100}")
+          echo "PASSED=$PASSED" >> $GITHUB_OUTPUT
+          echo "FAILED=$FAILED" >> $GITHUB_OUTPUT
+          echo "BROKEN=$BROKEN" >> $GITHUB_OUTPUT
+          echo "SKIPPED=$SKIPPED" >> $GITHUB_OUTPUT
+          echo "UNKNOWN=$UNKNOWN" >> $GITHUB_OUTPUT
+          echo "TOTAL=$TOTAL" >> $GITHUB_OUTPUT
+          echo "PASS_RATE=$PASS_RATE" >> $GITHUB_OUTPUT
+
+      - name: Quality gate
+        id: quality_gate
+        run: |
+          
+          expected_pass_rate = ${{ env.TESTS_PASS_RATE }}
+          actual_pass_rate = ${{steps.stats.outputs.PASS_RATE}}
+          
+          if [ $(echo "$actual_pass_rate < $expected_pass_rate" | bc -l) -eq 1 ]; then
+            echo "Quality gate failed: Actual pass rate $actual_pass_rate% < Expected $expected_pass_rate%"
+            exit 1
+          fi
+          
+          echo "Quality gate passed: Actual pass rate $actual_pass_rate% >= Expected $expected_pass_rate%"
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const marker = '<!-- TEST RUN COMMENT -->';
+            const existing = comments.find(comment => comment.body.includes(marker));
+            const reportUrl = `https://${{ github.repository_owner }}.github.io/${{ github.repository }}/reports/${{ github.run_id }}/index.html`;
+            const historyUrl = `https://${{ github.repository_owner }}.github.io/${{ github.repository }}/`;
+            const body = `${marker}
+            ✅ TEST RUN PASSED ✅
+            📋 Test Statistics:
+            | Status | Count |
+            |--------|-------|
+            | ✅ Passed | ${{ steps.stats.outputs.PASSED }} |
+            | 🔴 Failed | ${{ steps.stats.outputs.FAILED }} |
+            | 🟠 Broken | ${{ steps.stats.outputs.BROKEN }} |
+            | ⏩ Skipped | ${{ steps.stats.outputs.SKIPPED }} |
+            | ❓ Unknown | ${{ steps.stats.outputs.UNKNOWN }} |
+            | 📊 Total | ${{ steps.stats.outputs.TOTAL }} |
+            📈 Pass Rate ${{ steps.stats.outputs.PASS_RATE }}%
+            There is the [report](${reportUrl})
+            🕓 All [reports history](${historyUrl})
+            `;
+            
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
