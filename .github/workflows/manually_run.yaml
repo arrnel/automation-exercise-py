@@ -89,7 +89,7 @@ jobs:
       LOG_LVL: ${{ vars.LOG_LVL }}
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       GITHUB_API_URL: ${{ github.GITHUB_API_URL }}
-      GITHUB_TOKEN_NAME: ${{ vars.GITHUB_TOKEN_NAME }}
+      GITHUB_TOKEN_NAME: ${{ vars.GH_TOKEN_NAME }}
       GITHUB_ACCOUNT_NAME: ${{ github.repository_owner }}
       GITHUB_REPO_NAME: ${{ github.repository }}
       LAST_TEST_STAT_URL: ${{ vars.LAST_TEST_STAT_URL }}
