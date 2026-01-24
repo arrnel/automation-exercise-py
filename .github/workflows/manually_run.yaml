@@ -135,16 +135,18 @@ jobs:
 
       - name: Run tests
         id: test_run
+        shell: bash
         run: |
+          set -euo pipefail
           
-          show_logs=${{ vars.SHOW_TEST_CONTAINER_LOGS }}
+          show_logs="${{ vars.SHOW_TEST_CONTAINER_LOGS }}"
           
           docker compose -f docker-compose.ci.yaml up -d
           docker ps -a
           docker wait automation-exercise-tests
-          echo "### Test logs ###"
           
-          if [ show_logs == "true" ]; then
+          if [ "$show_logs" = "true" ]; then
+            echo "### Test logs ###"
             docker logs rococo-tests
           fi
 
