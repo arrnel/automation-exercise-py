@@ -1,0 +1,37 @@
+name: Repo Resources Sync
+description: Sync resources from/to dedicated branch
+
+inputs:
+  resources-branch:
+    description: Test resource branch
+    default: test_resource
+    required: true
+  resource-name:
+    description: Test resource title
+    required: true
+  target-path:
+    description: Path to folder
+    required: true
+  github-token:
+    description: Github token. With permissions to read-write in repository
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch resources
+      shell: bash
+      run: |
+        bash ${{ github.action_path }}/fetch.sh \
+          "${{ inputs.resources-branch }}" \
+          "${{ inputs.resource-name }}" \
+          "${{ inputs.target-path }}"
+
+  post:
+    - name: Save resources
+      shell: bash
+      run: |
+        bash ${{ github.action_path }}/save.sh \
+          "${{ inputs.resources-branch }}" \
+          "${{ inputs.resource-name }}" \
+          "${{ inputs.target-path }}"
