@@ -96,6 +96,9 @@ jobs:
         run: |
           set -e
 
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
           if git ls-remote --exit-code --heads origin workflow_resources > /dev/null; then
             echo "Branch workflow_resources exists"
           else
@@ -103,10 +106,12 @@ jobs:
 
             git checkout --orphan workflow_resources
             git rm -rf .
+
             git commit --allow-empty -m "chore: initialize workflow_resources branch"
             git push origin workflow_resources
 
             git checkout -
+          
           fi
 
       - name: Checkout workflow_resources branch
