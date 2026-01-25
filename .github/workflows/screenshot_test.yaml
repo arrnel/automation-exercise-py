@@ -92,6 +92,23 @@ jobs:
           docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
           docker pull selenoid/video-recorder:latest-release
 
+      - name: Ensure workflow_resources branch exists
+        run: |
+          set -e
+
+          if git ls-remote --exit-code --heads origin workflow_resources > /dev/null; then
+            echo "Branch workflow_resources exists"
+          else
+            echo "Branch workflow_resources does not exist. Creating empty branch..."
+
+            git checkout --orphan workflow_resources
+            git rm -rf .
+            git commit --allow-empty -m "chore: initialize workflow_resources branch"
+            git push origin workflow_resources
+
+            git checkout -
+          fi
+
       - name: Checkout workflow_resources branch
         uses: actions/checkout@v4
         with:
