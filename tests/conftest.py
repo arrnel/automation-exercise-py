@@ -1,3 +1,5 @@
+import os
+
 import allure
 import pytest
 
@@ -81,24 +83,28 @@ def all_tests_fixtures():
     # ---------------------------------------------------------------------
     # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
     # ---------------------------------------------------------------------
-    with allure.step("Clear allure-results directory"):
-        allure_results_dir = system_util.get_allure_results_path()
-        system_util.create_folder(allure_results_dir)
-        system_util.remove_all_files_from_folder(
-            allure_results_dir, by_remove_folder=False
-        )
+    if os.getenv("ENV", "local").lower() == "ci":
+        with allure.step("Clear allure-results directory"):
+            allure_results_dir = system_util.get_allure_results_path()
+            system_util.create_folder(allure_results_dir)
+            system_util.remove_all_files_from_folder(
+                allure_results_dir, by_remove_folder=False
+            )
 
     # ---------------------------------------------------------------------
     # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
     # ---------------------------------------------------------------------
-    with allure.step("Clear test temp files directory"):
-        test_temp_dir = (
-            CFG.browser_override_downloaded_file_dir
-            if CFG.is_remote()
-            else CFG.browser_download_dir
-        )
-        system_util.create_folder(test_temp_dir)
-        system_util.remove_all_files_from_folder(test_temp_dir, by_remove_folder=False)
+    if CFG.is_local():
+        with allure.step("Clear test temp files directory"):
+            test_temp_dir = (
+                CFG.browser_override_downloaded_file_dir
+                if CFG.is_remote()
+                else CFG.browser_download_dir
+            )
+            system_util.create_folder(test_temp_dir)
+            system_util.remove_all_files_from_folder(
+                test_temp_dir, by_remove_folder=False
+            )
 
     # ---------------------------------------------------------------------
     # ATTACH TEST CONFIGURATION DATA TO ALLURE
