@@ -17,21 +17,6 @@ inputs:
     required: true
 
 runs:
-  using: composite
-  steps:
-    - name: Fetch resources
-      shell: bash
-      run: |
-        bash ${{ github.action_path }}/fetch.sh \
-          "${{ inputs.resources-branch }}" \
-          "${{ inputs.resource-name }}" \
-          "${{ inputs.target-path }}"
-
-  post:
-    - name: Save resources
-      shell: bash
-      run: |
-        bash ${{ github.action_path }}/save.sh \
-          "${{ inputs.resources-branch }}" \
-          "${{ inputs.resource-name }}" \
-          "${{ inputs.target-path }}"
+  using: node20
+  main: dist/main.js
+  post: dist/post.js
