@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
 
-  manually-run:
+  screenshot_run:
 
     runs-on: ubuntu-latest
 
@@ -30,7 +30,6 @@ jobs:
       # ---------- VARS
       ENV: ci
       PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
-      PYTEST_MARK_EXPR: ${{ inputs.PYTEST_MARK_EXPR }}
       PYTEST_ARGS: ${{ inputs.PYTEST_ARGS }}
       BASE_URL: ${{ vars.BASE_URL }}
       BASE_API_URL: ${{ vars.BASE_API_URL }}
@@ -43,7 +42,6 @@ jobs:
       BROWSER_TIMEOUT: ${{ vars.BROWSER_TIMEOUT }}
       BROWSER_SCRIPTS_TIMEOUT: ${{ vars.BROWSER_SCRIPTS_TIMEOUT }}
       BROWSER_PAGE_LOAD_TIMEOUT: ${{ vars.BROWSER_PAGE_LOAD_TIMEOUT }}
-      BROWSER_PAGE_LOAD_STRATEGY: ${{ inputs.PAGE_LOAD_STRATEGY }}
       BROWSER_DOWNLOAD_DIR: ${{ vars.BROWSER_DOWNLOAD_DIR }}
       BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR: ${{ vars.BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR }}
       BROWSER_REMOTE_VNC: ${{ vars.BROWSER_REMOTE_VNC }}
@@ -53,7 +51,6 @@ jobs:
       BROWSER_REMOTE_SESSION_TIMEOUT: ${{ vars.BROWSER_REMOTE_SESSION_TIMEOUT }}
       DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
       HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
-      REWRITE_ALL_SCREENSHOTS: ${{ inputs.REWRITE_ALL_SCREENSHOTS }}
       DEFAULT_PERCENT_OF_TOLERANCE: ${{ vars.DEFAULT_PERCENT_OF_TOLERANCE }}
       ALLURE_ATTACH_TEST_ARTIFACTS: ${{ vars.ALLURE_ATTACH_TEST_ARTIFACTS }}
       ALLURE_ATTACH_TEST_VIDEO: ${{ vars.ALLURE_ATTACH_TEST_VIDEO }}
@@ -61,8 +58,6 @@ jobs:
       EXPECTED_PRODUCT_IDS: ${{ vars.EXPECTED_PRODUCT_IDS }}
       RECOMMENDED_PRODUCT_IDS: ${{ vars.RECOMMENDED_PRODUCT_IDS }}
       EXPECTED_CREDIT_CARD: ${{ vars.EXPECTED_CREDIT_CARD }}
-      PATH_TO_FILES: ${{ vars.PATH_TO_FILES }}
-      TESTS_PASS_RATE: ${{ vars.TESTS_PASSED_RATE }}
       LOG_LVL: ${{ vars.LOG_LVL }}
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       GITHUB_API_URL: ${{ github.GITHUB_API_URL }}
@@ -70,6 +65,10 @@ jobs:
       GITHUB_ACCOUNT_NAME: ${{ github.repository_owner }}
       GITHUB_REPO_NAME: ${{ vars.GH_REPO_NAME }}
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      # ---------- IMPORTANT VARS
+      PYTEST_MARK_EXPR: screenshot_test
+      REWRITE_ALL_SCREENSHOTS: ${{ inputs.REWRITE_ALL_SCREENSHOTS }}
+      BROWSER_PAGE_LOAD_STRATEGY: normal
 
     steps:
 
@@ -89,20 +88,19 @@ jobs:
 
       - name: Pull Browser selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
         run: |
-          if [ "${{ inputs.BROWSER_ENABLED }}" = "true" ]; then
-            docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-            docker pull selenoid/video-recorder:latest-release
-          fi
+          docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
+          docker pull selenoid/video-recorder:latest-release
 
-      - name: Add screenshot volume
-        id: screenshot_volume
-        uses: ./.github/actions/test_resources
+      - name: Checkout workflow_resources branch
+        uses: actions/checkout@v4
         with:
-          resources-branch: repo_resources
-          resource-name: screenshots
-          target-path: /app/resources/files/screenshot
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ref: workflow_resources
+          path: workflow_resources
 
+      - name: Prepare workflow_resources directory
+        run: |
+          set -e
+          mkdir -p workflow_resources/screenshot
 
       - name: Run tests
         id: test_run
@@ -147,3 +145,22 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
+
+      - name: Commit workflow_resources changes
+        if: always()
+        run: |
+          set -e
+          cd workflow_resources
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit in workflow_resources"
+            exit 0
+          fi
+
+          git commit -m "chore: update workflow resources (screenshots)"
+          git push origin workflow_resources

@@ -76,7 +76,7 @@ services:
       - GITHUB_REPO_NAME=${GITHUB_REPO_NAME:-}
     volumes:
       - ./allure-results:/allure-results
-      - /app/resources/files/screenshot:/app/resources/files/screenshot
+      - ./workflow_resources/screenshot:/app/resources/files/screenshot
       - ./resources/files/upload:/app/resources/upload
       - test_files_volume:/test_temp_files
     depends_on:
