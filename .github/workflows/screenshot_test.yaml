@@ -88,11 +88,6 @@ jobs:
         run: |
           echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
 
-      - name: Update env var PYTEST_MARK_EXPR
-        if: ${{ inputs.RUN_TESTS_WITH_DEBUG_MARKER }}      
-        run: |
-          echo "PYTEST_MARK_EXPR=screenshot_test and debug_test" >> $env:GITHUB_ENV
-
       - name: Setup Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
         with:
@@ -143,6 +138,10 @@ jobs:
           set -euo pipefail
           
           SHOW_LOGS="${{ vars.SHOW_TEST_CONTAINER_LOGS }}"
+
+          if [ "${{inputs.RUN_TESTS_WITH_DEBUG_MARKER }}" = "true" ]; then
+            echo "PYTEST_MARK_EXPR=screenshot_test and debug_test" >> $GITHUB_ENV
+          fi
           
           docker compose -f docker-compose.ci.yaml up -d
           docker ps -a
