@@ -79,6 +79,11 @@ jobs:
 
     steps:
 
+      - name: Update PYTEST_MARK_EXPR
+        if: ${{ inputs.RUN_TESTS_WITH_DEBUG_MARKER }}
+        run: |
+          echo "PYTEST_MARK_EXPR=screenshot_test and debug_test" >> $GITHUB_ENV
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -139,7 +144,7 @@ jobs:
           
           SHOW_LOGS="${{ vars.SHOW_TEST_CONTAINER_LOGS }}"
 
-          if [ "${{inputs.RUN_TESTS_WITH_DEBUG_MARKER }}" = "true" ]; then
+          if [ "${{ inputs.RUN_TESTS_WITH_DEBUG_MARKER }}" = "true" ]; then
             echo "PYTEST_MARK_EXPR=screenshot_test and debug_test" >> $GITHUB_ENV
           fi
           
