@@ -102,7 +102,6 @@ class TestProductCarousel(BaseWebTest):
         # Assertions
         self.cart_page.products.check_contains_product_titles(product_title)
 
-    @pytest.mark.debug_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Products Carousel")
     @allure.title("[WEB Component] Product carousel should have expected product")
