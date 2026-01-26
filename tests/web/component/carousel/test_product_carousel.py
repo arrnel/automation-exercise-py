@@ -29,8 +29,7 @@ class TestProductCarousel(BaseWebTest):
 
         # Assertions
         recommended_products.check_component_has_screenshot(
-            path_to_screenshot="files/screenshot/component/carousel/product/slide_1.png",
-            rewrite_screenshot=True,
+            path_to_screenshot="files/screenshot/component/carousel/product/slide_1.png"
         )
 
     @pytest.mark.screenshot_test
