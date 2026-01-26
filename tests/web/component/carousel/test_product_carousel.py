@@ -13,7 +13,6 @@ from tests.web.base_test import BaseWebTest
 @allure.feature("[Web] Component - Products Carousel")
 class TestProductCarousel(BaseWebTest):
 
-    @pytest.mark.debug_test
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Products Carousel")
