@@ -13,7 +13,6 @@ from tests.web.base_test import BaseWebTest
 @allure.feature("[WEB] Place Order Component")
 class TestPaymentComponent(BaseWebTest):
 
-    @pytest.mark.debug_test
     @pytest.mark.usefixtures(
         "open_payment_page",
         "auth_expected_user",
