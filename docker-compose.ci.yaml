@@ -69,11 +69,11 @@ services:
       - PATH_TO_FILES=${PATH_TO_FILES:-}
       - LOG_LVL=${LOG_LVL:-}
       - API_LOG_LVL=${API_LOG_LVL:-}
-      - GITHUB_API_URL=${GITHUB_API_URL:-}
-      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
-      - GITHUB_TOKEN_NAME=${GITHUB_TOKEN_NAME:-}
-      - GITHUB_ACCOUNT_NAME=${GITHUB_ACCOUNT_NAME:-}
-      - GITHUB_REPO_NAME=${GITHUB_REPO_NAME:-}
+      - GH_API_URL=${GH_API_URL:-}
+      - GH_TOKEN=${GH_TOKEN:-}
+      - GH_TOKEN_NAME=${GH_TOKEN_NAME:-}
+      - GH_ACCOUNT_NAME=${GH_ACCOUNT_NAME:-}
+      - GH_REPO_NAME=${GH_REPO_NAME:-}
     volumes:
       - ./allure-results:/allure-results
       - ./workflow_resources/screenshot:/app/resources/files/screenshot

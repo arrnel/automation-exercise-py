@@ -98,11 +98,11 @@
 | PATH_TO_FILES                        |            | (resource folder)/files/downloads  | Абсолютный путь к папке с файлами, используемые, для загрузки.                                                                                                                                                                                                                  |
 | LOG_LVL                              |            | INFO                               | Отображает в консоли логи заданного уровня и выше. Возможные значения: DEBUG, INFO, WARNING, ERROR, FATAL                                                                                                                                                                       |
 | API_LOG_LVL                          |            | HEADERS                            | Уровень детализации логирования для API-клиента. Возможные значения: NONE, BASIC, HEADERS, BODY                                                                                                                                                                                 |
-| GITHUB_API_URL                       |            | https://api.github.com             | Базовый URL для API GitHub                                                                                                                                                                                                                                                      |
-| GITHUB_TOKEN                         | +          |                                    | Fine-grained PAT-токен. Создать по [ссылке](https://github.com/settings/personal-access-tokens) или перейти в Settings -> Developer Settings -> Personal access tokens -> Fine-grained tokens.<br/><br/> ***Необходимые права: Issues (read-only)***                            |
-| GITHUB_TOKEN_NAME                    | +          |                                    | Название Fine-grained PAT-токена                                                                                                                                                                                                                                                |
-| GITHUB_ACCOUNT_NAME                  | +          |                                    | Имя профиля репозитория в github. Если делали форк репозитория то нужно указать имя аккаунта.                                                                                                                                                                                   |
-| GITHUB_REPO_NAME                     | +          |                                    | Имя репозитория в github. Если делали форк репозитория то нужно указать имя аккаунта.                                                                                                                                                                                           |
+| GH_API_URL                           |            | https://api.github.com             | Базовый URL для API GitHub                                                                                                                                                                                                                                                      |
+| GH_TOKEN                             | +          |                                    | Fine-grained PAT-токен. Создать по [ссылке](https://github.com/settings/personal-access-tokens) или перейти в Settings -> Developer Settings -> Personal access tokens -> Fine-grained tokens.<br/><br/> ***Необходимые права: Issues (read-only)***                            |
+| GH_TOKEN_NAME                        | +          |                                    | Название Fine-grained PAT-токена                                                                                                                                                                                                                                                |
+| GH_ACCOUNT_NAME                      | +          |                                    | Имя профиля репозитория в github. Если делали форк репозитория то нужно указать имя аккаунта.                                                                                                                                                                                   |
+| GH_REPO_NAME                         | +          |                                    | Имя репозитория в github. Если делали форк репозитория то нужно указать имя аккаунта.                                                                                                                                                                                           |
 
 </details>
 
@@ -204,7 +204,7 @@
    2) либо добавь переменные окружения, включая `ENV`=`docker`:  
    `export ENV=docker`
    `export PYTEST_MARK_EXPR="web_test and not screenshot"`  
-   `export GITHUB_TOKEN=...`  
+   `export GH_TOKEN=...`  
    ...
    и другие
 4) При необходимости можешь указать и опциональные переменные значения конфигурации.

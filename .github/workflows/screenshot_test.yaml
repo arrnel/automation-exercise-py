@@ -29,12 +29,11 @@ jobs:
       PREFIX: ${{ github.repository_owner }}
       ARCH: ${{ vars.ARCH }}
       # ---------- SECRETS
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
       DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
       EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
       # ---------- VARS
-      ENV: ci
       PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
       PYTEST_ARGS: ${{ inputs.PYTEST_ARGS }}
       BASE_URL: ${{ vars.BASE_URL }}
@@ -67,12 +66,13 @@ jobs:
       EXPECTED_CREDIT_CARD: ${{ vars.EXPECTED_CREDIT_CARD }}
       LOG_LVL: ${{ vars.LOG_LVL }}
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
-      GITHUB_API_URL: ${{ github.GITHUB_API_URL }}
-      GITHUB_TOKEN_NAME: ${{ vars.GH_TOKEN_NAME }}
-      GITHUB_ACCOUNT_NAME: ${{ github.repository_owner }}
-      GITHUB_REPO_NAME: ${{ vars.GH_REPO_NAME }}
+      GH_API_URL: ${{ github.api_url }}
+      GH_TOKEN_NAME: ${{ vars.GH_TOKEN_NAME }}
+      GH_ACCOUNT_NAME: ${{ github.repository_owner }}
+      GH_REPO_NAME: ${{ vars.GH_REPO_NAME }}
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       # ---------- IMPORTANT VARS
+      ENV: ci
       PYTEST_MARK_EXPR: screenshot_test
       REWRITE_ALL_SCREENSHOTS: ${{ inputs.REWRITE_ALL_SCREENSHOTS }}
       BROWSER_PAGE_LOAD_STRATEGY: normal

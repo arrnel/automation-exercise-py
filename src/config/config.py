@@ -190,19 +190,19 @@ class Settings(BaseSettings):
 
     # GITHUB
     github_api_url: str = Field(
-        validation_alias=AliasChoices("GITHUB_API_URL"),
+        validation_alias=AliasChoices("GH_API_URL"),
         default="https://api.github.com",
     )
     github_account_name: str = Field(
-        validation_alias=AliasChoices("GITHUB_ACCOUNT_NAME"),
+        validation_alias=AliasChoices("GH_ACCOUNT_NAME"),
         default="arrnel",
     )
     github_repo_name: str = Field(
-        validation_alias=AliasChoices("GITHUB_REPO_NAME"),
+        validation_alias=AliasChoices("GH_REPO_NAME"),
         default="automation-exercise-py",
     )
-    github_token: str = Field(validation_alias=AliasChoices("GITHUB_TOKEN"))
-    github_token_name: str = Field(validation_alias=AliasChoices("GITHUB_TOKEN_NAME"))
+    github_token: str = Field(validation_alias=AliasChoices("GH_TOKEN"))
+    github_token_name: str = Field(validation_alias=AliasChoices("GH_TOKEN_NAME"))
 
     # PYDANTIC
     model_config = SettingsConfigDict(
