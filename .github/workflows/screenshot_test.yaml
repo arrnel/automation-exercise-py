@@ -8,6 +8,12 @@ on:
         type: boolean
         required: false
         default: false
+        
+      RUN_TESTS_WITH_DEBUG_MARKER:
+        description: Run tests with debug marker
+        type: boolean
+        required: false
+        default: false
 
 concurrency:
   group: screenshot-resource
@@ -81,6 +87,11 @@ jobs:
       - name: Get the last commit message
         run: |
           echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
+
+      - name: Update env var PYTEST_MARK_EXPR
+        if: ${{ inputs.RUN_TESTS_WITH_DEBUG_MARKER }}      
+        run: |
+          echo "PYTEST_MARK_EXPR=screenshot_test and debug_test" >> $env:GITHUB_ENV
 
       - name: Setup Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
