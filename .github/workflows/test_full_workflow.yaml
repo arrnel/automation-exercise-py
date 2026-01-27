@@ -117,11 +117,13 @@ jobs:
         continue-on-error: true
 
       - name: Clear compose data
+        if: always()
         run: |
           docker compose rm -sf
-          docker rmi automation-exercise-tests:latest
+          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
 
       - name: Update env variables for UI test run
+        if: always()
         run: |
           echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
           echo "PYTEST_ARGS=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
@@ -145,11 +147,13 @@ jobs:
         continue-on-error: true
 
       - name: Clear compose data
+        if: always()
         run: |
           docker compose rm -sf
-          docker rmi automation-exercise-tests:latest
+          docker rmi c
 
       - name: Update env variables for SCREENSHOT test run
+        if: always()
         run: |
           echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_SCREENSHOT }}" >> $GITHUB_ENV
           echo "PYTEST_ARGS=${{ vars.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
