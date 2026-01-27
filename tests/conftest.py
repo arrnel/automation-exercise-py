@@ -80,10 +80,11 @@ def all_tests_fixtures():
 
     ThreadSafeTestThreadsStore().add_current_thread_to_test(_GLOBAL)
 
-    # ---------------------------------------------------------------------
-    # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
-    # ---------------------------------------------------------------------
-    if os.getenv("ENV", "local").lower() == "ci":
+    if CFG.is_local():
+
+        # ---------------------------------------------------------------------
+        # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
+        # ---------------------------------------------------------------------
         with allure.step("Clear allure-results directory"):
             allure_results_dir = system_util.get_allure_results_path()
             system_util.create_folder(allure_results_dir)
@@ -91,10 +92,10 @@ def all_tests_fixtures():
                 allure_results_dir, by_remove_folder=False
             )
 
-    # ---------------------------------------------------------------------
-    # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
-    # ---------------------------------------------------------------------
-    if CFG.is_local():
+        # ---------------------------------------------------------------------
+        # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR
+        # ---------------------------------------------------------------------
+
         with allure.step("Clear test temp files directory"):
             test_temp_dir = (
                 CFG.browser_override_downloaded_file_dir
