@@ -125,8 +125,8 @@ jobs:
 
       - name: Update env variables for UI test run
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPR_UI }}" >> $GITHUB_ENV
-          echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_UI }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
+          echo "PYTEST_ARGS=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
 
       - name: Run UI tests
@@ -153,8 +153,8 @@ jobs:
 
       - name: Update env variables for SCREENSHOT test run
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPR_SCREENSHOT }}" >> $GITHUB_ENV
-          echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_SCREENSHOT }}" >> $GITHUB_ENV
+          echo "PYTEST_ARGS=${{ vars.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=normal" >> $GITHUB_ENV
 
       - name: Run SCREENSHOT tests
