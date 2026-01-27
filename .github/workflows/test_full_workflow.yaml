@@ -109,12 +109,10 @@ jobs:
           docker ps -a
           docker wait automation-exercise-tests
 
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
-
-          docker compose rm
 
         continue-on-error: true
 
@@ -139,7 +137,7 @@ jobs:
           docker ps -a
           docker wait automation-exercise-tests
 
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
@@ -167,7 +165,7 @@ jobs:
           docker ps -a
           docker wait automation-exercise-tests
 
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
