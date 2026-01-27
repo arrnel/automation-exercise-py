@@ -106,10 +106,6 @@ jobs:
         with:
           ref: ${{ env.GITHUB_SHA }}
 
-      - name: Get the last commit message
-        run: |
-          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
-
       - name: Setup Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
         with:
@@ -122,13 +118,16 @@ jobs:
             docker pull selenoid/video-recorder:latest-release
           fi
 
-      - name: Add screenshot volume
-        id: screenshot_volume
-        if: ${{ inputs.ADD_SCREENSHOT_VOLUME }}
+      - name: Checkout workflow_resources branch
+        uses: actions/checkout@v4
+        with:
+          ref: workflow_resources
+          path: workflow_resources
+
+      - name: Prepare workflow_resources directory
         run: |
-          if [ ${{ inputs.ADD_SCREENSHOT_VOLUME }} = true ]; then
-            docker volume create screenshot_volume
-          fi
+          set -e
+          mkdir -p workflow_resources/screenshot
 
       - name: Run tests
         id: test_run
@@ -161,6 +160,7 @@ jobs:
         if: always()
         #id: allure-report
         with:
+          report_name: ${{ inputs.RUN_TITLE }}
           allure_results: allure-results
           #gh_pages: gh-pages
           #allure_report: allure-report

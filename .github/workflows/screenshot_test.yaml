@@ -26,26 +26,29 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PREFIX: ${{ github.repository_owner }}
-      ARCH: ${{ vars.ARCH }}
-      # ---------- SECRETS
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
-      DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
-      EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
-      # ---------- VARS
-      PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
-      PYTEST_ARGS: ${{ inputs.PYTEST_ARGS }}
-      BASE_URL: ${{ vars.BASE_URL }}
+      # ---------- ENDPOINT
       BASE_API_URL: ${{ vars.BASE_API_URL }}
-      REMOTE_TYPE: ${{ vars.REMOTE_TYPE }}
-      REMOTE_URL: ${{ vars.REMOTE_URL }}
+      BASE_URL: ${{ vars.BASE_URL }}
+      GH_API_URL: ${{ github.api_url }}
+      # ---------- COMMON
+      API_LOG_LVL: ${{ vars.API_LOG_LVL }}
+      ENV: ci
+      LOG_LVL: ${{ vars.LOG_LVL }}
+      PYTEST_ARGS: ${{ vars.PYTEST_ARGS }}
+      PYTEST_MARK_EXPR: screenshot_test
+      # ---------- API
+      DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
+      HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
+      # ---------- UI
+      ALLURE_ATTACH_TEST_ARTIFACTS: ${{ vars.ALLURE_ATTACH_TEST_ARTIFACTS }}
+      ALLURE_ATTACH_TEST_VIDEO: ${{ vars.ALLURE_ATTACH_TEST_VIDEO }}
       BROWSER_NAME: ${{ vars.BROWSER_NAME }}
       BROWSER_VERSION: ${{ vars.BROWSER_VERSION }}
       BROWSER_SIZE: ${{ vars.BROWSER_SIZE }}
       BROWSER_HEADLESS: ${{ vars.BROWSER_HEADLESS }}
       BROWSER_TIMEOUT: ${{ vars.BROWSER_TIMEOUT }}
       BROWSER_SCRIPTS_TIMEOUT: ${{ vars.BROWSER_SCRIPTS_TIMEOUT }}
+      BROWSER_PAGE_LOAD_STRATEGY: normal
       BROWSER_PAGE_LOAD_TIMEOUT: ${{ vars.BROWSER_PAGE_LOAD_TIMEOUT }}
       BROWSER_DOWNLOAD_DIR: ${{ vars.BROWSER_DOWNLOAD_DIR }}
       BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR: ${{ vars.BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR }}
@@ -54,28 +57,29 @@ jobs:
       BROWSER_REMOTE_LOGS: ${{ vars.BROWSER_REMOTE_LOGS }}
       BROWSER_REMOTE_AUDIO: ${{ vars.BROWSER_REMOTE_AUDIO }}
       BROWSER_REMOTE_SESSION_TIMEOUT: ${{ vars.BROWSER_REMOTE_SESSION_TIMEOUT }}
-      DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
-      HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
       DEFAULT_PERCENT_OF_TOLERANCE: ${{ vars.DEFAULT_PERCENT_OF_TOLERANCE }}
       PATH_TO_FILES: ${{ vars.PATH_TO_FILES }}
-      ALLURE_ATTACH_TEST_ARTIFACTS: ${{ vars.ALLURE_ATTACH_TEST_ARTIFACTS }}
-      ALLURE_ATTACH_TEST_VIDEO: ${{ vars.ALLURE_ATTACH_TEST_VIDEO }}
-      EXPECTED_PRODUCT_ID: ${{ vars.EXPECTED_PRODUCT_ID }}
-      EXPECTED_PRODUCT_IDS: ${{ vars.EXPECTED_PRODUCT_IDS }}
-      RECOMMENDED_PRODUCT_IDS: ${{ vars.RECOMMENDED_PRODUCT_IDS }}
-      EXPECTED_CREDIT_CARD: ${{ vars.EXPECTED_CREDIT_CARD }}
-      LOG_LVL: ${{ vars.LOG_LVL }}
-      API_LOG_LVL: ${{ vars.API_LOG_LVL }}
-      GH_API_URL: ${{ github.api_url }}
+      REMOTE_TYPE: ${{ vars.REMOTE_TYPE }}
+      REMOTE_URL: ${{ vars.REMOTE_URL }}
+      REWRITE_ALL_SCREENSHOTS: ${{ inputs.REWRITE_ALL_SCREENSHOTS }}
+      # ---------- GITHUB
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       GH_TOKEN_NAME: ${{ vars.GH_TOKEN_NAME }}
       GH_ACCOUNT_NAME: ${{ github.repository_owner }}
       GH_REPO_NAME: ${{ vars.GH_REPO_NAME }}
+      # ---------- EXPECTED DATA
+      DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
+      DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
+      EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
+      EXPECTED_PRODUCT_ID: ${{ vars.EXPECTED_PRODUCT_ID }}
+      EXPECTED_PRODUCT_IDS: ${{ vars.EXPECTED_PRODUCT_IDS }}
+      EXPECTED_CREDIT_CARD: ${{ vars.EXPECTED_CREDIT_CARD }}
+      RECOMMENDED_PRODUCT_IDS: ${{ vars.RECOMMENDED_PRODUCT_IDS }}
+      # ---------- OTHER
+      ARCH: ${{ vars.ARCH }}
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-      # ---------- IMPORTANT VARS
-      ENV: ci
-      PYTEST_MARK_EXPR: screenshot_test
-      REWRITE_ALL_SCREENSHOTS: ${{ inputs.REWRITE_ALL_SCREENSHOTS }}
-      BROWSER_PAGE_LOAD_STRATEGY: normal
+      PREFIX: ${{ github.repository_owner }}
+      PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
 
     steps:
 
@@ -88,10 +92,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.GITHUB_SHA }}
-
-      - name: Get the last commit message
-        run: |
-          echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> $GITHUB_ENV
 
       - name: Setup Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
@@ -171,6 +171,7 @@ jobs:
         if: always()
         #id: allure-report
         with:
+          report_name: Screenshots run
           allure_results: allure-results
           #gh_pages: gh-pages
           #allure_report: allure-report
