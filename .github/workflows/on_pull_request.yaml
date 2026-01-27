@@ -86,7 +86,7 @@ jobs:
           docker pull selenoid/video-recorder:latest-release
 
       - name: Run API tests
-        id: test_run
+        id: api_test_run
         if: always()
         run: |
           set -euo pipefail
@@ -106,7 +106,7 @@ jobs:
 
       - name: Clear compose data
         run: |
-          docker compose rm
+          docker compose rm -sf
           docker rmi automation-exercise-tests:latest
 
       - name: Update env variables for UI test run
@@ -116,7 +116,7 @@ jobs:
           echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
 
       - name: Run UI tests
-        id: test_run
+        id: web_test_run
         if: always()
         run: |
           set -euo pipefail
@@ -134,7 +134,7 @@ jobs:
 
       - name: Clear compose data
         run: |
-          docker compose rm
+          docker compose rm -sf
           docker rmi automation-exercise-tests:latest
 
       - name: Update env variables for SCREENSHOT test run
@@ -144,12 +144,14 @@ jobs:
           echo "PAGE_LOAD_STRATEGY=normal" >> $GITHUB_ENV
 
       - name: Run SCREENSHOT tests
-        id: test_run
+        id: screenshot_test_run
         if: always()
         run: |
           set -euo pipefail
           
-          pytest tests -m "${{ env.PYTEST_MARK_EXPR }}" ${{ env.PYTEST_ARGS }}
+          docker compose -f docker-compose.ci.yaml up -d
+          docker ps -a
+          docker wait automation-exercise-tests
           
           if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
             echo "### Test logs ###"

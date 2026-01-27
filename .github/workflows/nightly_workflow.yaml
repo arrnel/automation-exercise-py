@@ -16,8 +16,8 @@ jobs:
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       ENV: ci
       LOG_LVL: ${{ vars.LOG_LVL }}
-      PYTEST_ARGS: ${{ vars.PYTEST_API_MARK_EXPR }}
-      PYTEST_MARK_EXPR: ${{ vars.PYTEST_WEB }}
+      PYTEST_ARGS: ${{ vars.PYTEST_ARGS_API }}
+      PYTEST_MARK_EXPR: ${{ vars.PYTEST_MARK_EXPR_API }}
       # ---------- API
       DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
       HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
@@ -101,7 +101,7 @@ jobs:
           mkdir -p workflow_resources/screenshot
 
       - name: Run API tests
-        id: test_run
+        id: api_test_run
         if: always()
         run: |
           set -euo pipefail
@@ -121,17 +121,17 @@ jobs:
 
       - name: Clear compose data
         run: |
-          docker compose rm
+          docker compose rm -sf
           docker rmi automation-exercise-tests:latest
 
       - name: Update env variables for UI test run
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPRESSION_UI }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPR_UI }}" >> $GITHUB_ENV
           echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_UI }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
 
       - name: Run UI tests
-        id: test_run
+        id: web_test_run
         if: always()
         run: |
           set -euo pipefail
@@ -149,22 +149,24 @@ jobs:
 
       - name: Clear compose data
         run: |
-          docker compose rm
+          docker compose rm -sf
           docker rmi automation-exercise-tests:latest
 
       - name: Update env variables for SCREENSHOT test run
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPRESSION_SCREENSHOT }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPR_SCREENSHOT }}" >> $GITHUB_ENV
           echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=normal" >> $GITHUB_ENV
 
       - name: Run SCREENSHOT tests
-        id: test_run
+        id: screenshot_test_run
         if: always()
         run: |
           set -euo pipefail
 
-          pytest tests -m "${{ env.PYTEST_MARK_EXPR }}" ${{ env.PYTEST_ARGS }}
+          docker compose -f docker-compose.ci.yaml up -d
+          docker ps -a
+          docker wait automation-exercise-tests
 
           if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
