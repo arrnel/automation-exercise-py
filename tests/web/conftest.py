@@ -1,6 +1,5 @@
 import logging
 import random
-import traceback
 
 import allure
 import pytest
