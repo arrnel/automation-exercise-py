@@ -1,4 +1,4 @@
-name: manual_run
+name: Configurable test run
 
 on:
   workflow_dispatch:
