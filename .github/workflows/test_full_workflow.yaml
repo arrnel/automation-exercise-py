@@ -150,7 +150,7 @@ jobs:
         if: always()
         run: |
           docker compose rm -sf
-          docker rmi c
+          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
 
       - name: Update env variables for SCREENSHOT test run
         if: always()
