@@ -16,8 +16,8 @@ jobs:
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       ENV: ci
       LOG_LVL: ${{ vars.LOG_LVL }}
-      PYTEST_ARGS: ${{ vars.PYTEST_API_MARK_EXPR }}
-      PYTEST_MARK_EXPR: ${{ vars.PYTEST_WEB }}
+      PYTEST_ARGS: ${{ vars.PYTEST_ARGS_API }}
+      PYTEST_MARK_EXPR: ${{ vars.PYTEST_MARK_EXPR_API }}
       # ---------- API
       DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
       HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
@@ -63,8 +63,13 @@ jobs:
       PREFIX: ${{ github.repository_owner }}
       PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
       SHOW_LOGS: ${{ vars.SHOW_TEST_CONTAINER_LOGS }}
+      TESTS_PASS_RATE: ${{ vars.TESTS_PASS_RATE }}
 
     steps:
+
+      - name: Get current date/time
+        run: |
+          echo "CURRENT_DATE_TIME=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -85,6 +90,17 @@ jobs:
           docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
           docker pull selenoid/video-recorder:latest-release
 
+      - name: Checkout workflow_resources branch
+        uses: actions/checkout@v4
+        with:
+          ref: workflow_resources
+          path: workflow_resources
+
+      - name: Prepare workflow_resources directory
+        run: |
+          set -e
+          mkdir -p workflow_resources/screenshot
+
       - name: Run API tests
         id: api_test_run
         if: always()
@@ -94,25 +110,25 @@ jobs:
           docker compose -f docker-compose.ci.yaml up -d
           docker ps -a
           docker wait automation-exercise-tests
-          
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
-          
-          docker compose rm
 
         continue-on-error: true
 
       - name: Clear compose data
+        if: always()
         run: |
           docker compose rm -sf
-          docker rmi automation-exercise-tests:latest
+          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
 
       - name: Update env variables for UI test run
+        if: always()
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPRESSION_UI }}" >> $GITHUB_ENV
-          echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_UI }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
+          echo "PYTEST_ARGS=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
 
       - name: Run UI tests
@@ -124,8 +140,8 @@ jobs:
           docker compose -f docker-compose.ci.yaml up -d
           docker ps -a
           docker wait automation-exercise-tests
-          
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
@@ -133,14 +149,16 @@ jobs:
         continue-on-error: true
 
       - name: Clear compose data
+        if: always()
         run: |
           docker compose rm -sf
-          docker rmi automation-exercise-tests:latest
+          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
 
       - name: Update env variables for SCREENSHOT test run
+        if: always()
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPRESSION_SCREENSHOT }}" >> $GITHUB_ENV
-          echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_SCREENSHOT }}" >> $GITHUB_ENV
+          echo "PYTEST_ARGS=${{ vars.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=normal" >> $GITHUB_ENV
 
       - name: Run SCREENSHOT tests
@@ -148,12 +166,12 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          
+
           docker compose -f docker-compose.ci.yaml up -d
           docker ps -a
           docker wait automation-exercise-tests
-          
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
@@ -173,6 +191,7 @@ jobs:
         if: always()
         #id: allure-report
         with:
+          report_name: Nightly run ${{ env.CURRENT_DATE_TIME }}
           allure_results: allure-results
           #gh_pages: gh-pages
           #allure_report: allure-report
@@ -185,6 +204,37 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
+
+      - name: Parse Test Statistics
+        id: stats
+        run: |
+          # Install jq for JSON parsing
+          sudo apt-get install -y jq
+          # Parse categories from Allure results (assuming categories.json exists in allure-results)
+          if [ -f allure-results/categories.json ]; then
+            PASSED=$(jq '.[] | select(.name == "passed") | .matched' allure-results/categories.json || echo 0)
+            FAILED=$(jq '.[] | select(.name == "failed") | .matched' allure-results/categories.json || echo 0)
+            BROKEN=$(jq '.[] | select(.name == "broken") | .matched' allure-results/categories.json || echo 0)
+            SKIPPED=$(jq '.[] | select(.name == "skipped") | .matched' allure-results/categories.json || echo 0)
+            UNKNOWN=$(jq '.[] | select(.name == "unknown") | .matched' allure-results/categories.json || echo 0)
+          else
+            # Fallback: count result files
+            PASSED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "passed")
+            FAILED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "failed")
+            BROKEN=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "broken")
+            SKIPPED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "skipped")
+            UNKNOWN=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "unknown")
+          fi
+          TOTAL=$((PASSED + FAILED + BROKEN + SKIPPED + UNKNOWN))
+          PASS_RATE=$(awk "BEGIN {printf \"%.3f\", ($PASSED / $TOTAL) * 100}")
+          echo "PASSED=$PASSED" >> $GITHUB_OUTPUT
+          echo "FAILED=$FAILED" >> $GITHUB_OUTPUT
+          echo "BROKEN=$BROKEN" >> $GITHUB_OUTPUT
+          echo "SKIPPED=$SKIPPED" >> $GITHUB_OUTPUT
+          echo "UNKNOWN=$UNKNOWN" >> $GITHUB_OUTPUT
+          echo "TOTAL=$TOTAL" >> $GITHUB_OUTPUT
+          echo "PASS_RATE=$PASS_RATE" >> $GITHUB_OUTPUT
+          echo "IS_PASSED=$IS_PASSED" >> $GITHUB_OUTPUT
 
       - name: Quality gate
         id: quality_gate

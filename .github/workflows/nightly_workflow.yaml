@@ -65,11 +65,11 @@ jobs:
       SHOW_LOGS: ${{ vars.SHOW_TEST_CONTAINER_LOGS }}
 
     steps:
-      
+
       - name: Get current date/time
         run: |
           echo "CURRENT_DATE_TIME=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
-      
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -110,24 +110,24 @@ jobs:
           docker ps -a
           docker wait automation-exercise-tests
 
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
 
-          docker compose rm
-
         continue-on-error: true
 
       - name: Clear compose data
+        if: always()
         run: |
           docker compose rm -sf
-          docker rmi automation-exercise-tests:latest
+          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
 
       - name: Update env variables for UI test run
+        if: always()
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPR_UI }}" >> $GITHUB_ENV
-          echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_UI }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
+          echo "PYTEST_ARGS=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
 
       - name: Run UI tests
@@ -140,7 +140,7 @@ jobs:
           docker ps -a
           docker wait automation-exercise-tests
 
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
@@ -148,14 +148,16 @@ jobs:
         continue-on-error: true
 
       - name: Clear compose data
+        if: always()
         run: |
           docker compose rm -sf
-          docker rmi automation-exercise-tests:latest
+          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
 
       - name: Update env variables for SCREENSHOT test run
+        if: always()
         run: |
-          echo "PYTEST_MARK_EXPR=${{ env.PYTEST_MARK_EXPR_SCREENSHOT }}" >> $GITHUB_ENV
-          echo "PYTEST_ARGS=${{ env.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
+          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_SCREENSHOT }}" >> $GITHUB_ENV
+          echo "PYTEST_ARGS=${{ vars.PYTEST_ARGS_SCREENSHOT }}" >> $GITHUB_ENV
           echo "PAGE_LOAD_STRATEGY=normal" >> $GITHUB_ENV
 
       - name: Run SCREENSHOT tests
@@ -168,7 +170,7 @@ jobs:
           docker ps -a
           docker wait automation-exercise-tests
 
-          if [ "${{ env.SHOW_TEST_CONTAINER_LOGS }}" = "true" ]; then
+          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
             echo "### Test logs ###"
             docker logs automation-exercise-tests
           fi
