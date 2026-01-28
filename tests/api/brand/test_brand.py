@@ -1,3 +1,4 @@
+import json
 from http import HTTPStatus
 
 import allure
@@ -21,7 +22,7 @@ class TestBrandApi(BaseApiTest):
     def test_get_all_brands(self):
 
         # Data
-        brands = DataGenerator.brands()
+        brands = [brand.title for brand in DataGenerator.brands()]
 
         # Steps
         response = self.brand_api_client.send_get_all_brands_request()
