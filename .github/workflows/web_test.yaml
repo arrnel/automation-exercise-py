@@ -15,8 +15,8 @@ jobs:
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       ENV: ci
       LOG_LVL: ${{ vars.LOG_LVL }}
-      PYTEST_ARGS: ${{ vars.PYTEST_API_MARK_EXPR }}
-      PYTEST_MARK_EXPR: ${{ vars.PYTEST_WEB }}
+      PYTEST_ARGS: ${{ vars.PYTEST_ARGS_WEB }}
+      PYTEST_MARK_EXPR: ${{ vars.PYTEST_MARK_EXPR_WEB }}
       # ---------- API
       DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
       HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
