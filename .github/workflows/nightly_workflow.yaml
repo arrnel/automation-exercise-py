@@ -1,6 +1,7 @@
 name: Nightly run
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "30 4 * * MON"# Every MONDAY at 04:30 AM
 
