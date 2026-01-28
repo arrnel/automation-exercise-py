@@ -17,8 +17,8 @@ jobs:
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       ENV: ci
       LOG_LVL: ${{ vars.LOG_LVL }}
-      PYTEST_ARGS: ${{ vars.PYTEST_ARGS_API }}
-      PYTEST_MARK_EXPR: ${{ vars.PYTEST_MARK_EXPR_API }}
+      PYTEST_ARGS: ${{ vars.PYTEST_ARGS_WEB }}
+      PYTEST_MARK_EXPR: ${{ vars.PYTEST_MARK_EXPR_NOT_SCREENSHOT }}
       # ---------- API
       DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
       HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
@@ -101,37 +101,52 @@ jobs:
           set -e
           mkdir -p workflow_resources/screenshot
 
-      - name: Run API tests
-        id: api_test_run
-        if: always()
-        run: |
-          set -euo pipefail
+#      - name: Run API tests
+#        id: api_test_run
+#        if: always()
+#        run: |
+#          set -euo pipefail
+#
+#          docker compose -f docker-compose.ci.yaml up -d
+#          docker ps -a
+#          docker wait automation-exercise-tests
+#
+#          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
+#            echo "### Test logs ###"
+#            docker logs automation-exercise-tests
+#          fi
+#
+#        continue-on-error: true
+#
+#      - name: Clear compose data
+#        if: always()
+#        run: |
+#          docker compose rm -sf
+#          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
+#
+#      - name: Update env variables for UI test run
+#        if: always()
+#        run: |
+#          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
+#          echo "PYTEST_ARGS=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
+#          echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
+#
+#      - name: Run UI tests
+#        id: web_test_run
+#        if: always()
+#        run: |
+#          set -euo pipefail
+#
+#          docker compose -f docker-compose.ci.yaml up -d
+#          docker ps -a
+#          docker wait automation-exercise-tests
+#
+#          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
+#            echo "### Test logs ###"
+#            docker logs automation-exercise-tests
+#          fi
 
-          docker compose -f docker-compose.ci.yaml up -d
-          docker ps -a
-          docker wait automation-exercise-tests
-
-          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
-            echo "### Test logs ###"
-            docker logs automation-exercise-tests
-          fi
-
-        continue-on-error: true
-
-      - name: Clear compose data
-        if: always()
-        run: |
-          docker compose rm -sf
-          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
-
-      - name: Update env variables for UI test run
-        if: always()
-        run: |
-          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
-          echo "PYTEST_ARGS=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
-          echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
-
-      - name: Run UI tests
+      - name: Run NOT SCREENSHOT tests
         id: web_test_run
         if: always()
         run: |
