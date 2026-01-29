@@ -125,8 +125,10 @@ def create_folder(abs_path_to_dir: str) -> None:
     :param abs_path_to_dir: absolute path to folder. Example: "/home/selenium/Downloads"
     """
     path_to_dir = Path(abs_path_to_dir)
-    if not path_to_dir.exists() or path_to_dir.is_file():
-        os.mkdir(abs_path_to_dir)
+    if path_to_dir.exists() and path_to_dir.is_dir():
+        return
+
+    path_to_dir.mkdir(parents=True)
 
 
 def create_folder_in_resources(relative_path_to_dir: str) -> None:
