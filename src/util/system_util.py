@@ -146,23 +146,20 @@ def remove_all_files_from_folder(
 ) -> None:
     folder = Path(abs_path_to_dir)
 
-    if not folder.exists:
+    if not folder.exists():
         return
 
-    if folder.is_file():
+    if folder.is_file() or folder.is_symlink():
         raise ValueError(
             f"Invalid path to folder. Provided path is a file: {abs_path_to_dir}"
         )
 
     if by_remove_folder:
         shutil.rmtree(folder)
-        os.mkdir(folder)
+        folder.mkdir(parents=True, exist_ok=True)
     else:
         for item in folder.iterdir():
-            if item.is_file() or item.is_symlink():
-                item.unlink()
-            elif item.is_dir():
-                shutil.rmtree(item)
+            item.unlink()
 
 
 def execute_docker_container_command(
