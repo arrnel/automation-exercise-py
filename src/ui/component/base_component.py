@@ -56,7 +56,7 @@ class BaseComponent(ABC):
         percent_of_tolerance: float = CFG.default_percent_of_tolerance,
         rewrite_screenshot: bool = False,
         hover: bool = False,
-        timeout: float = 0,
+        timeout: float = CFG.default_screenshot_timeout,
     ) -> None:
 
         self._root.should(be.visible)

@@ -60,7 +60,7 @@ class BasePage(ABC):
         path_to_screenshot: str,
         percent_of_tolerance: float = CFG.default_percent_of_tolerance,
         rewrite_screenshot: bool = False,
-        timeout: float = 0,
+        timeout: float = CFG.default_screenshot_timeout,
     ) -> None:
         """
         Checks if the page screenshot matches the expected screenshot.

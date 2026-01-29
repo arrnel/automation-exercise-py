@@ -150,6 +150,10 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("DEFAULT_PERCENT_OF_TOLERANCE"),
         default=0.0,
     )
+    default_screenshot_timeout: float = Field(
+        validation_alias=AliasChoices("DEFAULT_SCREENSHOT_TIMEOUT"),
+        default=0.1,
+    )
     allure_attach_test_artifacts: str = Field(
         validation_alias=AliasChoices("ALLURE_ATTACH_TEST_ARTIFACTS"),
         default="failed",
