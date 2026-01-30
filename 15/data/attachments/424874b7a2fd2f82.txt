@@ -1,0 +1,40 @@
+INFO:root:Open [Products Page]: /products
+INFO:root:Add product to cart: Cotton Mull Embroidered Dress
+INFO:root:Add product to cart: Pure Cotton V-Neck T-Shirt
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Proceed to Checkout
+INFO:root:Navigate by Notification link link: https://automationexercise.com/login
+INFO:root:Pre sign up
+INFO:root:Fill pre sign up data
+INFO:root:Send sign up user data
+INFO:root:Fill user data
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Proceed to Checkout
+INFO:root:Add order message: Method room short activity.
+INFO:root:Submit order
+INFO:root:Pay by card
+INFO:root:Fill card data
+INFO:root:Check [Order Placed] is visible
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: iwebster.9850@arrnel.org
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '47'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Fri, 30 Jan 2026 15:20:41 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, DELETE', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9uvj7dscBk7cxp%2Bvnncs5YDWhZs8swPrlGj9TIxT92kwKVd%2Fw3CSz%2FTxmQHWnbyt1bNwqbug8c77CH8wpP041mFV4SEj5IOFpdJAh3J19VFRWuEaOnU%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9c61f46b38d2e825-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING:root:Failed to remove user(s):
+Email = ncook.17@arrnel.net, password = [12345], test_data_password = [12345]
+Email = greenmelissa.6361@arrnel.org, password = [12345], test_data_password = [12345]
+Email = donald24@arrnel.io, password = [12345], test_data_password = [12345]
+INFO:root:Remove users from backend after all tests

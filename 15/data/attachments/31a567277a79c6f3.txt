@@ -1,0 +1,20 @@
+INFO:root:Get all products by group and category
+INFO:root:Send request [GET]: /productsList
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Fri, 30 Jan 2026 15:03:20 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS, PUT, GET, POST', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=dSHLGBeRMiw6ydb98aKN2Wcg0Hqy4MSQvcbKovLuR7mdM%2B12umayw%2FkGCIUMNinBiu4Hnpf7Q9PRGXyq0jiZ34ApOi5zQI%2BdQE%2B%2Flaa%2B3pOFzj9M3fA%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9c61dafe5d40a162-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Open [Main Page]: /
+INFO:root:Filter in Category filter by group = [Men] and category = [Jeans]
+INFO:root:Expand Category filter group Men
+INFO:root:Check [Features Items] has products: {'Grunt Blue Slim Fit Jeans', 'Regular Fit Straight Jeans', 'Soft Stretch Jeans'}
+INFO:root:Remove current test users from backend

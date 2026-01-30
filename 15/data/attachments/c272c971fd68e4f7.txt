@@ -1,0 +1,3 @@
+Method: GET
+Endpoint: http://selenoid:4444/download/6ac722cf-2b45-4d81-b496-38aab36005cd/invoice.txt
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'cookie': 'csrftoken=tOjzXH5WE4nnGrtHOqhtTIrFmvQ3Dg4A5ARwx3xjQUUX3uU95crIPQmBsAAt4ejL; sessionid=eu91vlhpynpqmrem9hrqlb54uvt3rbat'}

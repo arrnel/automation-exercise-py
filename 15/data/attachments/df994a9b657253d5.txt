@@ -1,0 +1,19 @@
+INFO:root:Open [Products Page]: /products
+INFO:root:Search products by query: Top
+INFO:root:Send request [POST]: /searchProduct
+INFO:httpx:HTTP Request: POST https://automationexercise.com/api/searchProduct "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: POST
+Endpoint: https://automationexercise.com/api/searchProduct
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '18'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/searchProduct
+Headers: {'date': 'Fri, 30 Jan 2026 15:03:46 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS, PUT, GET, POST', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=YUSuU%2Bcb%2BOnOPUWWsjvLIgjRKb1zhbXJQxt4hfMtHueDbMruF9Y9gS1FQ48yXLkI96vk6C3QJoD1CnyI8pW%2FbYPufoEk9CY4fzm8Do7tvxEV9XSyjBw%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9c61dba07a87d94a-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Search in [Search filter] by query: Top
+INFO:root:Check [All Products] has products: {'Fancy Green Top', 'Blue Top', 'Full Sleeves Top Cherry - Pink', 'Half Sleeves Top Schiffli Detailing - Pink', 'Madame Top For Women', 'Sleeves Top and Short - Blue & Pink', 'Sleeves Printed Top - White', 'Little Girls Mr. Panda Shirt', 'Frozen Tops For Kids', 'Winter Top', 'Summer White Top', 'Colour Blocked Shirt – Sky Blue', 'Printed Off Shoulder Top - White', 'Lace Top For Women'}
+INFO:root:Remove current test users from backend
