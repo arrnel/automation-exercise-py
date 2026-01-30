@@ -1,3 +1,5 @@
+import os
+
 import allure
 import pytest
 
@@ -78,7 +80,7 @@ def all_tests_fixtures():
 
     ThreadSafeTestThreadsStore().add_current_thread_to_test(_GLOBAL)
 
-    if CFG.is_local():
+    if os.getenv("ENV", "local") in ["local", "docker"]:
 
         # ---------------------------------------------------------------------
         # CLEAR (REMOVE/CREATE) ALLURE RESULTS DIR

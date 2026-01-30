@@ -68,16 +68,6 @@ def all_ui_tests_fixture(all_tests_fixtures):
 
     ThreadSafeTestThreadsStore().add_current_thread_to_test("GLOBAL")
 
-    # ---------------------------------------------------------------------
-    # CLEAR BROWSER DOWNLOAD DIRECTORY
-    # ---------------------------------------------------------------------
-    download_path_dir = (
-        CFG.browser_override_downloaded_file_dir
-        if CFG.is_remote()
-        else CFG.browser_download_dir
-    )
-    system_util.remove_all_items_from_folder(download_path_dir, False)
-
 
 @pytest.fixture(autouse=True, scope="function")
 @allure.title("Each UI test fixture")

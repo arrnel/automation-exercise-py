@@ -159,10 +159,14 @@ def remove_all_items_from_folder(
         folder.mkdir(parents=True, exist_ok=True)
     else:
         for item in folder.iterdir():
-            if item.is_dir():
-                shutil.rmtree(item)
-            else:
-                item.unlink()
+            try:
+                if item.is_symlink() or item.is_file():
+                    item.unlink()
+                elif item.is_dir():
+                    shutil.rmtree(item)
+            except FileNotFoundError:
+                # File could be deleted
+                continue
 
 
 
