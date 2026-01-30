@@ -12,7 +12,6 @@ from tests.web.base_test import BaseWebTest
 @allure.feature("[WEB] Product Card")
 class TestProductCard(BaseWebTest):
 
-    @pytest.mark.debug_test
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Product Card Component")
