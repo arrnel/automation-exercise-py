@@ -141,7 +141,7 @@ def create_folder_in_resources(relative_path_to_dir: str) -> None:
         os.mkdir(path_to_dir)
 
 
-def remove_all_files_from_folder(
+def remove_all_items_from_folder(
     abs_path_to_dir: str, by_remove_folder: bool = True
 ) -> None:
     folder = Path(abs_path_to_dir)
@@ -159,7 +159,11 @@ def remove_all_files_from_folder(
         folder.mkdir(parents=True, exist_ok=True)
     else:
         for item in folder.iterdir():
-            item.unlink()
+            if item.is_dir():
+                shutil.rmtree(item)
+            else:
+                item.unlink()
+
 
 
 def execute_docker_container_command(

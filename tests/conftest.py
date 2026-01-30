@@ -86,7 +86,7 @@ def all_tests_fixtures():
         with allure.step("Clear allure-results directory"):
             allure_results_dir = system_util.get_allure_results_path()
             system_util.create_folder(allure_results_dir)
-            system_util.remove_all_files_from_folder(
+            system_util.remove_all_items_from_folder(
                 allure_results_dir, by_remove_folder=False
             )
 
@@ -101,7 +101,7 @@ def all_tests_fixtures():
                 else CFG.browser_download_dir
             )
             system_util.create_folder(test_temp_dir)
-            system_util.remove_all_files_from_folder(
+            system_util.remove_all_items_from_folder(
                 test_temp_dir, by_remove_folder=False
             )
 

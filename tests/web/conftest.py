@@ -76,7 +76,7 @@ def all_ui_tests_fixture(all_tests_fixtures):
         if CFG.is_remote()
         else CFG.browser_download_dir
     )
-    system_util.remove_all_files_from_folder(download_path_dir, False)
+    system_util.remove_all_items_from_folder(download_path_dir, False)
 
 
 @pytest.fixture(autouse=True, scope="function")
