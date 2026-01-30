@@ -5,15 +5,14 @@ from src.model.user import User
 from src.util.decorator.disabled_by_issue import disabled_by_issue
 from src.util.store.user_store import ThreadSafeUserStore
 from tests.data_provider.user_data_provider import UserDataProviderUI
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.user_test
 @pytest.mark.sign_up_component_test
 @pytest.mark.sign_up_page_test
-@allure.epic("Auth")
-@allure.feature("[WEB] Sign up")
-class TestSignUpWeb(BaseWebTest):
+@allure.feature("Sign Up Component")
+class TestSignUpWeb(BaseWebComponentTest):
 
     @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")

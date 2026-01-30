@@ -3,7 +3,7 @@ import pytest
 
 from src.model.enum.user_type import UserType
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 PERCENT_OF_TOLERANCE = 0.002
 
@@ -13,9 +13,8 @@ PERCENT_OF_TOLERANCE = 0.002
 @pytest.mark.category_filter_test
 @pytest.mark.main_page_test
 @pytest.mark.products_page_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Category Filter")
-class TestCategoryFilter(BaseWebTest):
+@allure.feature("Category Filter")
+class TestCategoryFilter(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

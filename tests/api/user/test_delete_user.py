@@ -12,8 +12,7 @@ SUCCESSFUL_DELETE_MESSAGE = "Account deleted!"
 
 
 @pytest.mark.user_test
-@allure.epic("User")
-@allure.feature("[API] Delete User")
+@allure.feature("User")
 class TestDeleteUserApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")

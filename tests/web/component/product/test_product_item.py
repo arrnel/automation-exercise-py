@@ -7,15 +7,14 @@ import pytest
 from src.model.product_item_info import ProductItemInfo
 from src.util import collection_util
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.product_test
 @pytest.mark.product_item_component_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Product Card")
-class TestProductItem(BaseWebTest):
+@allure.feature("Product Item Component")
+class TestProductItem(BaseWebComponentTest):
 
     @pytest.mark.usefixtures("open_cart_page", "auth_user")
     @pytest.mark.screenshot_test

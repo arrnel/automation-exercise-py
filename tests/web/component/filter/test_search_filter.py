@@ -2,16 +2,15 @@ import allure
 import pytest
 
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.filter_test
 @pytest.mark.search_filter_test
 @pytest.mark.products_page_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Search Filter")
-class TestSearchFilter(BaseWebTest):
+@allure.feature("Search Filter")
+class TestSearchFilter(BaseWebComponentTest):
 
     @pytest.mark.usefixtures("open_products_page")
     @pytest.mark.screenshot_test

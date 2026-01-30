@@ -16,8 +16,7 @@ SUCCESSFUL_UPDATE_MESSAGE = "User updated!"
 
 
 @pytest.mark.user_test
-@allure.epic("User")
-@allure.feature("[API] Update User")
+@allure.feature("User")
 class TestUpdateUserApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")

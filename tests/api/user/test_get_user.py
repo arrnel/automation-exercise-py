@@ -11,8 +11,7 @@ ACCOUNT_NOT_FOUND_MESSAGE = "Account not found with this email, try another emai
 
 
 @pytest.mark.user_test
-@allure.epic("User")
-@allure.feature("[API] Get User")
+@allure.feature("User")
 class TestGetUserApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")

@@ -2,16 +2,15 @@ import allure
 import pytest
 
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.carousel_component_test
 @pytest.mark.product_carousel_component_test
 @pytest.mark.main_page_test
-@allure.epic("[Web] Component - Products Carousel")
-@allure.feature("[Web] Component - Products Carousel")
-class TestProductCarousel(BaseWebTest):
+@allure.feature("Carousel Component (Products)")
+class TestProductCarousel(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

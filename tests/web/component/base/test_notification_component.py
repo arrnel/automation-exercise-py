@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 ADDED_PRODUCT_NOTIFICATION_TITLE = "Added!"
 ADDED_PRODUCT_NOTIFICATION_DESCRIPTION = "Your product has been added to cart."
@@ -13,9 +13,8 @@ PLACE_ORDER_WITHOUT_AUTH_NOTIFICATION_DESCRIPTION = (
 
 @pytest.mark.component_test
 @pytest.mark.notification_component_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Notification component")
-class TestNotificationComponent(BaseWebTest):
+@allure.feature("Notification Component")
+class TestNotificationComponent(BaseWebComponentTest):
 
     ##########################
     # ADD TO CARD NOTIFICATION

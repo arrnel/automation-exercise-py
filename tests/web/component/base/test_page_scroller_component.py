@@ -1,15 +1,13 @@
 import allure
 import pytest
 
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.page_scroller_component_test
-@allure.epic("UI")
-@allure.feature("Component")
-@allure.story("Page scroller")
-class TestPageScrollerComponent(BaseWebTest):
+@allure.feature("Page Scroller Component")
+class TestPageScrollerComponent(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

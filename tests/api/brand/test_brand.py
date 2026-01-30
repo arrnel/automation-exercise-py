@@ -11,9 +11,7 @@ from tests.api.base_api_test import BaseApiTest
 
 
 @pytest.mark.brand_test
-@allure.epic("Brand")
-@allure.feature("[API] Get Brands")
-@allure.title("Test Get Brands")
+@allure.feature("Brand")
 class TestBrandApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")

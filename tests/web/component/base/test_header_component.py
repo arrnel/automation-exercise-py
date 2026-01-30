@@ -1,14 +1,13 @@
 import allure
 import pytest
 
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.header_component_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Header Component")
-class TestHeaderComponent(BaseWebTest):
+@allure.feature("Header Component")
+class TestHeaderComponent(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

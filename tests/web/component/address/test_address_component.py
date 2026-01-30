@@ -1,16 +1,14 @@
 import allure
 import pytest
 
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.address_component_test
 @pytest.mark.checkout_page_test
-@allure.tag("component_test", "product_card", "animated_product_card")
-@allure.epic("Web Component")
-@allure.feature("[WEB] Address Component")
-class TestProductItem(BaseWebTest):
+@allure.feature("Address Component")
+class TestAddressComponent(BaseWebComponentTest):
 
     @pytest.mark.usefixtures(
         "auth_expected_user",

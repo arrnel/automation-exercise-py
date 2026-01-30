@@ -4,16 +4,15 @@ import pytest
 from src.util.decorator.disabled_by_issue import disabled_by_issue
 from src.util.email_util import EmailUtil
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 _INVALID_EMAIL_TEXT = "Invalid email"
 
 
 @pytest.mark.component_test
 @pytest.mark.subscription_component_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Subscription Component")
-class TestSubscriptionComponent(BaseWebTest):
+@allure.feature("Subscription Component")
+class TestSubscriptionComponent(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

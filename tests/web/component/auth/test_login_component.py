@@ -2,15 +2,14 @@ import allure
 import pytest
 
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.auth_test
 @pytest.mark.login_page_test
-@allure.epic("Auth")
-@allure.feature("[WEB] Sign in")
-class TestLoginWeb(BaseWebTest):
+@allure.feature("Sign In Component")
+class TestLoginWeb(BaseWebComponentTest):
 
     @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")

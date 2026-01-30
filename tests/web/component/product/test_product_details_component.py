@@ -2,15 +2,14 @@ import allure
 import pytest
 
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.product_test
 @pytest.mark.product_details_component_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Product Details")
-class TestProductCard(BaseWebTest):
+@allure.feature("Product Details Component")
+class TestProductCard(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

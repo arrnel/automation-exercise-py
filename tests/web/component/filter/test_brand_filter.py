@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
@@ -10,9 +10,8 @@ from tests.web.base_test import BaseWebTest
 @pytest.mark.brand_test
 @pytest.mark.main_page_test
 @pytest.mark.products_page_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Brand Filter")
-class TestBrandFilter(BaseWebTest):
+@allure.feature("Brand Filter")
+class TestBrandFilter(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

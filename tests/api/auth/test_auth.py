@@ -11,9 +11,7 @@ from tests.api.base_api_test import BaseApiTest
 
 @pytest.mark.auth_test
 @pytest.mark.component_test
-@allure.epic("Auth")
-@allure.feature("[API] Auth")
-@allure.title("Test Auth")
+@allure.feature("Auth")
 class TestAuthApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")

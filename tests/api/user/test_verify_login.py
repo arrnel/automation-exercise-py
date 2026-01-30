@@ -13,8 +13,7 @@ USER_NOT_FOUND = "User not found!"
 
 
 @pytest.mark.verify_login_test
-@allure.epic("User")
-@allure.feature("[API] Verify Login")
+@allure.feature("Verify Login")
 class TestVerifyLoginApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")

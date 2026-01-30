@@ -1,16 +1,15 @@
 import allure
 import pytest
 
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.carousel_component_test
 @pytest.mark.image_carousel_component_test
 @pytest.mark.main_page_test
-@allure.epic("[Web] Component - Image Carousel")
-@allure.feature("[Web] Component - Image Carousel")
-class TestImageCarousel(BaseWebTest):
+@allure.feature("Carousel Component (Images)")
+class TestImageCarousel(BaseWebComponentTest):
 
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")

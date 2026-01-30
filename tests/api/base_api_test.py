@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 from src.client.auth_api_client import AuthApiClient
@@ -13,6 +14,7 @@ from src.util.test.data_generator import DataGenerator
 
 
 @pytest.mark.api_test
+@allure.epic("API")
 class BaseApiTest:
 
     def setup_method(self):

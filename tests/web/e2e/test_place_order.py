@@ -3,13 +3,12 @@ import pytest
 
 from src.util.store.user_store import ThreadSafeUserStore
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_e2e_test import BaseE2ETest
 
 
 @pytest.mark.e2e_test
-@allure.epic("E2E")
 @allure.feature("[E2E] Place Order")
-class TestPlaceOrder(BaseWebTest):
+class TestPlaceOrder(BaseE2ETest):
 
     @pytest.mark.usefixtures("open_login_page")
     @allure.label("owner", "arrnel")

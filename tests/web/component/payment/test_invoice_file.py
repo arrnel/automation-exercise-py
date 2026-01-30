@@ -2,16 +2,15 @@ import allure
 import pytest
 
 from src.util.test.data_generator import DataGenerator
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.invoice_component_test
 @pytest.mark.download_file_test
 @pytest.mark.order_placed_page_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Place Order Component")
-class TestPaymentComponent(BaseWebTest):
+@allure.feature("Place Order Component")
+class TestPaymentComponent(BaseWebComponentTest):
 
     @pytest.mark.usefixtures(
         "open_payment_page",

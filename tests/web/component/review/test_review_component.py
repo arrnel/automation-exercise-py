@@ -4,14 +4,13 @@ import pytest
 from src.model.review import ReviewInfo
 from src.util.decorator.disabled_by_issue import disabled_by_issue
 from tests.data_provider.review_data_provider import ReviewDataProviderUI
-from tests.web.base_test import BaseWebTest
+from tests.web.base_web_component_test import BaseWebComponentTest
 
 
 @pytest.mark.component_test
 @pytest.mark.review_component_test
-@allure.epic("Web Component")
-@allure.feature("[WEB] Review Component")
-class TestReviewComponent(BaseWebTest):
+@allure.feature("Review Component")
+class TestReviewComponent(BaseWebComponentTest):
 
     @pytest.mark.usefixtures("open_product_page")
     @pytest.mark.screenshot_test

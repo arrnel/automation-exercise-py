@@ -10,9 +10,7 @@ from tests.api.base_api_test import BaseApiTest
 
 
 @pytest.mark.product_test
-@allure.epic("Product")
-@allure.feature("[API] Get Product")
-@allure.title("Test Get Product")
+@allure.feature("Product")
 class TestProductApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")

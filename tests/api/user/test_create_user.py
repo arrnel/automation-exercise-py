@@ -15,9 +15,7 @@ EMAIL_ALREADY_EXIST_MESSAGE = "Email already exists!"
 
 
 @pytest.mark.user_test
-@allure.epic("User")
-@allure.feature("[API] Create Users")
-@allure.title("Test Create Users")
+@allure.feature("User")
 class TestCreateUserApi(BaseApiTest):
 
     @allure.label("owner", "arrnel")
