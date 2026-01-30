@@ -1,0 +1,3 @@
+Status code: 503
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Fri, 30 Jan 2026 04:12:50 GMT', 'content-type': 'text/html; charset=UTF-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'cache-control': 'no-cache, no-store, must-revalidate', 'status': '503 Service Unavailable', 'vary': 'Accept-Encoding', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=NKXuJCXCM2fN3OplO9NdNN0SaM0rACyWxQhlAS7hc3LFtQ2J%2BlMtr2axr7EiI82nKxyVbujjeBI6mzvJb0%2FeB4aVM08S0y7qGTusVjCdibCQ00aD"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9c5e221ecd70e1f3-ORD', 'alt-svc': 'h3=":443"; ma=86400'}

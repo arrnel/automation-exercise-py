@@ -1,0 +1,3 @@
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'cookie': 'csrftoken=2i0h1mKrlenrvSyGPnzbkiVuzdom9oYOhZAdnFJTRsT35cmM8yYYyErVfWY7u1KV; sessionid=00e96kflucttc9v905cw622phkb95xnc', 'content-length': '45'}

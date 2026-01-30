@@ -1,0 +1,3 @@
+Status code: 200
+Endpoint: http://selenoid:4444/download/492a0eaf-b549-4edc-b698-4d4d712c55bf/invoice.txt
+Headers: {'accept-ranges': 'bytes', 'content-length': '68', 'content-type': 'text/plain; charset=utf-8', 'date': 'Fri, 30 Jan 2026 03:58:18 GMT', 'last-modified': 'Fri, 30 Jan 2026 03:58:09 GMT'}

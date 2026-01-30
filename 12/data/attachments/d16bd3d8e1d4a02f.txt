@@ -1,0 +1,5 @@
+INFO:root:Open [Sleeveless Dress]
+INFO:root:Check [product page] is visible
+INFO:root:Check [Product Details] is visible
+INFO:root:Check [Review] is visible
+INFO:root:Remove current test users from backend
