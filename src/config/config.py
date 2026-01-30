@@ -20,7 +20,7 @@ from src.util import system_util
 _AVAILABLE_ENV = Literal["local", "docker", "ci"]
 
 
-class NonEmptyEnvSettingsSource(EnvSettingsSource):
+class NonEmptySettingsSourceMixin(EnvSettingsSource):
     """Source of env vars, which ignore empty env vars"""
 
     def get_field_value(self, field, field_name: str) -> tuple[Any, str | None, bool]:
@@ -31,6 +31,17 @@ class NonEmptyEnvSettingsSource(EnvSettingsSource):
 
         return value, key, is_complex
 
+class NonEmptyEnvSettingsSource(
+    NonEmptySettingsSourceMixin,
+    EnvSettingsSource,
+):
+    pass
+
+class NonEmptyDotEnvSettingsSource(
+    NonEmptySettingsSourceMixin,
+    DotEnvSettingsSource,
+):
+    pass
 
 class Settings(BaseSettings):
     # URL
@@ -293,25 +304,27 @@ class Settings(BaseSettings):
 
     @classmethod
     def settings_customise_sources(
-        cls,
-        settings_cls,
-        init_settings,
-        env_settings,
-        dotenv_settings,
-        file_secret_settings,
+            cls,
+            settings_cls,
+            init_settings,
+            env_settings,
+            dotenv_settings,
+            file_secret_settings,
     ):
-        custom_env_source = NonEmptyEnvSettingsSource(settings_cls)
         env = os.getenv("ENV", "local").lower()
+
+        custom_env = NonEmptyEnvSettingsSource(settings_cls)
 
         if env == "ci":
             return (
                 init_settings,
-                custom_env_source,
+                custom_env,
                 file_secret_settings,
             )
 
         env_file_path = system_util.get_path_in_root(f"env/.env.{env}")
-        custom_dotenv_source = DotEnvSettingsSource(
+
+        custom_dotenv = NonEmptyDotEnvSettingsSource(
             settings_cls,
             env_file=env_file_path if Path(env_file_path).exists() else None,
             env_file_encoding="utf-8",
@@ -319,8 +332,8 @@ class Settings(BaseSettings):
 
         return (
             init_settings,
-            custom_env_source,
-            custom_dotenv_source,
+            custom_env,
+            custom_dotenv,
             file_secret_settings,
         )
 

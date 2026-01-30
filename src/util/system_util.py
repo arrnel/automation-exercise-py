@@ -169,7 +169,6 @@ def remove_all_items_from_folder(
                 continue
 
 
-
 def execute_docker_container_command(
     container_id: str,
     *commands: str,
