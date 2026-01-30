@@ -22,7 +22,6 @@ from src.ui.page.main_page import MainPage
 from src.ui.page.payment_page import PaymentPage
 from src.ui.page.product_page import ProductPage
 from src.ui.page.products_page import ProductsPage
-from src.util import system_util
 from src.util.allure.allure_util import AllureUtil
 from src.util.selene.cookie_util import CookieUtil
 from src.util.store.cookie_store import ThreadSafeCookieStore
