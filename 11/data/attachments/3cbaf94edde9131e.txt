@@ -1,0 +1,20 @@
+INFO     root:step_logger.py:73 Get all brand products
+INFO     root:step_logger.py:35 Send request [GET]: /productsList
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Fri, 30 Jan 2026 02:56:00 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, POST, DELETE, GET, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qTPFjkDi1b29hch%2BuEbgiSHe0yhVyMExXm9MCIB%2B8QbaPtRV1WUjyCGr4bjqGV2zaY17YoYi6gSDsm%2FtZwht5nYFAE9QLIoBH00T0L4jORUAsqLHOZI%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9c5db18f4afdd6e1-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Open [Main Page]: /
+INFO     root:step_logger.py:73 Select category = [Babyhug]
+INFO     root:step_logger.py:73 Click on [Brand filter category stat Babyhug]
+INFO     root:step_logger.py:35 Check [All Products] has products: {'Sleeves Printed Top - White', 'Printed Off Shoulder Top - White', 'Half Sleeves Top Schiffli Detailing - Pink', 'Sleeves Top and Short - Blue & Pink'}
+INFO     root:step_logger.py:35 Remove current test users from backend

@@ -1,0 +1,1 @@
+INFO     root:step_logger.py:35 Remove users from backend after all tests

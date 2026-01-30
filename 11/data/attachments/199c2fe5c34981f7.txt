@@ -1,0 +1,52 @@
+INFO:root:Open [Login Page]: /login
+INFO:root:Pre sign up
+INFO:root:Fill pre sign up data
+INFO:root:Send sign up user data
+INFO:root:Fill user data
+INFO:root:Get test video from Selenoid by video id = [test_should_sign_up_with_valid_data['zipcode' length = max]]
+INFO:root:Send request [GET]: /video/test_should_sign_up_with_valid_data['zipcode' length = max].mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_sign_up_with_valid_data['zipcode'%20length%20=%20max].mp4 "HTTP/1.1 404 Not Found"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['zipcode'%20length%20=%20max].mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 404
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['zipcode'%20length%20=%20max].mp4
+Headers: {'content-type': 'text/plain; charset=utf-8', 'x-content-type-options': 'nosniff', 'date': 'Fri, 30 Jan 2026 02:50:42 GMT', 'content-length': '19'}
+
+INFO:root:Send request [GET]: /video/test_should_sign_up_with_valid_data['zipcode' length = max].mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_sign_up_with_valid_data['zipcode'%20length%20=%20max].mp4 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['zipcode'%20length%20=%20max].mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['zipcode'%20length%20=%20max].mp4
+Headers: {'accept-ranges': 'bytes', 'content-length': '415696', 'content-type': 'video/mp4', 'last-modified': 'Fri, 30 Jan 2026 02:50:43 GMT', 'date': 'Fri, 30 Jan 2026 02:50:46 GMT'}
+
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: dbecker.508@arrnel.net
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '45'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Fri, 30 Jan 2026 02:50:47 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, DELETE', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=hvGTS9bM1PCzEcw2SwtrSbzelGKnw74KkrWaTxzr9kyVZfSxkLK4wYxiCpNfwXvJ7TimsWSfuaNtoSwIsOH%2FcP7QOjXWmXISqmVAhscZVnMsPg2bOs8%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9c5da9ea5bcadb3c-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING:root:Failed to remove user(s):
+Email = dbecker.508@arrnel.net, password = [12345], test_data_password = [12345]

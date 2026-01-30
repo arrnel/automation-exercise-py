@@ -1,0 +1,3 @@
+Status code: 200
+Endpoint: http://selenoid:4444/status
+Headers: {'content-type': 'application/json', 'date': 'Fri, 30 Jan 2026 02:58:15 GMT', 'transfer-encoding': 'chunked'}
