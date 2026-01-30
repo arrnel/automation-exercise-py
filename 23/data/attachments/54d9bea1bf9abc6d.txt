@@ -1,0 +1,2 @@
+INFO     root:step_logger.py:73 Check [Notification Component] has expected screenshot: files/screenshot/component/subscription/empty_subscription.png
+INFO     root:step_logger.py:35 Remove current test users from backend
