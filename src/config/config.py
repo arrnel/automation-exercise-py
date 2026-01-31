@@ -31,17 +31,20 @@ class NonEmptySettingsSourceMixin(EnvSettingsSource):
 
         return value, key, is_complex
 
+
 class NonEmptyEnvSettingsSource(
     NonEmptySettingsSourceMixin,
     EnvSettingsSource,
 ):
     pass
 
+
 class NonEmptyDotEnvSettingsSource(
     NonEmptySettingsSourceMixin,
     DotEnvSettingsSource,
 ):
     pass
+
 
 class Settings(BaseSettings):
     # URL
