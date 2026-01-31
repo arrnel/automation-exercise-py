@@ -90,6 +90,7 @@
 | EMAIL_DOMAIN                         | +          |                                    | Для избежания дубликатов нужно указать домен, который будет использоваться, при генерации email.</br></br> Пример:</br>На доменное имя `example_jan_1_1`, могут быть сгенерированы email:</br>`shawnnavarro@example_jan_1_1.io`</br>`michael82@example_jan_1_1.net`</br>и т. д. |
 | REWRITE_ALL_SCREENSHOTS              |            | false                              | Признак перезаписи всех скриншотов                                                                                                                                                                                                                                              |
 | DEFAULT_PERCENT_OF_TOLERANCE         |            | 0                                  | Допустимый процент отклонения пикселей при сравнении скриншотов (от 0.0 до 0.2). Используется в скриншот тестах                                                                                                                                                                 |
+| DEFAULT_SCREENSHOT_TIMEOUT           |            | 0.1                                | Минимальное ожидание (в секундах) перед каждым скриншотом                                                                                                                                                                                                                       |
 | ALLURE_ATTACH_TEST_ARTIFACTS         |            | failed                             | Признак добавления тестовых артефактов в Allure                                                                                                                                                                                                                                 |
 | ALLURE_ATTACH_TEST_VIDEO             |            | failed                             | Признак добавления видео тестов в Allure                                                                                                                                                                                                                                        |
 | EXPECTED_PRODUCT_ID                  |            | 3                                  | ID товара, который считается как ожидаемый. Нужен для скриншот тестов                                                                                                                                                                                                           |
@@ -237,11 +238,20 @@ Coming soon
 
 ## Запуск тестов в CI
 
-### Github Docker + Selenoid
-Coming soon
+Перед первым запуском тестов в GitHub CI, необходимо:
+1) Создать ветку `gh-pages` (для хранения allure отчетов)
+2) Удалить все содержимое ветки
+3) Запушить изменения
+4) Создать ветку `workflow_resources` (для хранения необходимых артефактов для тестов)
+5) Удалить все содержимое ветки
+6) Создать папку `screenshot` в ветке `workflow_resources` (для хранения скриншотов)
+7) Запушить изменения
+8) Добавить необходимые секреты и переменные окружения в настройках репозитория
+9) В GitHub в разделе `Action` запустить workflow `Screenshot test run`, включив чекбокс `Rewrite all screenshots`.  
+При необходимости перезаписать скриншоты некоторых тестов, добавляем маркер `@pytest.mark.debug_test`
+над нужными тестами и запускаем workflow `Screenshot test run`, 
+включив чекбоксы `Rewrite all screenshots` и `Run tests with debug marker`
 
-### Github Minikube + Moon
-Coming soon
 
 ## Образцы отчётов о тестировании
 
