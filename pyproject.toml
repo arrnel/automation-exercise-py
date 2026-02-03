@@ -1,0 +1,137 @@
+[tool.poetry]
+name = "automation_exercise"
+version = "0.1.0"
+description = ""
+authors = ["arrnel <arrnel@vk.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+faker = "==39.0.0"
+httpx = ">=0.28,<1.0"
+pydantic = "^2.11.9"
+pytest = "^8.4.2"
+pytest-check = "^2.5.4"
+python = "^3.13"
+selene = "^2.0.0rc9"
+six = "^1.17.0"
+pillow = "^11.3.0"
+numpy = "^2.3.3"
+pydantic-settings = ">=2.11,<3.0"
+black = "^25.9.0"
+jsonpath-ng = ">=1.7,<2.0"
+beautifulsoup4 = ">=4.12,<5.0"
+dataclasses-json = ">=0.6,<1.0"
+pytest-xdist = ">=3.8,<4.0"
+webdriver-manager = "==4.0.2"
+allure-pytest = "==2.14.2"
+flake8-pyproject = "^1.2.4"
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s | %(levelname)s | %(message)s"
+log_cli_date_format = "%H:%M:%S"
+addopts = []
+filterwarnings = [
+    "ignore:Setting per-request cookies=.*:DeprecationWarning"
+]
+markers = [
+    "api_test: API tests",
+    "web_test: Web tests (contains component_test, screenshot_test, e2e_test)",
+    "component_test: WEB component tests",
+    "screenshot_test: Screenshot tests",
+    "e2e_test: E2E tests",
+
+    "slow: slow tests",
+    "fast: fast tests",
+
+    # ----------
+    # TESTS
+    # ----------
+    "auth_test: Auth tests",
+    "brand_test: Brand tests",
+    "product_test: Product tests",
+    "user_test: User tests",
+    "verify_login_test: Verify login tests (API)",
+
+    # ----------
+    # UI TESTS
+    # ----------
+    # BASE COMPONENTS
+    "breadcrumb_component_test: Tests of breadcrumb component",
+    "header_component_test: Tests of site header component",
+    "notification_component_test: Tests of notification component",
+    "page_scroller_component_test: Tests of page scroller",
+    "subscription_component_test: Tests of subscription component (in footer)",
+
+    # CAROUSEL COMPONENTS
+    "carousel_component_test: Tests of all carousel web components",
+    "image_carousel_component_test: Image carousel web component tests",
+    "product_carousel_component_test: Product carousel web component tests",
+
+    # FILTER TEST
+    "filter_test: Tests of all web filter components",
+    "brand_filter_test: Brand filter web component tests",
+    "category_filter_test: Category filter web component tests",
+    "search_filter_test: Search filter web component tests",
+
+    # PRODUCT
+    "product_card_component_test: Tests of all product card web components",
+    "simple_product_card_component_test: Non animated product card web components tests",
+    "animated_product_card_component_test: Animated product card web component tests",
+    "product_details_component_test: Tests of product details component",
+    "product_item_component_test: Tests of all product item web component (Cart or checkout table items)",
+
+    # FILE
+    "upload_file_test: Upload files tests",
+    "download_file_test: Download files tests",
+
+    # OTHER COMPONENTS
+    "address_component_test: Tests of address component",
+    "sign_up_component_test: Sign up web component tests",
+    "login_component_test: Tests of login component",
+    "payment_component_test: Payment web component tests",
+    "invoice_component_test: Download invoice tests",
+    "review_component_test: Review web component tests",
+
+    # PAGES TESTS
+    "sign_up_page_test: Sign up page web components tests",
+    "login_page_test: Login page web components tests",
+    "main_page_test: Main page web components tests",
+    "products_page_test: Products page web components tests",
+    "product_page_test: Expected product page web components tests",
+    "cart_page_test: Cart page web components tests",
+    "checkout_page_test: Checkout page web components tests",
+    "payment_page_test: Payment page web components tests",
+    "order_placed_page_test: Order placed page web components tests",
+    "contact_us_page_test: Contact us page web components tests",
+
+    # OTHER
+    "disabled_by_issue(issue_id, reason): skip test if GitHub issue is opened",
+    "debug_test: just run tests",
+]
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.3.0"
+matplotlib = "^3.10.8"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.flake8]
+max-line-length = 100
+
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist"
+]
+
+ignore = [
+    "E203",
+    "W503"
+]

@@ -1,0 +1,176 @@
+name: Configurable test run
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      RUN_TITLE:
+        description: Run title
+        type: string
+        required: true
+        default: "Manual Test Run"
+
+      PYTEST_MARK_EXPR:
+        description: PYTEST_MARK_EXPRESSION
+        type: string
+        required: true
+
+      PYTEST_ARGS:
+        description: PYTEST_ARGS
+        type: string
+        required: false
+
+      BROWSER_ENABLED:
+        description: Enable browser. Uncheck only for API tests
+        type: boolean
+        required: false
+        default: true
+
+      PAGE_LOAD_STRATEGY:
+        description: BROWSER_PAGE_LOAD_STRATEGY. Param 'normal' for SCREENSHOT tests
+        type: choice
+        required: true
+        options:
+          - eager
+          - normal
+
+jobs:
+
+  manual-run:
+
+    runs-on: ubuntu-latest
+
+    env:
+      PREFIX: ${{ github.repository_owner }}
+      ARCH: ${{ vars.ARCH }}
+      # ---------- SECRETS
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      DEFAULT_EMAIL: ${{ secrets.DEFAULT_EMAIL }}
+      DEFAULT_PASSWORD: ${{ secrets.DEFAULT_PASSWORD }}
+      EMAIL_DOMAIN: ${{ secrets.EMAIL_DOMAIN }}
+      # ---------- VARS
+      PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
+      PYTEST_MARK_EXPR: ${{ inputs.PYTEST_MARK_EXPR }}
+      PYTEST_ARGS: ${{ inputs.PYTEST_ARGS }}
+      BASE_URL: ${{ vars.BASE_URL }}
+      BASE_API_URL: ${{ vars.BASE_API_URL }}
+      REMOTE_TYPE: ${{ vars.REMOTE_TYPE }}
+      REMOTE_URL: ${{ vars.REMOTE_URL }}
+      BROWSER_NAME: ${{ vars.BROWSER_NAME }}
+      BROWSER_VERSION: ${{ vars.BROWSER_VERSION }}
+      BROWSER_SIZE: ${{ vars.BROWSER_SIZE }}
+      BROWSER_HEADLESS: ${{ vars.BROWSER_HEADLESS }}
+      BROWSER_TIMEOUT: ${{ vars.BROWSER_TIMEOUT }}
+      BROWSER_SCRIPTS_TIMEOUT: ${{ vars.BROWSER_SCRIPTS_TIMEOUT }}
+      BROWSER_PAGE_LOAD_TIMEOUT: ${{ vars.BROWSER_PAGE_LOAD_TIMEOUT }}
+      BROWSER_PAGE_LOAD_STRATEGY: ${{ inputs.PAGE_LOAD_STRATEGY }}
+      BROWSER_DOWNLOAD_DIR: ${{ vars.BROWSER_DOWNLOAD_DIR }}
+      BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR: ${{ vars.BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR }}
+      BROWSER_REMOTE_VNC: ${{ vars.BROWSER_REMOTE_VNC }}
+      BROWSER_REMOTE_VIDEO: ${{ vars.BROWSER_REMOTE_VIDEO }}
+      BROWSER_REMOTE_LOGS: ${{ vars.BROWSER_REMOTE_LOGS }}
+      BROWSER_REMOTE_AUDIO: ${{ vars.BROWSER_REMOTE_AUDIO }}
+      BROWSER_REMOTE_SESSION_TIMEOUT: ${{ vars.BROWSER_REMOTE_SESSION_TIMEOUT }}
+      DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
+      HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
+      DEFAULT_PERCENT_OF_TOLERANCE: ${{ vars.DEFAULT_PERCENT_OF_TOLERANCE }}
+      DEFAULT_SCREENSHOT_TIMEOUT: ${{ vars.DEFAULT_SCREENSHOT_TIMEOUT }}
+      ALLURE_ATTACH_TEST_ARTIFACTS: ${{ vars.ALLURE_ATTACH_TEST_ARTIFACTS }}
+      ALLURE_ATTACH_TEST_VIDEO: ${{ vars.ALLURE_ATTACH_TEST_VIDEO }}
+      EXPECTED_PRODUCT_ID: ${{ vars.EXPECTED_PRODUCT_ID }}
+      EXPECTED_PRODUCT_IDS: ${{ vars.EXPECTED_PRODUCT_IDS }}
+      RECOMMENDED_PRODUCT_IDS: ${{ vars.RECOMMENDED_PRODUCT_IDS }}
+      EXPECTED_CREDIT_CARD: ${{ vars.EXPECTED_CREDIT_CARD }}
+      PATH_TO_FILES: ${{ vars.PATH_TO_FILES }}
+      TESTS_PASS_RATE: ${{ vars.TESTS_PASSED_RATE }}
+      LOG_LVL: ${{ vars.LOG_LVL }}
+      API_LOG_LVL: ${{ vars.API_LOG_LVL }}
+      GH_API_URL: ${{ github.api_url }}
+      GH_TOKEN_NAME: ${{ vars.GH_TOKEN_NAME }}
+      GH_ACCOUNT_NAME: ${{ github.repository_owner }}
+      GH_REPO_NAME: ${{ vars.GH_REPO_NAME }}
+      BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      # ---------- IMPORTANT VARS
+      ENV: ci
+      REWRITE_ALL_SCREENSHOTS: false
+
+    steps:
+
+      - name: Show Manual test run INFO
+        run: |
+          echo "PYTEST_MARK_EXPR = [${{ inputs.PYTEST_MARK_EXPR }}]"
+          echo "PYTEST_ARGS = [${{ inputs.PYTEST_ARGS }}]"
+          echo "BROWSER_PAGE_LOAD_STRATEGY = [${{ inputs.PAGE_LOAD_STRATEGY }}]"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.GITHUB_SHA }}
+
+      - name: Setup Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "${{ env.PYTHON_VERSION }}"
+
+      - name: Pull Browser selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
+        run: |
+          if [ "${{ inputs.BROWSER_ENABLED }}" = "true" ]; then
+            docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
+            docker pull selenoid/video-recorder:latest-release
+          fi
+
+      - name: Checkout workflow-resources branch
+        uses: actions/checkout@v4
+        with:
+          ref: workflow-resources
+          path: workflow-resources
+
+      - name: Prepare workflow-resources directory
+        run: |
+          set -e
+          mkdir -p workflow-resources/screenshot
+
+      - name: Run tests
+        id: test_run
+        if: always()
+        run: |
+          set -euo pipefail
+          
+          SHOW_LOGS="${{ vars.SHOW_TEST_CONTAINER_LOGS }}"
+          
+          docker compose -f docker-compose.ci.yaml up -d
+          docker ps -a
+          docker wait automation-exercise-tests
+          
+          if [ "$SHOW_LOGS" = "true" ]; then
+            echo "### Test logs ###"
+            docker logs automation-exercise-tests
+          fi
+        continue-on-error: true
+
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Allure Report action from marketplace
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        #id: allure-report
+        with:
+          report_name: ${{ inputs.RUN_TITLE }}
+          allure_results: allure-results
+          #gh_pages: gh-pages
+          #allure_report: allure-report
+          allure_history: allure-history
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
