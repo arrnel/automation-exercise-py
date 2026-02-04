@@ -91,7 +91,7 @@ services:
     volumes:
       - ./allure-results:/allure-results
       - ./resources/files:/automation-exercise-py/resources/files
-      - ./resources/browser:/automation-exercise-py/resources/browser
+      - ./resources/browser:/app/resources/browser
       - test_files_volume:/test_temp_files:rw
     depends_on:
       selenoid:

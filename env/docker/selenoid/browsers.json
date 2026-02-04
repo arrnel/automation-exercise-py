@@ -9,7 +9,7 @@
           "/tmp": "size=512m"
         },
         "volumes": [
-          "automation_exercise_test_files_volume:/test_temp_files"
+          "test_files_volume:/home/selenium/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -26,7 +26,7 @@
         "image": "selenoid/vnc_firefox:125.0",
         "port": "4444",
         "volumes": [
-          "automation_exercise_test_files_volume:/test_temp_files"
+          "test_files_volume:/home/selenium/test_temp_files"
         ],
         "tmpfs": {
           "/tmp": "size=512m"
