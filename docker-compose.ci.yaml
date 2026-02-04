@@ -78,7 +78,7 @@ services:
       - ./allure-results:/allure-results
       - ./workflow-resources/screenshot:/automation-exercise-py/resources/files/screenshot
       - ./resources/files/upload:/automation-exercise-py/resources/files/upload
-      - ./resources/browser:/app/resources/browser
+      - ./resources/browser:/automation-exercise-py/resources/browser
       - test_files_volume:/test_temp_files
     depends_on:
       selenoid:
