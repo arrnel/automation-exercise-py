@@ -23,6 +23,7 @@ from src.ui.page.payment_page import PaymentPage
 from src.ui.page.product_page import ProductPage
 from src.ui.page.products_page import ProductsPage
 from src.util.allure.allure_util import AllureUtil
+from src.util.selene import browser_util
 from src.util.selene.cookie_util import CookieUtil
 from src.util.store.cookie_store import ThreadSafeCookieStore
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
@@ -82,6 +83,10 @@ def each_ui_test_fixture(request, each_test_fixtures):
         DriverManager().init_driver()
         browser.open("/")
 
+        if CFG.browser_name == "firefox":
+            browser_util.close_browser_tab(tab_number=1, switch_tab_number=0)
+            browser.open("/")
+
     yield
 
     ThreadSafeTestThreadsStore().add_current_thread_to_test(test_name)
@@ -90,6 +95,7 @@ def each_ui_test_fixture(request, each_test_fixtures):
         # Close webdriver
         # ---------------------------------------------------------------------
         browser.driver.quit()
+
 
 
 # -------------------------------
