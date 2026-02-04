@@ -6,6 +6,7 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.chrome_strategy_mixin import ChromeStrategyMixin
 from src.config.config import CFG
+from src.util import system_util
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
@@ -29,6 +30,12 @@ class ChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
         if CFG.browser_headless:
             args.append("--headless")
         return args
+
+    @override
+    def chrome_extensions(self) -> List[str]:
+        return [
+            system_util.get_path_in_resources("browser/extension/adblock_plus_chrome.crx"),
+        ]
 
     @override
     def chrome_experimental_options(self) -> Dict[str, Any]:
