@@ -8,7 +8,7 @@ ENV TZ=Europe/Moscow \
     POETRY_VIRTUALENVS_CREATE=false \
     MPLBACKEND=Agg
 
-WORKDIR /app
+WORKDIR /automation-exercise-py
 
 RUN mkdir /test_temp_files && \
     apt-get update && apt-get install -y \

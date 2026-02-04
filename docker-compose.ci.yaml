@@ -76,8 +76,8 @@ services:
       - GH_REPO_NAME=${GH_REPO_NAME:-}
     volumes:
       - ./allure-results:/allure-results
-      - ./workflow-resources/screenshot:/app/resources/files/screenshot
-      - ./resources/files/upload:/app/resources/files/upload
+      - ./workflow-resources/screenshot:/automation-exercise-py/resources/files/screenshot
+      - ./resources/files/upload:/automation-exercise-py/resources/files/upload
       - test_files_volume:/test_temp_files
     depends_on:
       selenoid:
