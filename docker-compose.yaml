@@ -19,7 +19,7 @@ services:
       "-limit", "2",
       "-video-output-dir", "/opt/selenoid/video",
       "-log-output-dir", "/opt/selenoid/logs",
-      "-container-network", "automation_exercise_automation_exercise-network"
+      "-container-network", "automation-exercise-py_automation_exercise-network"
     ]
     ports:
       - "4444:4444"
@@ -90,7 +90,8 @@ services:
       - GH_REPO_NAME=${GH_REPO_NAME:-}
     volumes:
       - ./allure-results:/allure-results
-      - ./resources/files:/app/resources/files
+      - ./resources/files:/automation-exercise-py/resources/files
+      - ./resources/browser:/automation-exercise-py/resources/browser
       - test_files_volume:/test_temp_files:rw
     depends_on:
       selenoid:

@@ -78,6 +78,7 @@ services:
       - ./allure-results:/allure-results
       - ./workflow-resources/screenshot:/app/resources/files/screenshot
       - ./resources/files/upload:/app/resources/files/upload
+      - ./resources/browser:/app/resources/browser
       - test_files_volume:/test_temp_files
     depends_on:
       selenoid:
