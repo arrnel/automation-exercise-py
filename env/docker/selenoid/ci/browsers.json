@@ -1,0 +1,54 @@
+{
+  "chrome": {
+    "default": "144.0",
+    "versions": {
+      "144.0": {
+        "image": "twilio/selenoid:chrome_stable_144",
+        "port": "4444",
+        "volumes": [
+          "test_files_volume:/home/selenium/test_temp_files"
+        ],
+        "env": [
+          "TZ=Europe/Moscow"
+        ]
+      },
+      "128.0": {
+        "image": "selenoid/vnc_chrome:128.0",
+        "port": "4444",
+        "volumes": [
+          "test_files_volume:/home/selenium/test_temp_files"
+        ],
+        "env": [
+          "TZ=Europe/Moscow"
+        ]
+      }
+    }
+  },
+  "firefox": {
+    "default": "147.0",
+    "versions": {
+      "147.0": {
+        "image": "twilio/selenoid:firefox_stable_147",
+        "port": "4444",
+        "volumes": [
+          "test_files_volume:/home/selenium/test_temp_files"
+        ],
+        "path": "/wd/hub",
+        "env": [
+          "TZ=Europe/Moscow"
+        ]
+      },
+      "125.0": {
+        "image": "selenoid/vnc_firefox:125.0",
+        "port": "4444",
+        "volumes": [
+          "test_files_volume:/home/selenium/test_temp_files"
+        ],
+        "path": "/wd/hub",
+        "env": [
+          "TZ=Europe/Moscow"
+        ]
+      }
+    }
+  }
+}
