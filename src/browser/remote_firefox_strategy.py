@@ -50,9 +50,10 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
     @override
     def firefox_extensions(self) -> List[str]:
-        return [
-            system_util.get_path_in_resources("browser/extension/adblock_plus_firefox.xpi"),
-        ]
+        all_extensions: List[str] = []
+        if float(CFG.browser_version) > 125.0:
+            all_extensions.append(system_util.get_path_in_resources("browser/extension/adblock_plus_firefox.xpi"))
+        return all_extensions
 
     @override
     def capabilities(self) -> Dict[str, Any]:

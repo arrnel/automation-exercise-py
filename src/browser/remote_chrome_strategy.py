@@ -6,6 +6,7 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.chrome_strategy_mixin import ChromeStrategyMixin
 from src.config.config import CFG
+from src.util import system_util
 
 
 class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
@@ -31,6 +32,13 @@ class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
         if CFG.browser_headless:
             args.append("--headless")
         return args
+
+    @override
+    def chrome_extensions(self) -> List[str]:
+        all_extensions: List[str] = []
+        if float(CFG.browser_version) > 128.0:
+            all_extensions.append(system_util.get_path_in_resources("browser/extension/adblock_plus_chrome.crx"))
+        return all_extensions
 
     @override
     def chrome_experimental_options(self) -> Dict[str, Any]:
