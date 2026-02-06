@@ -86,22 +86,9 @@ jobs:
           version: ${{ env.BROWSER_VERSION }}
           enable_video: ${{ env.BROWSER_REMOTE_VIDEO }}
 
-      - name: Run tests
-        id: test_run
+      - name: Run WEB tests
+        uses: ./.github/actions/run-tests
         if: always()
-        run: |
-          set -euo pipefail
-
-          SHOW_LOGS="${{ vars.SHOW_TEST_CONTAINER_LOGS }}"
-
-          docker compose -f docker-compose.ci.yaml up -d
-          docker ps -a
-          docker wait automation-exercise-tests
-
-          if [ "$SHOW_LOGS" = "true" ]; then
-            echo "### Test logs ###"
-            docker logs automation-exercise-tests
-          fi
         continue-on-error: true
 
       - name: Get Allure history
@@ -115,11 +102,8 @@ jobs:
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
         if: always()
-        #id: allure-report
         with:
           allure_results: allure-results
-          #gh_pages: gh-pages
-          #allure_report: allure-report
           allure_history: allure-history
 
       - name: Deploy report to Github Pages

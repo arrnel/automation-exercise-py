@@ -139,26 +139,9 @@ jobs:
           set -e
           mkdir -p workflow-resources/screenshot
 
-      - name: Run tests
-        id: test_run
+      - name: Run SCREENSHOT tests
+        uses: ./.github/actions/run-tests
         if: always()
-        run: |
-          set -euo pipefail
-          
-          SHOW_LOGS="${{ vars.SHOW_TEST_CONTAINER_LOGS }}"
-
-          if [ "${{ inputs.RUN_TESTS_WITH_DEBUG_MARKER }}" = "true" ]; then
-            echo "PYTEST_MARK_EXPR=screenshot_test and debug_test" >> $GITHUB_ENV
-          fi
-          
-          docker compose -f docker-compose.ci.yaml up -d
-          docker ps -a
-          docker wait automation-exercise-tests
-          
-          if [ "$SHOW_LOGS" = "true" ]; then
-            echo "### Test logs ###"
-            docker logs automation-exercise-tests
-          fi
         continue-on-error: true
 
       - name: Get Allure history
@@ -172,12 +155,9 @@ jobs:
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
         if: always()
-        #id: allure-report
         with:
           report_name: Screenshots run
           allure_results: allure-results
-          #gh_pages: gh-pages
-          #allure_report: allure-report
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
