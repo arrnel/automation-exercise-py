@@ -16,8 +16,8 @@ jobs:
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       ENV: ci
       LOG_LVL: ${{ vars.LOG_LVL }}
-      PYTEST_ARGS: ${{ vars.PYTEST_ARGS_API }}
-      PYTEST_MARK_EXPR: ${{ vars.PYTEST_MARK_EXPR_API }}
+      PYTEST_ARGS: ${{ vars.PYTEST_ARGS_WEB }}
+      PYTEST_MARK_EXPR: ${{ vars.PYTEST_MARK_EXPR_NOT_SCREENSHOT }}
       # ---------- API
       DEFAULT_USER_AGENT: ${{ vars.DEFAULT_USER_AGENT }}
       HTTP_TIMEOUT: ${{ vars.HTTP_TIMEOUT }}
@@ -131,17 +131,12 @@ jobs:
 
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
-        if: always()
-        #id: allure-report
         with:
-          report_name: Nightly run ${{ env.CURRENT_DATE_TIME }}
+          report_name: Pull Request Report
           allure_results: allure-results
-          #gh_pages: gh-pages
-          #allure_report: allure-report
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
