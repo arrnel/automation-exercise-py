@@ -47,4 +47,4 @@ class FirefoxStrategyMixin(metaclass=ABCMeta):
         Install firefox extensions into firefox driver (not available by firefox options)
         """
         for extension in self.firefox_extensions():
-            webdriver.Firefox.install_addon(firefox_driver, extension)
+            webdriver.Firefox.install_addon(firefox_driver, extension, True)
