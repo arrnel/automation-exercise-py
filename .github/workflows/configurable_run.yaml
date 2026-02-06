@@ -112,12 +112,13 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - name: Pull Browser selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-        run: |
-          if [ "${{ inputs.BROWSER_ENABLED }}" = "true" ]; then
-            docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-            docker pull selenoid/video-recorder:latest-release
-          fi
+      - name: Pull browser image
+        if: ${{ inputs.BROWSER_ENABLED == 'true' }}
+        uses: ./.github/actions/pull-browser
+        with:
+          browser: ${{ env.BROWSER_NAME }}
+          version: ${{ env.BROWSER_VERSION }}
+          enable_video: ${{ env.BROWSER_REMOTE_VIDEO }}
 
       - name: Checkout workflow-resources branch
         uses: actions/checkout@v4

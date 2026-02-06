@@ -160,7 +160,8 @@ cython_debug/
 # ------- Project
 
 # Selenoid
-!/env/docker/selenoid/browsers.json
+!/env/docker/selenoid/local/browsers.json
+!/env/docker/selenoid/ci/browsers.json
 
 # Allure
 **/allure-results/**
