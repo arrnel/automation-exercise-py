@@ -34,7 +34,7 @@ class ChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
     @override
     def chrome_extensions(self) -> List[str]:
         all_extensions: List[str] = []
-        if float(CFG.browser_version) > 128.0:
+        if CFG.is_adblock_enabled():
             all_extensions.append(system_util.get_path_in_resources("browser/extension/adblock_plus_chrome.crx"))
         return all_extensions
 
