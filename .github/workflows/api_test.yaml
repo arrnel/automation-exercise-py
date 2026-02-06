@@ -77,22 +77,9 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - name: Run tests
-        id: test_run
+      - name: Run API tests
+        uses: ./.github/actions/run-tests
         if: always()
-        run: |
-          set -euo pipefail
-          
-          SHOW_LOGS="${{ env.SHOW_TEST_CONTAINER_LOGS }}"
-          
-          docker compose -f docker-compose.ci.yaml up -d
-          docker ps -a
-          docker wait automation-exercise-tests
-          
-          if [ "$SHOW_LOGS" = "true" ]; then
-            echo "### Test logs ###"
-            docker logs automation-exercise-tests
-          fi
         continue-on-error: true
 
       - name: Get Allure history
