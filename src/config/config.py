@@ -2,6 +2,7 @@ import ast
 import os
 from pathlib import Path
 from typing import Tuple, Literal, Any
+from unittest import case
 
 from pydantic import Field, field_validator, AliasChoices
 from pydantic_settings import (
@@ -235,6 +236,16 @@ class Settings(BaseSettings):
     @staticmethod
     def is_local():
         return CFG.remote_type not in RemoteType.remote_types()
+
+    @staticmethod
+    def is_adblock_enabled():
+        match CFG.browser_name:
+            case "chrome":
+                return float(CFG.browser_version) > 128.0
+            case "firefox":
+                return float(CFG.browser_version) > 125.0
+            case _:
+                raise RuntimeError(f"Unknown browser name: {CFG.browser_name}")
 
     @field_validator(
         "base_url",
