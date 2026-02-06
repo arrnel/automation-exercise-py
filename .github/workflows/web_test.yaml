@@ -79,10 +79,12 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - name: Pull Browser selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-        run: |
-          docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-          docker pull selenoid/video-recorder:latest-release
+      - name: Pull browser image
+        uses: ./.github/actions/pull-browser
+        with:
+          browser: ${{ env.BROWSER_NAME }}
+          version: ${{ env.BROWSER_VERSION }}
+          enable_video: ${{ env.BROWSER_REMOTE_VIDEO }}
 
       - name: Run tests
         id: test_run
