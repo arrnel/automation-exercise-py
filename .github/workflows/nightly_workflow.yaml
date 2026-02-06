@@ -86,10 +86,12 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - name: Pull Browser selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-        run: |
-          docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-          docker pull selenoid/video-recorder:latest-release
+      - name: Pull browser image
+        uses: ./.github/actions/pull-browser
+        with:
+          browser: ${{ env.BROWSER_NAME }}
+          version: ${{ env.BROWSER_VERSION }}
+          enable_video: ${{ env.BROWSER_REMOTE_VIDEO }}
 
       - name: Checkout workflow-resources branch
         uses: actions/checkout@v4
@@ -102,73 +104,12 @@ jobs:
           set -e
           mkdir -p workflow-resources/screenshot
 
-#      - name: Run API tests
-#        id: api_test_run
-#        if: always()
-#        run: |
-#          set -euo pipefail
-#
-#          docker compose -f docker-compose.ci.yaml up -d
-#          docker ps -a
-#          docker wait automation-exercise-tests
-#
-#          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
-#            echo "### Test logs ###"
-#            docker logs automation-exercise-tests
-#          fi
-#
-#        continue-on-error: true
-#
-#      - name: Clear compose data
-#        if: always()
-#        run: |
-#          docker compose rm -sf
-#          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
-#
-#      - name: Update env variables for UI test run
-#        if: always()
-#        run: |
-#          echo "PYTEST_MARK_EXPR=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
-#          echo "PYTEST_ARGS=${{ vars.PYTEST_MARK_EXPR_WEB }}" >> $GITHUB_ENV
-#          echo "PAGE_LOAD_STRATEGY=eager" >> $GITHUB_ENV
-#
-#      - name: Run UI tests
-#        id: web_test_run
-#        if: always()
-#        run: |
-#          set -euo pipefail
-#
-#          docker compose -f docker-compose.ci.yaml up -d
-#          docker ps -a
-#          docker wait automation-exercise-tests
-#
-#          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
-#            echo "### Test logs ###"
-#            docker logs automation-exercise-tests
-#          fi
-
-      - name: Run NOT SCREENSHOT tests
-        id: web_test_run
+      - name: Run API + WEB tests
+        uses: ./.github/actions/run-tests
         if: always()
-        run: |
-          set -euo pipefail
-
-          docker compose -f docker-compose.ci.yaml up -d
-          docker ps -a
-          docker wait automation-exercise-tests
-
-          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
-            echo "### Test logs ###"
-            docker logs automation-exercise-tests
-          fi
-
         continue-on-error: true
-
-      - name: Clear compose data
-        if: always()
-        run: |
-          docker compose rm -sf
-          docker rmi ${{ env.PREFIX }}/automation-exercise-tests:latest
+        with:
+          remove_compose_data: true
 
       - name: Update env variables for SCREENSHOT test run
         if: always()
@@ -178,20 +119,8 @@ jobs:
           echo "PAGE_LOAD_STRATEGY=normal" >> $GITHUB_ENV
 
       - name: Run SCREENSHOT tests
-        id: screenshot_test_run
+        uses: ./.github/actions/run-tests
         if: always()
-        run: |
-          set -euo pipefail
-
-          docker compose -f docker-compose.ci.yaml up -d
-          docker ps -a
-          docker wait automation-exercise-tests
-
-          if [ "${{ env.SHOW_LOGS }}" = "true" ]; then
-            echo "### Test logs ###"
-            docker logs automation-exercise-tests
-          fi
-
         continue-on-error: true
 
       - name: Get Allure history
@@ -204,17 +133,12 @@ jobs:
 
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
-        if: always()
-        #id: allure-report
         with:
           report_name: Nightly run ${{ env.CURRENT_DATE_TIME }}
           allure_results: allure-results
-          #gh_pages: gh-pages
-          #allure_report: allure-report
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}

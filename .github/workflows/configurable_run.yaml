@@ -100,6 +100,7 @@ jobs:
         run: |
           echo "PYTEST_MARK_EXPR = [${{ inputs.PYTEST_MARK_EXPR }}]"
           echo "PYTEST_ARGS = [${{ inputs.PYTEST_ARGS }}]"
+          echo "BROWSER_ENABLED = [${{ inputs.BROWSER_ENABLED }}]"
           echo "BROWSER_PAGE_LOAD_STRATEGY = [${{ inputs.PAGE_LOAD_STRATEGY }}]"
 
       - name: Checkout repository
@@ -112,12 +113,13 @@ jobs:
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
-      - name: Pull Browser selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-        run: |
-          if [ "${{ inputs.BROWSER_ENABLED }}" = "true" ]; then
-            docker pull selenoid/vnc_${{ env.BROWSER_NAME }}:${{ env.BROWSER_VERSION }}
-            docker pull selenoid/video-recorder:latest-release
-          fi
+      - name: Pull browser image
+        if: ${{ inputs.BROWSER_ENABLED == 'true' }}
+        uses: ./.github/actions/pull-browser
+        with:
+          browser: ${{ env.BROWSER_NAME }}
+          version: ${{ env.BROWSER_VERSION }}
+          enable_video: ${{ env.BROWSER_REMOTE_VIDEO }}
 
       - name: Checkout workflow-resources branch
         uses: actions/checkout@v4
@@ -131,21 +133,8 @@ jobs:
           mkdir -p workflow-resources/screenshot
 
       - name: Run tests
-        id: test_run
+        uses: ./.github/actions/run-tests
         if: always()
-        run: |
-          set -euo pipefail
-          
-          SHOW_LOGS="${{ vars.SHOW_TEST_CONTAINER_LOGS }}"
-          
-          docker compose -f docker-compose.ci.yaml up -d
-          docker ps -a
-          docker wait automation-exercise-tests
-          
-          if [ "$SHOW_LOGS" = "true" ]; then
-            echo "### Test logs ###"
-            docker logs automation-exercise-tests
-          fi
         continue-on-error: true
 
       - name: Get Allure history
@@ -158,17 +147,12 @@ jobs:
 
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
-        if: always()
-        #id: allure-report
         with:
           report_name: ${{ inputs.RUN_TITLE }}
           allure_results: allure-results
-          #gh_pages: gh-pages
-          #allure_report: allure-report
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        if: always()
         uses: peaceiris/actions-gh-pages@v2
         env:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}

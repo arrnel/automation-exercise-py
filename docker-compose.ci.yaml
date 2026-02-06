@@ -6,7 +6,7 @@ services:
     platform: linux/${ARCH}
     volumes:
       - /opt/selenoid/video:/opt/selenoid/video
-      - ./env/docker/selenoid/browsers.json:/opt/selenoid/browsers.json
+      - ./env/docker/selenoid/ci/browsers.json:/opt/selenoid/browsers.json
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TZ=Europe/Moscow

@@ -1,0 +1,28 @@
+name: Run tests
+description: Run tests
+author: arrnel
+
+inputs:
+  show_logs:
+    description: Show logs after tests
+    required: false
+    default: "true"
+  remove_compose_data:
+    description: Remove compose containers and test image
+    required: false
+    default: "false"
+  image_prefix:
+    description: Test image prefix
+    required: true
+    default: "arrnel"
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        chmod +x "${{ github.action_path }}/run_tests.sh"
+        "${{ github.action_path }}/run_tests.sh" \
+          "${{ inputs.show_logs }}" \
+          "${{ inputs.remove_compose_data }}" \
+          "${{ inputs.image_prefix }}"
