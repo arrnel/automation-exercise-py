@@ -30,8 +30,6 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
             f"--height={height}",
             "--disable-dev-shm-usage",
         ]
-        if CFG.browser_headless:
-            args.append("--headless")
         return args
 
     @override

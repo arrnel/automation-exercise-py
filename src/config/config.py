@@ -79,10 +79,6 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("BROWSER_SIZE"),
         default=(1920, 1080),
     )
-    browser_headless: bool = Field(
-        validation_alias=AliasChoices("BROWSER_HEADLESS"),
-        default=False,
-    )
     browser_timeout: int = Field(
         validation_alias=AliasChoices("BROWSER_TIMEOUT"),
         default=4,

@@ -27,8 +27,6 @@ class ChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
             "--disable-gpu",
             "--disable-blink-features=AutomationControlled",
         ]
-        if CFG.browser_headless:
-            args.append("--headless")
         return args
 
     @override

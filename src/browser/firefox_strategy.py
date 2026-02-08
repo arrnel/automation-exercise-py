@@ -31,8 +31,6 @@ class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
             "--disable-gpu",
             "--disable-dev-shm-usage",
         ]
-        if CFG.browser_headless:
-            args.append("--headless")
         return args
 
     @override
