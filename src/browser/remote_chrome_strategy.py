@@ -33,10 +33,10 @@ class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
 
     @override
     def chrome_extensions(self) -> List[str]:
-        all_extensions: List[str] = []
-        if CFG.is_adblock_enabled():
-            all_extensions.append(system_util.get_path_in_resources("browser/extension/adblock_plus_chrome.crx"))
-        return all_extensions
+        all_extensions: List[str] = [
+            "ublock/ublock.crx",
+        ]
+        return [CFG.extension_path + extension for extension in all_extensions]
 
     @override
     def chrome_experimental_options(self) -> Dict[str, Any]:

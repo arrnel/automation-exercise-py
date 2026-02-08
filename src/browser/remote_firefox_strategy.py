@@ -6,7 +6,6 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.firefox_strategy_mixin import FirefoxStrategyMixin
 from src.config.config import CFG
-from src.util import system_util
 
 
 class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
@@ -48,10 +47,10 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
     @override
     def firefox_extensions(self) -> List[str]:
-        all_extensions: List[str] = []
-        if CFG.is_adblock_enabled():
-            all_extensions.append(system_util.get_path_in_resources("browser/extension/adblock_plus_firefox.xpi"))
-        return all_extensions
+        all_extensions: List[str] = [
+            "ublock/ublock.xpi",
+        ]
+        return [CFG.extension_path + extension for extension in all_extensions]
 
     @override
     def capabilities(self) -> Dict[str, Any]:
