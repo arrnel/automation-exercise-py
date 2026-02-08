@@ -6,7 +6,6 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.chrome_strategy_mixin import ChromeStrategyMixin
 from src.config.config import CFG
-from src.util import system_util
 
 
 class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
@@ -27,7 +26,6 @@ class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
             f"--window-size={width},{height}",
             "--disable-dev-shm-usage",
             "--disable-gpu",
-            "--disable-blink-features=AutomationControlled",
         ]
         return args
 

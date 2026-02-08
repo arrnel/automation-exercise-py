@@ -25,7 +25,6 @@ class ChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
             f"--window-size={width},{height}",
             "--disable-dev-shm-usage",
             "--disable-gpu",
-            "--disable-blink-features=AutomationControlled",
         ]
         return args
 
