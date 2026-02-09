@@ -6,7 +6,7 @@
         "image": "twilio/selenoid:chrome_stable_141",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -16,7 +16,7 @@
         "image": "twilio/selenoid:chrome_stable_140",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -26,7 +26,7 @@
         "image": "twilio/selenoid:chrome_stable_139",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -36,7 +36,7 @@
         "image": "twilio/selenoid:chrome_stable_138",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -46,7 +46,7 @@
         "image": "twilio/selenoid:chrome_stable_137",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -56,7 +56,7 @@
         "image": "twilio/selenoid:chrome_stable_136",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -66,7 +66,7 @@
         "image": "twilio/selenoid:chrome_stable_135",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -76,7 +76,7 @@
         "image": "twilio/selenoid:chrome_stable_134",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -86,7 +86,7 @@
         "image": "twilio/selenoid:chrome_stable_133",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -96,7 +96,7 @@
         "image": "twilio/selenoid:chrome_stable_132",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -106,7 +106,7 @@
         "image": "twilio/selenoid:chrome_stable_131",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -116,7 +116,7 @@
         "image": "twilio/selenoid:chrome_stable_130",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -126,7 +126,7 @@
         "image": "twilio/selenoid:chrome_stable_129",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -136,7 +136,7 @@
         "image": "selenoid/vnc_chrome:128.0",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -146,7 +146,7 @@
         "image": "selenoid/vnc_chrome:127.0",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -156,7 +156,7 @@
         "image": "selenoid/vnc_chrome:126.0",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -166,7 +166,7 @@
         "image": "selenoid/vnc_chrome:125.0",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -181,7 +181,7 @@
         "image": "twilio/selenoid:firefox_stable_141",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -192,7 +192,7 @@
         "image": "twilio/selenoid:firefox_stable_140",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -203,7 +203,7 @@
         "image": "twilio/selenoid:firefox_stable_139",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -214,7 +214,7 @@
         "image": "twilio/selenoid:firefox_stable_138",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -225,7 +225,7 @@
         "image": "twilio/selenoid:firefox_stable_137",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -236,7 +236,7 @@
         "image": "twilio/selenoid:firefox_stable_136",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -247,7 +247,7 @@
         "image": "twilio/selenoid:firefox_stable_135",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -258,7 +258,7 @@
         "image": "twilio/selenoid:firefox_stable_134",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -269,7 +269,7 @@
         "image": "twilio/selenoid:firefox_stable_133",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -280,7 +280,7 @@
         "image": "twilio/selenoid:firefox_stable_132",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -291,7 +291,7 @@
         "image": "twilio/selenoid:firefox_stable_131",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -302,7 +302,7 @@
         "image": "twilio/selenoid:firefox_stable_130",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -313,7 +313,7 @@
         "image": "twilio/selenoid:firefox_stable_129",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -324,7 +324,7 @@
         "image": "twilio/selenoid:firefox_stable_128",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -335,7 +335,7 @@
         "image": "twilio/selenoid:firefox_stable_127",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -346,7 +346,7 @@
         "image": "twilio/selenoid:firefox_stable_126",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [
@@ -357,7 +357,7 @@
         "image": "selenoid/vnc_firefox:125.0",
         "port": "4444",
         "volumes": [
-          "/test_temp_files:/home/selenium/test_temp_files"
+          "automation-exercise-py_test_files_volume:/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [

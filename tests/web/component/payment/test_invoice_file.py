@@ -33,7 +33,6 @@ class TestPaymentComponent(BaseWebComponentTest):
             path_to_screenshot="files/screenshot/page/order_placed/order_placed_page.png",
         )
 
-    @pytest.mark.debug_test
     @pytest.mark.usefixtures("open_payment_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Payment Component")

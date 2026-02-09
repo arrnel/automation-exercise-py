@@ -38,9 +38,11 @@ class ChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
     @override
     def chrome_experimental_options(self) -> Dict[str, Any]:
         test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
+        download_dir = f"{CFG.browser_download_dir}/{test_name}"
         return {
             # Download
-            "download.default_directory": f"{CFG.browser_download_dir}/{test_name}",
+            "download.default_directory": download_dir,
+            "savefile.default_directory": download_dir,
             "download.prompt_for_download": False,
             "download.directory_upgrade": True,
             # Autofill
