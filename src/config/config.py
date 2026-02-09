@@ -193,7 +193,7 @@ class Settings(BaseSettings):
         default=system_util.get_path_in_resources("files/downloads"),
     )
     extension_path: str = Field(
-        default=system_util.get_path_in_resources("browser/extensions/")
+        default=system_util.get_path_in_resources("browser/extension/")
     )
 
     # LOGGING
