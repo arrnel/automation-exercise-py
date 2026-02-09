@@ -1,6 +1,7 @@
 from abc import abstractmethod, ABCMeta
 from typing import List, Any
 
+from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 
 
@@ -15,6 +16,10 @@ class FirefoxStrategyMixin(metaclass=ABCMeta):
 
     @abstractmethod
     def firefox_args(self) -> List[str]:
+        pass
+
+    @abstractmethod
+    def firefox_extensions(self) -> List[str]:
         pass
 
     @abstractmethod
@@ -36,3 +41,10 @@ class FirefoxStrategyMixin(metaclass=ABCMeta):
     def __set_capabilities(self, options: Options) -> None:
         for key, value in self.capabilities().items():
             options.set_capability(key, value)
+
+    def _install_extensions(self, firefox_driver: webdriver.Firefox | webdriver.Remote) -> None:
+        """
+        Install firefox extensions into firefox driver (not available by firefox options)
+        """
+        for extension in self.firefox_extensions():
+            webdriver.Firefox.install_addon(firefox_driver, extension, True)

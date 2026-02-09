@@ -79,10 +79,6 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("BROWSER_SIZE"),
         default=(1920, 1080),
     )
-    browser_headless: bool = Field(
-        validation_alias=AliasChoices("BROWSER_HEADLESS"),
-        default=False,
-    )
     browser_timeout: int = Field(
         validation_alias=AliasChoices("BROWSER_TIMEOUT"),
         default=4,
@@ -195,6 +191,9 @@ class Settings(BaseSettings):
     path_to_files: str = Field(
         validation_alias=AliasChoices("PATH_TO_FILES"),
         default=system_util.get_path_in_resources("files/downloads"),
+    )
+    extension_path: str = Field(
+        default=system_util.get_path_in_resources("browser/extension/")
     )
 
     # LOGGING
@@ -318,12 +317,12 @@ class Settings(BaseSettings):
 
     @classmethod
     def settings_customise_sources(
-            cls,
-            settings_cls,
-            init_settings,
-            env_settings,
-            dotenv_settings,
-            file_secret_settings,
+        cls,
+        settings_cls,
+        init_settings,
+        env_settings,
+        dotenv_settings,
+        file_secret_settings,
     ):
         env = os.getenv("ENV", "local").lower()
 

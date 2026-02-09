@@ -14,10 +14,12 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
     def create_driver(self) -> webdriver.Remote:
         options = self._build_firefox_options()
         options.enable_downloads = True
-        return webdriver.Remote(
+        firefox_driver = webdriver.Remote(
             command_executor=CFG.remote_url,
             options=options,
         )
+        self._install_extensions(firefox_driver)
+        return firefox_driver
 
     @override
     def firefox_args(self) -> List[str]:
@@ -27,8 +29,6 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
             f"--height={height}",
             "--disable-dev-shm-usage",
         ]
-        if CFG.browser_headless:
-            args.append("--headless")
         return args
 
     @override
@@ -44,6 +44,13 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
             "media.webspeech.synth.enabled": False,
             "media.webspeech.recognition.enable": False,
         }
+
+    @override
+    def firefox_extensions(self) -> List[str]:
+        all_extensions: List[str] = [
+            "ublock/ublock.xpi",
+        ]
+        return [CFG.extension_path + extension for extension in all_extensions]
 
     @override
     def capabilities(self) -> Dict[str, Any]:

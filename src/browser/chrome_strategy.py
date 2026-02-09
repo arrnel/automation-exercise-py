@@ -6,6 +6,7 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.chrome_strategy_mixin import ChromeStrategyMixin
 from src.config.config import CFG
+from src.util import system_util
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
@@ -24,11 +25,15 @@ class ChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
             f"--window-size={width},{height}",
             "--disable-dev-shm-usage",
             "--disable-gpu",
-            "--disable-blink-features=AutomationControlled",
         ]
-        if CFG.browser_headless:
-            args.append("--headless")
         return args
+
+    @override
+    def chrome_extensions(self) -> List[str]:
+        all_extensions: List[str] = [
+            "ublock/ublock.crx",
+        ]
+        return [CFG.extension_path + extension for extension in all_extensions]
 
     @override
     def chrome_experimental_options(self) -> Dict[str, Any]:

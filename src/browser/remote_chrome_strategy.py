@@ -26,11 +26,15 @@ class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
             f"--window-size={width},{height}",
             "--disable-dev-shm-usage",
             "--disable-gpu",
-            "--disable-blink-features=AutomationControlled",
         ]
-        if CFG.browser_headless:
-            args.append("--headless")
         return args
+
+    @override
+    def chrome_extensions(self) -> List[str]:
+        all_extensions: List[str] = [
+            "ublock/ublock.crx",
+        ]
+        return [CFG.extension_path + extension for extension in all_extensions]
 
     @override
     def chrome_experimental_options(self) -> Dict[str, Any]:
