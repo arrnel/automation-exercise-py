@@ -114,7 +114,7 @@ jobs:
           python-version: "${{ env.PYTHON_VERSION }}"
 
       - name: Pull browser image
-        if: ${{ inputs.BROWSER_ENABLED == 'true' }}
+        if: ${{ github.event.inputs.BROWSER_ENABLED == 'true' }}
         uses: ./.github/actions/pull-browser
         with:
           browser: ${{ env.BROWSER_NAME }}
