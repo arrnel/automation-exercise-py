@@ -57,6 +57,7 @@ class TestCategoryFilter(BaseWebComponentTest):
             timeout=0.2,
         )
 
+    @pytest.mark.debug_test
     @pytest.mark.screenshot_test
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")

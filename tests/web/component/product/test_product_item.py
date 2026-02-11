@@ -16,6 +16,7 @@ from tests.web.base_web_component_test import BaseWebComponentTest
 @allure.feature("Product Item Component")
 class TestProductItem(BaseWebComponentTest):
 
+    @pytest.mark.debug_test
     @pytest.mark.usefixtures("open_cart_page", "auth_user")
     @pytest.mark.screenshot_test
     @pytest.mark.cart_page_test
