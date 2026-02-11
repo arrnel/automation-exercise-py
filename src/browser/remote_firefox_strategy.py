@@ -33,10 +33,11 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
     @override
     def firefox_prefs(self) -> Dict[str, Any]:
+        download_dir = CFG.browser_download_dir
         return {
             "pdfjs.disabled": True,
             "browser.download.folderList": 2,
-            "browser.download.dir": f"{CFG.browser_download_dir}",
+            "browser.download.dir": download_dir,
             "browser.download.manager.showWhenStarting": False,
             "browser.download.panel.shown": False,
             "dom.webdriver.enabled": False,

@@ -36,10 +36,11 @@ class FirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
     @override
     def firefox_prefs(self) -> Dict[str, Any]:
         test_name = ThreadSafeTestThreadsStore().current_thread_test_name()
+        download_dir = f"{CFG.browser_download_dir}/{test_name}"
         return {
             "pdfjs.disabled": True,
             "browser.download.folderList": 2,
-            "browser.download.dir": f"{CFG.browser_download_dir}/{test_name}",
+            "browser.download.dir": download_dir,
             "browser.download.manager.showWhenStarting": False,
             "browser.download.panel.shown": False,
             "dom.webdriver.enabled": False,
