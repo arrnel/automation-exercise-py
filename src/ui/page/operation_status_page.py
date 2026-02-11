@@ -87,9 +87,13 @@ class OrderPlacedPage(BaseConfirmationPage):
         super().__init__("Order Placed")
 
     @step_log.log("Download invoice file with expected title: {expected_file_name}")
-    def download_invoice(self, expected_file_name: str) -> str:
+    def download_invoice(self, expected_file_name: str, retries:int = 5, delay:float = 1.0) -> str:
         """Returns path to downloaded file."""
-        return self._locator.download_invoice().download(expected_file_name)
+        return self._locator.download_invoice().download(
+            expected_file_name,
+            retries=retries,
+            delay=delay,
+        )
 
     def check_last_invoice_has_data(self, full_name: str, price: Price) -> None:
         path_to_invoice_dir = (

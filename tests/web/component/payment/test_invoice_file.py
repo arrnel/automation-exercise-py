@@ -47,7 +47,11 @@ class TestPaymentComponent(BaseWebComponentTest):
 
         # Step
         self.payment_page.payment_card_component.pay(card)
-        path_to_invoice = self.order_placed_page.download_invoice("invoice.txt")
+        path_to_invoice = self.order_placed_page.download_invoice(
+            "invoice.txt",
+            retries=5,
+            delay=2.0,
+        )
 
         # Assertion
         self.order_placed_page.check_invoice_has_data(
@@ -70,8 +74,16 @@ class TestPaymentComponent(BaseWebComponentTest):
 
         # Step
         self.payment_page.payment_card_component.pay(card)
-        path_to_invoice1 = self.order_placed_page.download_invoice("invoice.txt")
-        path_to_invoice2 = self.order_placed_page.download_invoice("invoice(1).txt")
+        path_to_invoice1 = self.order_placed_page.download_invoice(
+            "invoice.txt",
+            retries=5,
+            delay=2.0,
+        )
+        path_to_invoice2 = self.order_placed_page.download_invoice(
+            "invoice(1).txt",
+            retries=5,
+            delay=2.0,
+        )
 
         # Assertion
         self.order_placed_page.check_invoice_has_data(
