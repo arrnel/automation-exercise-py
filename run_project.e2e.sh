@@ -74,7 +74,7 @@ function pull_browser() {
 # --------------------------------------------------------
 # Step 0: Remove allure-results dir
 # --------------------------------------------------------
-echo "### Remove allure-results dir ###"
+echo "### Clear allure-results dir ###"
 rm -rf $ALLURE_DIR
 mkdir $ALLURE_DIR
 
@@ -89,9 +89,8 @@ pull_video_recorder
 # --------------------------------------------------------
 echo "### Stopping all services ###"
 docker compose -f $SELENOID_COMPOSE_FILE down
-
-# Удаляем сервисы/контейнеры (опционально, по сервису)
 docker compose -f $SELENOID_COMPOSE_FILE rm -f $TEST_IMAGE_NAME || true
+
 
 # --------------------------------------------------------
 # Step 3: Check and remove test images
