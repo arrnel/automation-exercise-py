@@ -7,7 +7,6 @@ from tests.web.base_web_component_test import BaseWebComponentTest
 
 @pytest.mark.component_test
 @pytest.mark.invoice_component_test
-@pytest.mark.download_file_test
 @pytest.mark.order_placed_page_test
 @allure.feature("Place Order Component")
 class TestPaymentComponent(BaseWebComponentTest):
@@ -33,6 +32,7 @@ class TestPaymentComponent(BaseWebComponentTest):
             path_to_screenshot="files/screenshot/page/order_placed/order_placed_page.png",
         )
 
+    @pytest.mark.download_file_test
     @pytest.mark.usefixtures("open_payment_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Payment Component")
@@ -60,6 +60,7 @@ class TestPaymentComponent(BaseWebComponentTest):
             add_random_products_to_cart.total_price,
         )
 
+    @pytest.mark.download_file_test
     @pytest.mark.usefixtures("open_payment_page")
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Payment Component")
