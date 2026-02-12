@@ -6,7 +6,6 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.firefox_strategy_mixin import FirefoxStrategyMixin
 from src.config.config import CFG
-from src.util import system_util
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 

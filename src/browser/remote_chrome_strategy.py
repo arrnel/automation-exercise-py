@@ -6,7 +6,6 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.chrome_strategy_mixin import ChromeStrategyMixin
 from src.config.config import CFG
-from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):

@@ -23,7 +23,6 @@ from src.ui.page.payment_page import PaymentPage
 from src.ui.page.product_page import ProductPage
 from src.ui.page.products_page import ProductsPage
 from src.util.allure.allure_util import AllureUtil
-from src.util.selene import browser_util
 from src.util.selene.cookie_util import CookieUtil
 from src.util.store.cookie_store import ThreadSafeCookieStore
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore

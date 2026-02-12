@@ -9,7 +9,7 @@ class Product:
 
     id: int | None
     title: str | None
-    category : Category | None
+    category: Category | None
     brand: str | None
     price: Price | None
     availability: str | None = "In Stock"
