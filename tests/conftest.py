@@ -97,14 +97,10 @@ def all_tests_fixtures():
         # ---------------------------------------------------------------------
 
         with allure.step("Clear test temp files directory"):
-            test_temp_dir = (
-                CFG.browser_override_downloaded_file_dir
-                if CFG.is_remote()
-                else CFG.browser_download_dir
-            )
-            system_util.create_folder(test_temp_dir)
+            download_dir = CFG.browser_download_dir
+            system_util.create_folder(download_dir)
             system_util.remove_all_items_from_folder(
-                test_temp_dir, by_remove_folder=False
+                download_dir, by_remove_folder=False
             )
 
     # ---------------------------------------------------------------------
