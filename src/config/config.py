@@ -94,14 +94,27 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("BROWSER_PAGE_LOAD_STRATEGY"),
         default="eager",
     )
+
+    browser_default_download_dir: str = Field(
+        default="/home/selenium/Downloads",
+    )
+    """
+    === ONLY FOR REMOTE ENV ===
+    Path to folder where files will save in browser folder.
+    Downloaded file path pattern: {path_to_folder}/{test_name}/file.txt
+    Result of path: /home/selenium/Downloads/test_invoice_file_should_have_expected_price/invoice.txt
+    """
+
     browser_download_dir: str = Field(
         validation_alias=AliasChoices("BROWSER_DOWNLOAD_DIR"),
-        default="home/selenium/Downloads",
+        default="/home/selenium/Downloads/test_temp_files",
     )
-    browser_override_downloaded_file_dir: str = Field(
-        validation_alias=AliasChoices("BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR"),
-        default=system_util.get_path_in_resources("files/download"),
-    )
+    """
+    Path to folder:
+        * Local: browsers will save downloaded files
+        * Remote: path in tests container where files will save after download from browser container
+    """
+
     browser_remote_vnc: bool = Field(
         validation_alias=AliasChoices("BROWSER_REMOTE_VNC"),
         default=True,
@@ -236,7 +249,7 @@ class Settings(BaseSettings):
         return CFG.remote_type not in RemoteType.remote_types()
 
     @staticmethod
-    def is_adblock_enabled():
+    def is_twilio_browser():
         match CFG.browser_name:
             case "chrome":
                 return float(CFG.browser_version) > 128.0

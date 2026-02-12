@@ -15,7 +15,11 @@ if [ "$SHOW_LOGS" = "true" ]; then
 fi
 
 if [ "$REMOVE_COMPOSE_DATA" = "true" ]; then
+
   echo "### Close and remove compose containers ###"
   docker compose rm -sf
+
   echo "### Remove test container image $PREFIX/automation-exercise-tests:latest"
+  docker image rm $PREFIX/automation-exercise-tests:latest
+
 fi
