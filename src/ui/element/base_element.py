@@ -491,6 +491,20 @@ class Panel(BaseElement):
                 self.__locator.expander().click()
         return self
 
+    def wait_expanded(self):
+        return (
+            self.__locator.expander_status()
+            .wait_until(have.css_class("in"))
+            .wait_until(have.css_property("height", "auto"))
+        )
+
+    def wait_collapsed(self):
+        return (
+            self.__locator.expander_status()
+            .wait_until(have.css_class("collapse"))
+            .wait_until(have.css_property("height", "0px"))
+        )
+
     def should_contains_categories(
         self, *categories: Union[str, Iterable[str]]
     ) -> None:
@@ -509,6 +523,24 @@ class _PanelLocator:
     def expander(self) -> Button:
         return Button(
             self.__root.element(".pull-right"), self.__element_title + " expander"
+        )
+
+    def expander_status(self) -> UiElement:
+        return UiElement(
+            self.__root.element(".panel-collapse"),
+            self.__element_title + " expander content wrapper",
+        )
+
+    def expanded_expander(self) -> UiElement:
+        return UiElement(
+            self.__root.element(".panel-collapse.in"),
+            self.__element_title + " expanded expander status element",
+        )
+
+    def collapsed_expander(self) -> UiElement:
+        return UiElement(
+            self.__root.element(".panel-collapse.collapse"),
+            self.__element_title + " collapsed expander status element",
         )
 
     def panel_content_wrapper(self):

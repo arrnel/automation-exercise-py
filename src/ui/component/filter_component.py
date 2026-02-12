@@ -46,11 +46,13 @@ class AccordionFilter(BaseComponent):
     def expand_group(self, group: str):
         panel = self.__get_panel(group)
         panel.expand()
-        panel.wait_until(have.attribute("data-toggle", "collapse"))
+        panel.wait_expanded()
 
     @step_log.log("Expand [{self._component_title}] group: {group}")
     def collapse_group(self, group: str):
-        self.__get_panel(group).collapse()
+        panel = self.__get_panel(group).collapse()
+        panel.collapse()
+        panel.wait_collapsed()
 
     @step_log.log(
         "Filter in {self._component_title} by group = [{group}] and category = [{category}]"
