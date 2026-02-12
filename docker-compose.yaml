@@ -2,7 +2,7 @@ services:
 
   selenoid:
     container_name: selenoid
-    image: aerokube/selenoid:1.11.3
+    image: aerokube/selenoid:latest-release
     platform: linux/${ARCH}
     volumes:
       # Host machine should have same path for video. And add path in docker in resources -> file sharing.
@@ -61,7 +61,6 @@ services:
       - BROWSER_PAGE_LOAD_TIMEOUT=${BROWSER_PAGE_LOAD_TIMEOUT:-}
       - BROWSER_PAGE_LOAD_STRATEGY=${BROWSER_PAGE_LOAD_STRATEGY:-}
       - BROWSER_DOWNLOAD_DIR=${BROWSER_DOWNLOAD_DIR:-}
-      - BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR=${BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR:-}
       - BROWSER_REMOTE_VNC=${BROWSER_REMOTE_VNC:-}
       - BROWSER_REMOTE_VIDEO=${BROWSER_REMOTE_VIDEO:-}
       - BROWSER_REMOTE_LOGS=${BROWSER_REMOTE_LOGS:-}
