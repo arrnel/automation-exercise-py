@@ -83,10 +83,6 @@ def each_ui_test_fixture(request, each_test_fixtures):
         DriverManager().init_driver()
         browser.open("/")
 
-        if CFG.browser_name == "firefox":
-            browser_util.close_browser_tab(tab_number=1, switch_tab_number=0)
-            browser.open("/")
-
     yield
 
     ThreadSafeTestThreadsStore().add_current_thread_to_test(test_name)
@@ -95,7 +91,6 @@ def each_ui_test_fixture(request, each_test_fixtures):
         # Close webdriver
         # ---------------------------------------------------------------------
         browser.driver.quit()
-
 
 
 # -------------------------------
