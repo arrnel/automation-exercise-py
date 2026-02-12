@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Optional, Literal
+from typing import Optional, Literal, List
 
 
 def get_tmp_screenshot_folder() -> str:
@@ -56,7 +56,7 @@ def get_files_in_directory(
     starts_with: Optional[str] = None,
     order_by: Optional[Literal["name", "date_time"]] = None,
     order_direction: Optional[Literal["asc", "desc"]] = "asc",
-) -> list[str]:
+) -> List[str]:
 
     files = []
     actual_file_names = os.listdir(path_to_dir)
@@ -77,6 +77,10 @@ def get_files_in_directory(
         return files
 
     reverse = order_direction.lower() == "desc"
+    return sort_files(files, order_by=order_by, reverse=reverse)
+
+
+def sort_files(files: List[str], order_by: str, reverse: bool) -> List[str]:
     if order_by == "name":
         files.sort(key=lambda path: os.path.basename(path).lower(), reverse=reverse)
     elif order_by == "date_time":
@@ -85,14 +89,14 @@ def get_files_in_directory(
         raise ValueError(
             f"Unsupported order_by value: {order_by}. Available values: 'name', 'date_time'"
         )
-
     return files
 
 
-def save_as_file(abs_file_path: str, content) -> None:
+def save_as_file(abs_file_path: str, content: bytes) -> None:
     """
     Save content as a file (rewrites file if exists)
-    :param file_path: abs path to file from resources. Example: "files/file.txt"
+    :param abs_file_path: abs path to file from resources. Example: "files/file.txt"
+    :param content: bytes to save
     """
     with open(abs_file_path, "wb") as file:
         file.write(content)
@@ -101,7 +105,7 @@ def save_as_file(abs_file_path: str, content) -> None:
 def save_in_file(abs_file_path: str, content) -> None:
     """
     Save content in a file (only append content into file)
-    :param file_path: abs path to file from resources. Example: "files/file.txt"
+    :param abs_file_path: abs path to file from resources. Example: "files/file.txt"
     :param content:
     :return:
     """
