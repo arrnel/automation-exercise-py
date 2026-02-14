@@ -100,6 +100,7 @@ services:
 
 volumes:
   test_files_volume:
+    external: true
 
 networks:
   automation_exercise-network:

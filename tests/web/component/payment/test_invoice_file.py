@@ -61,6 +61,7 @@ class TestPaymentComponent(BaseWebComponentTest):
             add_random_products_to_cart.total_price,
         )
 
+    @pytest.mark.debug_test
     @pytest.mark.download_file_test
     @pytest.mark.usefixtures("open_payment_page")
     @allure.label("owner", "arrnel")
