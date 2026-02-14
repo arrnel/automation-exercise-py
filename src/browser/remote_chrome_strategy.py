@@ -6,6 +6,7 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.chrome_strategy_mixin import ChromeStrategyMixin
 from src.config.config import CFG
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
@@ -38,7 +39,11 @@ class RemoteChromeStrategy(BrowserStrategy, ChromeStrategyMixin):
 
     @override
     def chrome_experimental_options(self) -> Dict[str, Any]:
-        download_dir = CFG.browser_download_dir
+
+        download_dir = CFG.browser_default_download_dir
+        if CFG.is_twilio_browser():
+            download_dir = f"{CFG.browser_download_dir}/{ThreadSafeTestThreadsStore().current_thread_test_name()}"
+
         return {
             # Download
             "download.default_directory": download_dir,

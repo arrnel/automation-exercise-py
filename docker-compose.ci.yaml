@@ -79,7 +79,7 @@ services:
       - ./workflow-resources/screenshot:/automation-exercise-py/resources/files/screenshot
       - ./resources/files/upload:/automation-exercise-py/resources/files/upload
       - ./resources/browser:/automation-exercise-py/resources/browser
-      - test_files_volume:/test_temp_files
+      - test_files_volume:/home/selenium/Downloads/test_temp_files
     depends_on:
       selenoid:
         condition: service_started

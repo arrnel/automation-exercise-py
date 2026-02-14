@@ -1,13 +1,16 @@
 import time
 from collections.abc import Callable
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
 def retry(
-    action: Callable[[], bytes],
+    action: Callable[[], T],
     retries: int,
     delay: float,
     error_factory: Callable[[Exception | None], Exception],
-) -> bytes:
+) -> T:
     last_exc = None
 
     for attempt in range(1, retries + 1):

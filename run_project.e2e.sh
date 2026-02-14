@@ -8,6 +8,7 @@ source ./docker.properties
 export TEST_IMAGE_NAME="automation-exercise-tests"
 export SELENOID_COMPOSE_FILE="docker-compose.yaml"
 export BROWSERS_JSON_FILE="./env/docker/selenoid/local/browsers.json"
+export BROWSER_CHANNEL="stable"
 export PREFIX=${IMAGE_PREFIX}
 export ALLURE_DIR="./allure-results"
 export ARCH=$(uname -m)
@@ -65,9 +66,9 @@ function pull_video_recorder() {
 
 function pull_browser() {
   if [ -z "$BROWSER_NAME" ] && [ -z "$BROWSER_VERSION" ]; then
-    pull_browser_from_env_variables
-  else
     pull_browsers_from_browser_json
+  else
+    pull_browser_from_env_variables
   fi
 }
 

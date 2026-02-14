@@ -91,7 +91,7 @@ services:
       - ./allure-results:/allure-results
       - ./resources/files:/automation-exercise-py/resources/files
       - ./resources/browser:/automation-exercise-py/resources/browser
-      - test_files_volume:/test_temp_files
+      - test_files_volume:/home/selenium/Downloads/test_temp_files
     depends_on:
       selenoid:
         condition: service_started
@@ -100,6 +100,7 @@ services:
 
 volumes:
   test_files_volume:
+    external: true
 
 networks:
   automation_exercise-network:
