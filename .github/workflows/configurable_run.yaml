@@ -14,11 +14,13 @@ on:
         description: PYTEST_MARK_EXPRESSION
         type: string
         required: true
+        default: debug_test
 
       PYTEST_ARGS:
         description: PYTEST_ARGS
         type: string
         required: false
+        default: -vv
 
       BROWSER_ENABLED:
         description: Enable browser. Uncheck only for API tests
