@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 from abc import ABC
 from pathlib import Path
@@ -24,7 +25,7 @@ from src.config.config import CFG
 from src.model.enum.remote_type import RemoteType
 from src.service.remote.moon_artifact_service import MoonArtifactApiService
 from src.service.remote.selenoid_artifact_service import SelenoidArtifactApiService
-from src.util import system_util
+from src.util import system_util, retry_util
 from src.util.decorator.step_logger import step_log, LogLvl
 from src.util.screenshot import screenshot_util
 from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
@@ -52,7 +53,7 @@ class BaseElement(ABC):
         """
         with step_log.log(
             f"Hover over {self._element_title}"
-            f"{f" for a [{seconds}] second(s)" if seconds > 0 else ""}"
+            f"{f' for a [{seconds}] second(s)' if seconds > 0 else ''}"
         ):
             self._root.hover()
             if seconds > 0:
@@ -315,36 +316,81 @@ class DownloadableButton(Button):
             str: Path to downloaded file.
         """
 
-        self.click(by_js=by_js)
-        test_title = ThreadSafeTestThreadsStore().current_thread_test_name()
-        test_dir = f"{CFG.browser_download_dir}/{test_title}"
-        abs_file_path = f"{test_dir}/{file_name}"
+        def local_download(path_to_folder: str, file_name: str) -> str:
 
-        if CFG.is_local():
-            browser.wait_until(
-                lambda _: Path(abs_file_path).is_file(),
+            def action():
+                if Path(abs_file_path).exists():
+                    return abs_file_path
+                raise FileNotFoundError(abs_file_path)
+
+            abs_file_path = os.path.join(path_to_folder, file_name)
+            return retry_util.retry(
+                action=action,
+                retries=retries,
+                delay=delay,
+                error_factory=lambda exc: FileNotFoundError(
+                    f"File not found in {abs_file_path=}"
+                ),
             )
+
+        def remote_download(path_to_folder: str, file_name: str) -> str:
+
+            def check_file_exists():
+                if system_util.file_exists_in_docker_container(
+                    container_id,
+                    browser_container_path_to_file,
+                ):
+                    return abs_file_path
+
+                raise FileNotFoundError(abs_file_path)
+
+            abs_file_path = os.path.join(path_to_folder, file_name)
+
+            remote_service = (
+                SelenoidArtifactApiService()
+                if CFG.remote_type == RemoteType.SELENOID
+                else MoonArtifactApiService()
+            )
+
+            container_id = remote_service.get_container_id(browser.driver.session_id)
+            browser_container_path_to_file = os.path.join(CFG.browser_default_download_dir, file_name)
+            retry_util.retry(
+                action=check_file_exists,
+                retries=retries,
+                delay=delay,
+                error_factory=lambda exc: FileNotFoundError(
+                    f"Remote file not found in browser container.\n"
+                    f"{container_id=},\n"
+                    f"{browser_container_path_to_file=}"
+                ),
+            )
+
+            content = remote_service.get_file(
+                session_id=browser.driver.session_id,
+                file_name=file_name,
+                retries=retries,
+                delay=delay,
+            )
+
+            system_util.create_folder(test_dir)
+            system_util.save_as_file(abs_file_path, content)
+
             return abs_file_path
 
-        override_test_dir = f"{CFG.browser_override_downloaded_file_dir}/{test_title}"
-        override_abs_file_path = f"{override_test_dir}/{file_name}"
-        remote_service = (
-            SelenoidArtifactApiService()
-            if CFG.remote_type == RemoteType.SELENOID
-            else MoonArtifactApiService()
+        self.click(by_js=by_js)
+        test_dir = os.path.join(
+            CFG.browser_download_dir,
+            ThreadSafeTestThreadsStore().current_thread_test_name(),
         )
-        container_id = remote_service.get_container_id(browser.driver.session_id)
-        browser.wait_until(
-            lambda _: system_util.file_exists_in_docker_container(
-                container_id, abs_file_path
-            )
-        )
-        content = remote_service.get_file(
-            browser.driver.session_id, file_name, retries=retries, delay=delay
-        )
-        system_util.create_folder(override_test_dir)
-        system_util.save_as_file(override_abs_file_path, content)
-        return override_abs_file_path
+
+        # If remote browser container is twilio image:
+        # 1) Twilio browsers in browsers.json should have volume
+        # "test_files_volume:/home/selenium/Downloads/test_temp_files"
+        # 2) Browser should download in test folder in path /home/selenium/Downloads/test_temp_files/{test_title}"
+        if CFG.is_local() or CFG.is_twilio_browser():
+            return local_download(test_dir, file_name)
+
+        return remote_download(test_dir, file_name)
 
 
 class Input(BaseElement):

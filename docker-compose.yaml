@@ -60,7 +60,6 @@ services:
       - BROWSER_PAGE_LOAD_TIMEOUT=${BROWSER_PAGE_LOAD_TIMEOUT:-}
       - BROWSER_PAGE_LOAD_STRATEGY=${BROWSER_PAGE_LOAD_STRATEGY:-}
       - BROWSER_DOWNLOAD_DIR=${BROWSER_DOWNLOAD_DIR:-}
-      - BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR=${BROWSER_OVERRIDE_DOWNLOADED_FILE_DIR:-}
       - BROWSER_REMOTE_VNC=${BROWSER_REMOTE_VNC:-}
       - BROWSER_REMOTE_VIDEO=${BROWSER_REMOTE_VIDEO:-}
       - BROWSER_REMOTE_LOGS=${BROWSER_REMOTE_LOGS:-}
@@ -91,7 +90,7 @@ services:
       - ./allure-results:/allure-results
       - ./resources/files:/automation-exercise-py/resources/files
       - ./resources/browser:/automation-exercise-py/resources/browser
-      - test_files_volume:/test_temp_files
+      - test_files_volume:/home/selenium/Downloads/test_temp_files
     depends_on:
       selenoid:
         condition: service_started
@@ -100,6 +99,7 @@ services:
 
 volumes:
   test_files_volume:
+    external: true
 
 networks:
   automation_exercise-network:
