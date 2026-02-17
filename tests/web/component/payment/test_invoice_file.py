@@ -1,6 +1,7 @@
 import allure
 import pytest
 
+from src.config.config import CFG
 from src.util.test.data_generator import DataGenerator
 from tests.web.base_web_component_test import BaseWebComponentTest
 
@@ -72,6 +73,9 @@ class TestPaymentComponent(BaseWebComponentTest):
     ):
         # Data
         card = DataGenerator.random_credit_card()
+        file_name_with_suffix = (
+            "invoice (1).txt" if CFG.browser_name == "chrome" else "invoice(1).txt"
+        )
 
         # Step
         self.payment_page.payment_card_component.pay(card)
@@ -81,7 +85,7 @@ class TestPaymentComponent(BaseWebComponentTest):
             delay=2.0,
         )
         path_to_invoice2 = self.order_placed_page.download_invoice(
-            "invoice(1).txt",
+            file_name_with_suffix,
             retries=5,
             delay=2.0,
         )

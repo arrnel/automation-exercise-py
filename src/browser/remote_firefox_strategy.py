@@ -6,6 +6,7 @@ from src.browser.base_strategy import BrowserStrategy
 from src.browser.capability_builder import CapabilitiesBuilder
 from src.browser.firefox_strategy_mixin import FirefoxStrategyMixin
 from src.config.config import CFG
+from src.util.store.test_thread_id_store import ThreadSafeTestThreadsStore
 
 
 class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
@@ -33,7 +34,11 @@ class RemoteFirefoxStrategy(BrowserStrategy, FirefoxStrategyMixin):
 
     @override
     def firefox_prefs(self) -> Dict[str, Any]:
-        download_dir = CFG.browser_download_dir
+
+        download_dir = CFG.browser_default_download_dir
+        if CFG.is_twilio_browser():
+            download_dir = f"{CFG.browser_download_dir}/{ThreadSafeTestThreadsStore().current_thread_test_name()}"
+
         return {
             "pdfjs.disabled": True,
             "browser.download.folderList": 2,
