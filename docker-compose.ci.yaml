@@ -2,7 +2,7 @@ services:
 
   selenoid:
     container_name: selenoid
-    image: aerokube/selenoid:1.11.3
+    image: aerokube/selenoid:latest
     platform: linux/${ARCH}
     volumes:
       - /opt/selenoid/video:/opt/selenoid/video
@@ -10,6 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TZ=Europe/Moscow
+      - DOCKER_API_VERSION=1.44
       - ENV=ci
     restart: unless-stopped
     command: [
@@ -31,6 +32,7 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     environment:
+      - DOCKER_API_VERSION=1.44
       - ENV=${ENV:-docker}
       - PYTEST_MARK_EXPR=${PYTEST_MARK_EXPR:-}
       - PYTEST_ARGS=${PYTEST_ARGS:-}
