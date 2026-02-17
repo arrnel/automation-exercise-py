@@ -2,17 +2,15 @@ services:
 
   selenoid:
     container_name: selenoid
-    image: aerokube/selenoid:1.11.3
+    image: aerokube/selenoid:latest
     platform: linux/${ARCH}
     volumes:
-      # Host machine should have same path for video. And add path in docker in resources -> file sharing.
-      # Or add in enable in environment OVERRIDE_VIDEO_OUTPUT_DIR
       - /opt/selenoid/video:/opt/selenoid/video
       - ./env/docker/selenoid/local/browsers.json:/opt/selenoid/browsers.json
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TZ=Europe/Moscow
-#      - OVERRIDE_VIDEO_OUTPUT_DIR=/path/to/config/video
+      - DOCKER_API_VERSION=1.44
     restart: unless-stopped
     command: [
       "-conf", "/opt/selenoid/browsers.json",
@@ -28,7 +26,7 @@ services:
 
   selenoid-ui:
     container_name: selenoid-ui
-    image: aerokube/selenoid-ui:1.10.11
+    image: aerokube/selenoid-ui:latest
     depends_on:
       - selenoid
     restart: unless-stopped
@@ -45,6 +43,7 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     environment:
+      - DOCKER_API_VERSION=1.44
       - ENV=${ENV:-docker}
       - PYTEST_MARK_EXPR=${PYTEST_MARK_EXPR:-}
       - PYTEST_ARGS=${PYTEST_ARGS:-}
