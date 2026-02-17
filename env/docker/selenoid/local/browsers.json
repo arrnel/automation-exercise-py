@@ -6,7 +6,7 @@
         "image": "twilio/selenoid:chrome_stable_141",
         "port": "4444",
         "volumes": [
-          "automation-exercise-py_test_files_volume:/home/selenium/Downloads/test_temp_files"
+          "test_files_volume:/home/selenium/Downloads/test_temp_files"
         ],
         "env": [
           "TZ=Europe/Moscow"
@@ -28,7 +28,7 @@
         "image": "twilio/selenoid:firefox_stable_141",
         "port": "4444",
         "volumes": [
-          "automation-exercise-py_test_files_volume:/home/selenium/Downloads/test_temp_files"
+          "test_files_volume:/home/selenium/Downloads/test_temp_files"
         ],
         "path": "/wd/hub",
         "env": [

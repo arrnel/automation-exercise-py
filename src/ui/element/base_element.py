@@ -392,9 +392,9 @@ class DownloadableButton(Button):
 
         # If remote browser container is twilio image:
         # 1) Twilio browsers in browsers.json should have volume
-        # "automation-exercise-py_test_files_volume:/home/selenium/Downloads/test_temp_files"
+        # "test_files_volume:/home/selenium/Downloads/test_temp_files"
         # 2) Browser should download in test folder in path /home/selenium/Downloads/test_temp_files/{test_title}"
-        if CFG.is_local:
+        if CFG.is_local():
             return local_download(test_dir, file_name)
 
         return remote_download(test_dir, file_name)

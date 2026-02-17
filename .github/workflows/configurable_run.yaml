@@ -95,6 +95,7 @@ jobs:
       # ---------- IMPORTANT VARS
       ENV: ci
       REWRITE_ALL_SCREENSHOTS: false
+      DOCKER_API_VERSION: 1.44
 
     steps:
 
