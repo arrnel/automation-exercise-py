@@ -83,7 +83,6 @@ jobs:
       RECOMMENDED_PRODUCT_IDS: ${{ vars.RECOMMENDED_PRODUCT_IDS }}
       EXPECTED_CREDIT_CARD: ${{ vars.EXPECTED_CREDIT_CARD }}
       PATH_TO_FILES: ${{ vars.PATH_TO_FILES }}
-      TESTS_PASS_RATE: ${{ vars.TESTS_PASSED_RATE }}
       LOG_LVL: ${{ vars.LOG_LVL }}
       API_LOG_LVL: ${{ vars.API_LOG_LVL }}
       GH_API_URL: ${{ github.api_url }}
@@ -94,6 +93,7 @@ jobs:
       # ---------- IMPORTANT VARS
       ENV: ci
       REWRITE_ALL_SCREENSHOTS: false
+      WORKFLOW_REPORT_ID: configurable_run
 
     steps:
 
@@ -148,14 +148,17 @@ jobs:
 
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
+        if: always()
         with:
-          report_name: ${{ inputs.RUN_TITLE }}
+          subfolder: '${{ env.WORKFLOW_REPORT_ID }}'
+          report_name: Pull Request Report
           allure_results: allure-results
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: 'gh-pages'
+          publish_dir: 'allure-history'
