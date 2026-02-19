@@ -64,6 +64,7 @@ jobs:
       PREFIX: ${{ github.repository_owner }}
       PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
       SHOW_LOGS: ${{ vars.SHOW_TEST_CONTAINER_LOGS }}
+      WORKFLOW_REPORT_ID: nightly
 
     steps:
 
@@ -132,14 +133,17 @@ jobs:
 
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
+        if: always()
         with:
-          report_name: Nightly run ${{ env.CURRENT_DATE_TIME }}
+          subfolder: '${{ env.WORKFLOW_REPORT_ID }}'
+          report_name: Pull Request Report
           allure_results: allure-results
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: 'gh-pages'
+          publish_dir: 'allure-history'

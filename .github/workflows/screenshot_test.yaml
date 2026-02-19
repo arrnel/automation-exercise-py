@@ -80,6 +80,7 @@ jobs:
       BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       PREFIX: ${{ github.repository_owner }}
       PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
+      WORKFLOW_REPORT_ID: screenshot_test
 
     steps:
 
@@ -155,17 +156,18 @@ jobs:
         uses: simple-elf/allure-report-action@master
         if: always()
         with:
-          report_name: Screenshots run
+          subfolder: '${{ env.WORKFLOW_REPORT_ID }}'
+          report_name: Pull Request Report
           allure_results: allure-results
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
+        uses: peaceiris/actions-gh-pages@v4
         if: always()
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: 'gh-pages'
+          publish_dir: 'allure-history'
 
       - name: Commit workflow-resources changes
         if: always()
