@@ -63,7 +63,8 @@ jobs:
       PREFIX: ${{ github.repository_owner }}
       PYTHON_VERSION: ${{ vars.PYTHON_VERSION }}
       SHOW_LOGS: ${{ vars.SHOW_TEST_CONTAINER_LOGS }}
-      TESTS_PASS_RATE: ${{ vars.TESTS_PASS_RATE }}
+      EXPECTED_TESTS_PASSED_RATE: ${{ vars.EXPECTED_TESTS_PASSED_RATE }}
+      WORKFLOW_REPORT_ID: on_pull_request
 
     steps:
 
@@ -132,81 +133,106 @@ jobs:
 
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
+        if: always()
         with:
+          subfolder: '${{ env.WORKFLOW_REPORT_ID }}'
           report_name: Pull Request Report
           allure_results: allure-results
           allure_history: allure-history
 
       - name: Deploy report to Github Pages
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+        uses: peaceiris/actions-gh-pages@v4
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: 'gh-pages'
+          publish_dir: 'allure-history'
 
       - name: Parse Test Statistics
         id: stats
+        if: always()
         run: |
-          # Install jq for JSON parsing
-          sudo apt-get install -y jq
-          # Parse categories from Allure results (assuming categories.json exists in allure-results)
-          if [ -f allure-results/categories.json ]; then
-            PASSED=$(jq '.[] | select(.name == "passed") | .matched' allure-results/categories.json || echo 0)
-            FAILED=$(jq '.[] | select(.name == "failed") | .matched' allure-results/categories.json || echo 0)
-            BROKEN=$(jq '.[] | select(.name == "broken") | .matched' allure-results/categories.json || echo 0)
-            SKIPPED=$(jq '.[] | select(.name == "skipped") | .matched' allure-results/categories.json || echo 0)
-            UNKNOWN=$(jq '.[] | select(.name == "unknown") | .matched' allure-results/categories.json || echo 0)
+          sudo apt-get install -y jq bc
+
+          HISTORY_TREND_FILE=$(find / -type f -path "*/last-history/history-trend.json" 2>/dev/null -print -quit)
+          
+          if [ -f "$HISTORY_TREND_FILE" ]; then
+
+            LATEST_STATS=$(jq '.[0].data // {passed:0, failed:0, broken:0, skipped:0, unknown:0, total:0}' "$HISTORY_TREND_FILE")
+          
+            PASSED=$(echo "$LATEST_STATS" | jq '.passed')
+            FAILED=$(echo "$LATEST_STATS" | jq '.failed')
+            BROKEN=$(echo "$LATEST_STATS" | jq '.broken')
+            SKIPPED=$(echo "$LATEST_STATS" | jq '.skipped')
+            UNKNOWN=$(echo "$LATEST_STATS" | jq '.unknown')
+            TOTAL=$(echo "$LATEST_STATS" | jq '.total')
+          
           else
-            # Fallback: count result files
-            PASSED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "passed")
-            FAILED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "failed")
-            BROKEN=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "broken")
-            SKIPPED=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "skipped")
-            UNKNOWN=$(find allure-results -name '*.json' | xargs jq '.status' | grep -c "unknown")
+          
+            echo "WARNING: `*/last-history/history-trend.json` NOT FOUND → assuming no tests or report generation failed"
+            echo "### ALL history-trend.json files"
+            echo $(find / -type f -name "history-trend.json" 2>/dev/null | head -n 100 || echo "")
+          
+            PASSED=0
+            FAILED=0
+            BROKEN=0
+            SKIPPED=0
+            UNKNOWN=0
+            TOTAL=-1
+          
           fi
-          TOTAL=$((PASSED + FAILED + BROKEN + SKIPPED + UNKNOWN))
-          PASS_RATE=$(awk "BEGIN {printf \"%.3f\", ($PASSED / $TOTAL) * 100}")
+
+          VALID_TESTS_COUNT=$((PASSED + SKIPPED + UNKNOWN))
+          ACTUAL_TESTS_PASS_RATE=$(awk '{printf "%.3f\n", ($1 / $2) * 100}' <<< "$VALID_TESTS_COUNT $TOTAL")
+
           echo "PASSED=$PASSED" >> $GITHUB_OUTPUT
           echo "FAILED=$FAILED" >> $GITHUB_OUTPUT
           echo "BROKEN=$BROKEN" >> $GITHUB_OUTPUT
           echo "SKIPPED=$SKIPPED" >> $GITHUB_OUTPUT
           echo "UNKNOWN=$UNKNOWN" >> $GITHUB_OUTPUT
           echo "TOTAL=$TOTAL" >> $GITHUB_OUTPUT
-          echo "PASS_RATE=$PASS_RATE" >> $GITHUB_OUTPUT
-          echo "IS_PASSED=$IS_PASSED" >> $GITHUB_OUTPUT
+          echo "ACTUAL_TESTS_PASS_RATE=$ACTUAL_TESTS_PASS_RATE" >> $GITHUB_OUTPUT
 
       - name: Quality gate
         id: quality_gate
+        if: always()
         run: |
 
-          expected_pass_rate = ${{ env.TESTS_PASS_RATE }}
-          actual_pass_rate = ${{steps.stats.outputs.PASS_RATE}}
-
-          if [ $(echo "$actual_pass_rate < $expected_pass_rate" | bc -l) -eq 1 ]; then
-            echo "Quality gate failed: Actual pass rate $actual_pass_rate% < Expected $expected_pass_rate%"
+          EXPECTED_PASS_RATE=${{ env.EXPECTED_TESTS_PASSED_RATE }}
+          ACTUAL_PASS_RATE=${{steps.stats.outputs.ACTUAL_TESTS_PASS_RATE}}
+          IS_PASSED=$(awk -v a="$ACTUAL_PASS_RATE" -v e="$EXPECTED_PASS_RATE" 'BEGIN {print (a >= e ? "true" : "false")}')
+          
+          if [ "$IS_PASSED" != "true" ]; then
+            echo "Quality gate failed: Actual pass rate $ACTUAL_PASS_RATE% < Expected $EXPECTED_PASS_RATE%"
             exit 1
           fi
 
-          echo "Quality gate passed: Actual pass rate $actual_pass_rate% >= Expected $expected_pass_rate%"
+          echo "Quality gate passed: Actual pass rate $ACTUAL_PASS_RATE% >= Expected $EXPECTED_PASS_RATE%"
+          echo "IS_PASSED=$IS_PASSED" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
         uses: actions/github-script@v7
+        if: always()
         with:
           script: |
-
+            
+            const isPassed = '${{ steps.quality_gate.outputs.IS_PASSED }}' === 'true';
+            const repoName = context.repo.repo
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
-              repo: context.repo.repo,
+              repo: repoName,
               issue_number: context.issue.number,
             });
-
+            
             const marker = '<!-- TEST RUN COMMENT -->';
-            const existing = comments.find(comment => comment.body.includes(marker));
-            const reportUrl = `https://${{ github.repository_owner }}.github.io/${{ github.repository }}/reports/${{ github.run_id }}/index.html`;
-            const historyUrl = `https://${{ github.repository_owner }}.github.io/${{ github.repository }}/`;
-            const body = `${marker}
-            ✅ TEST RUN PASSED ✅
+            const message_existing = comments.find(comment => comment.body.includes(marker));
+            
+            const currentReportUrl = `https://${{ github.repository_owner }}.github.io/${repoName}/${{ env.WORKFLOW_REPORT_ID }}/${{ github.run_number }}/index.html`;
+            const reportsUrl = `https://${{ github.repository_owner }}.github.io/${repoName}/${{ env.WORKFLOW_REPORT_ID }}/index.html`;
+            
+            const statsMessage = `${marker}
             📋 Test Statistics:
+            
             | Status | Count |
             |--------|-------|
             | ✅ Passed | ${{ steps.stats.outputs.PASSED }} |
@@ -215,23 +241,27 @@ jobs:
             | ⏩ Skipped | ${{ steps.stats.outputs.SKIPPED }} |
             | ❓ Unknown | ${{ steps.stats.outputs.UNKNOWN }} |
             | 📊 Total | ${{ steps.stats.outputs.TOTAL }} |
-            📈 Pass Rate ${{ steps.stats.outputs.PASS_RATE }}%
-            There is the [report](${reportUrl})
-            🕓 All [reports history](${historyUrl})
+            | 📈 Pass Rate | ${{ steps.stats.outputs.ACTUAL_TESTS_PASS_RATE }}% |
+            Current run report: [link](${currentReportUrl})
+            🕓 Current workflow reports history: [link](${reportsUrl})
             `;
-
-            if (existing) {
+          
+            const message = isPassed
+              ? `✅ TEST RUN PASSED ✅\n${statsMessage}\nThere is the [report](${currentReportUrl})\n🕓 All reports [history](${reportsUrl})`
+              : `🔴 TEST RUN FAILED 🔴\n${statsMessage}\nThere is the [report](${currentReportUrl})\n🕓 All reports [history](${reportsUrl})`;
+            
+            if (message_existing) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                comment_id: existing.id,
-                body: body
+                comment_id: message_existing.id,
+                body: message
               });
             } else {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: body
+                body: message
               });
             }
