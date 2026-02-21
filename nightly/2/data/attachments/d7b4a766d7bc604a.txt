@@ -1,0 +1,4 @@
+INFO:root:Open [Madame Top For Women]
+INFO:root:Add -1 [Product Details] product(s) to cart
+INFO:root:Check [Notification Component] is not visible
+INFO:root:Remove current test users from backend

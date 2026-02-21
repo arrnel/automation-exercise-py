@@ -1,0 +1,3 @@
+Status code: 200
+Endpoint: http://selenoid:4444/video/test_product_card_has_expected_data.mp4
+Headers: {'accept-ranges': 'bytes', 'content-length': '207968', 'content-type': 'video/mp4', 'last-modified': 'Sat, 21 Feb 2026 23:57:46 GMT', 'date': 'Sat, 21 Feb 2026 23:57:50 GMT'}

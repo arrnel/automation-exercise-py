@@ -1,0 +1,109 @@
+INFO     root:step_logger.py:35 Tests configuration data
+INFO     root:step_logger.py:73 Get user by email: ar1@ar1.ar1
+INFO     root:step_logger.py:35 Send request [GET]: /getUserDetailByEmail
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/api/getUserDetailByEmail?email=ar1%40ar1.ar1 "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=ar1%40ar1.ar1
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=ar1%40ar1.ar1
+Headers: {'date': 'Sat, 21 Feb 2026 23:52:58 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, DELETE, POST, GET, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=C7ZrZJAi6phU3YbMjwOCKSG4a%2BU7BSdK86NmPZytd8c7IiEOb0oEYWBi0ECwIu5kPcf3lQu55ucikyNYoCgEN4SaIbq3YUTPpi%2F0IpeaLNiKKzJuslM%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d1a29185ce6f017-SJC', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:35 Send request [GET]: /getUserDetailByEmail
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/api/getUserDetailByEmail?email=ar1%40ar1.ar1 "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=ar1%40ar1.ar1
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=ar1%40ar1.ar1
+Headers: {'date': 'Sat, 21 Feb 2026 23:52:59 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, DELETE, POST, GET, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=OQBeKmN1EsUCjF13dFSQ9rHBja1Q%2FfKxBF6vfgFahrGU9GWrgkqF5YLj2s68CWvXd0vd3KdKYvDjXKEuMA01Unz6eu9vHrUMddQNramAyWQSsyDDPs8%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d1a2918ee82f017-SJC', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Sign in by email = [ar1@ar1.ar1] and password = [12345]
+INFO     root:step_logger.py:35 Send request [GET]: /login
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/login "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/login
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/login
+Headers: {'date': 'Sat, 21 Feb 2026 23:52:59 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'set-cookie': 'csrftoken=mfvQN3feXN44jAj4xp0KjQjMQajG5lBqtCPeqwMAXmtLWh4bvCkmOWAuORhMhe0l; expires=Sat, 20 Feb 2027 23:52:59 GMT; Max-Age=31449600; Path=/; SameSite=Lax', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=eUi4w2u%2FLnMP19qF9xcnty1AFg%2B55Q7jcTRU2MKNH86gFvP8thDcerDdII72NBeYyhi2Ax3sRbqSTwCLM%2B6hzwPgf6Mgu1lGZUtSs8HZuCH6Hmg1XPU%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d1a2919c8011986-SJC', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:35 Send request [POST]: /login
+INFO     httpx:_client.py:1025 HTTP Request: POST https://automationexercise.com/login "HTTP/1.1 302 Found"
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/ "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'referer': 'https://automationexercise.com/login', 'cookie': 'csrftoken=mfvQN3feXN44jAj4xp0KjQjMQajG5lBqtCPeqwMAXmtLWh4bvCkmOWAuORhMhe0l; sessionid=iue5gb59b1oackfvfh9pl1xmkxv8x7jl'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/
+Headers: {'date': 'Sat, 21 Feb 2026 23:52:59 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'set-cookie': 'csrftoken=mfvQN3feXN44jAj4xp0KjQjMQajG5lBqtCPeqwMAXmtLWh4bvCkmOWAuORhMhe0l; expires=Sat, 20 Feb 2027 23:52:59 GMT; Max-Age=31449600; Path=/; SameSite=Lax', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Neh55UXiEvuerrPCqf%2BZ3K%2BdvPLrAi3LnyiMRzwtBl9OOkwPPa%2F4UPEJ8mzymI4%2BxSZrsbxSortP11WGui8bvMV5mj05WpOLvf6p8NBHgifThFUG6FM%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d1a291c8c891986-SJC', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Add products to cart
+INFO     root:step_logger.py:73 Add [2] product(s) by id = [2] to cart
+INFO     root:step_logger.py:35 Send request [GET]: /add_to_cart/2
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/add_to_cart/2?quantity=2 "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/add_to_cart/2?quantity=2
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'cookie': 'csrftoken=mfvQN3feXN44jAj4xp0KjQjMQajG5lBqtCPeqwMAXmtLWh4bvCkmOWAuORhMhe0l; sessionid=iue5gb59b1oackfvfh9pl1xmkxv8x7jl'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/add_to_cart/2?quantity=2
+Headers: {'date': 'Sat, 21 Feb 2026 23:53:01 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=E8M%2BxcLdU0YyFBnDtBxSMvP9u5zAWAFD8o6YpslZ1K0Fif%2FjkAb1AYG4pnO%2BzBV7zt5APVOmdKX8LctRXgbWt9n4Mx0ACqUNSIaIcfS9mAfzieke7nA%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d1a29256d70c65e-SJC', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Add [10] product(s) by id = [38] to cart
+INFO     root:step_logger.py:35 Send request [GET]: /add_to_cart/38
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/add_to_cart/38?quantity=10 "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/add_to_cart/38?quantity=10
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'cookie': 'csrftoken=mfvQN3feXN44jAj4xp0KjQjMQajG5lBqtCPeqwMAXmtLWh4bvCkmOWAuORhMhe0l; sessionid=iue5gb59b1oackfvfh9pl1xmkxv8x7jl'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/add_to_cart/38?quantity=10
+Headers: {'date': 'Sat, 21 Feb 2026 23:53:01 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=HbCOy%2Bc8Lt%2F%2FgkNLP3Kt23gBwvD%2FmckXnyy3JvWogk5KxhCmS1DrDux%2Byzd5KWfSiukGxn9OuosapEkRJBCzyJkGln6rzg6EQEyDhMrB9R%2Bwnuz9yBc%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d1a2925ce25c65e-SJC', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Add [8] product(s) by id = [12] to cart
+INFO     root:step_logger.py:35 Send request [GET]: /add_to_cart/12
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/add_to_cart/12?quantity=8 "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/add_to_cart/12?quantity=8
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'cookie': 'csrftoken=mfvQN3feXN44jAj4xp0KjQjMQajG5lBqtCPeqwMAXmtLWh4bvCkmOWAuORhMhe0l; sessionid=iue5gb59b1oackfvfh9pl1xmkxv8x7jl'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/add_to_cart/12?quantity=8
+Headers: {'date': 'Sat, 21 Feb 2026 23:53:01 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'x-powered-by': 'Phusion Passenger(R) 6.1.0', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=2CnVBhCf72YZr2%2F%2F2hasEtlVEazYqciEaNJkRNmQp9NgaUvSPmjD%2B6iKlUU2OZi4jr%2BNy0Jq7SGFt6ey%2B45yN%2BbhS44shI1rKI7%2Ff80YR3C4ulf9i1E%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d1a29261ee8c65e-SJC', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Open [Checkout Page]: /checkout
+INFO     root:step_logger.py:73 Check [Billing Address] has expected screenshot: files/screenshot/component/address/billing_address.png
+INFO     root:step_logger.py:35 Remove current test users from backend

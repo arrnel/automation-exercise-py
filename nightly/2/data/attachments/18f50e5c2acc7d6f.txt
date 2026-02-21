@@ -1,0 +1,2 @@
+INFO:root:Check [Notification Component] has expected screenshot: files/screenshot/component/subscription/empty_subscription.png
+INFO:root:Remove current test users from backend

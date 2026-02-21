@@ -1,0 +1,3 @@
+INFO:root:Open [Main Page]: /
+INFO:root:Check [Category filter] has expected screenshot: files/screenshot/component/filter/category/collapsed.png
+INFO:root:Remove current test users from backend

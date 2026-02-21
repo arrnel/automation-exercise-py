@@ -1,0 +1,4 @@
+INFO     root:step_logger.py:73 Open [Sleeveless Unicorn Patch Gown - Pink]
+INFO     root:step_logger.py:73 Add 6 [Product Details] product(s) to cart
+INFO     root:step_logger.py:73 Check [Notification description has text: Your product has been added to cart.]
+INFO     root:step_logger.py:35 Remove current test users from backend

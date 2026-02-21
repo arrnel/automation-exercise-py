@@ -1,0 +1,6 @@
+INFO     root:step_logger.py:73 Open [Contact Us Page]: /contact_us
+INFO     root:step_logger.py:73 Send "Contact Us" form
+INFO     root:step_logger.py:73 Fill "Contact Us" form
+INFO     root:step_logger.py:73 Subscribe by email: zallen.2@test.arrnel.gov
+INFO     root:step_logger.py:73 Check [Status message has text: You have been successfully subscribed!]
+INFO     root:step_logger.py:35 Remove current test users from backend
