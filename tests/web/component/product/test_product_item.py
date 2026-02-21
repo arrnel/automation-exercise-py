@@ -33,6 +33,7 @@ class TestProductItem(BaseWebComponentTest):
         products.check_contains_exact_product_items(add_expected_products_to_cart)
         products.get_item_by_title(product_title).check_component_has_screenshot(
             path_to_screenshot="files/screenshot/component/product_item/removable_item.png",
+            timeout=0.5,
         )
 
     @pytest.mark.usefixtures(
