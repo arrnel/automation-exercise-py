@@ -1,0 +1,22 @@
+INFO:root:Check product card [Winter Top] has title: Winter Top
+INFO:root:Check [Product Title has text: Winter Top]
+INFO:root:Check product card [Winter Top] has price: PriceDTO(currency=<Currency.RS: 'Rs'>, amount=Decimal('600'))
+INFO:root:Check [Product Price has text: Rs. 600]
+INFO:root:Check [Winter Top] has expected screenshot: files/screenshot/component/product_card/card.png
+INFO:root:Check [product carousel component] contains expected products: ('Winter Top', 'Summer White Top', 'Blue Top', 'Men Tshirt')
+INFO:root:Get test video from Selenoid by video id = [test_product_card_has_expected_data]
+INFO:root:Send request [GET]: /video/test_product_card_has_expected_data.mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_product_card_has_expected_data.mp4 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_product_card_has_expected_data.mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: http://selenoid:4444/video/test_product_card_has_expected_data.mp4
+Headers: {'accept-ranges': 'bytes', 'content-length': '204559', 'content-type': 'video/mp4', 'last-modified': 'Sun, 22 Feb 2026 13:39:08 GMT', 'date': 'Sun, 22 Feb 2026 13:39:13 GMT'}
+
+INFO:root:Remove current test users from backend
