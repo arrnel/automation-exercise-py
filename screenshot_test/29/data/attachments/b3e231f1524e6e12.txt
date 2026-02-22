@@ -1,0 +1,3 @@
+Status code: 200
+Endpoint: http://selenoid:4444/video/test_category_filter_should_have_screenshot_when_expand_collapse_expanded.mp4
+Headers: {'accept-ranges': 'bytes', 'content-length': '353886', 'content-type': 'video/mp4', 'last-modified': 'Sun, 22 Feb 2026 13:38:19 GMT', 'date': 'Sun, 22 Feb 2026 13:38:23 GMT'}

@@ -1,0 +1,6 @@
+INFO:root:Open [Products Page]: /products
+INFO:root:Add product to cart: Colour Blocked Shirt – Sky Blue
+INFO:root:Check [Notification title has text: Added!]
+INFO:root:Check [Notification description has text: Your product has been added to cart.]
+INFO:root:Check [Notification Component] has expected screenshot: files/screenshot/component/notification/add_product_to_cart.png
+INFO:root:Remove current test users from backend
