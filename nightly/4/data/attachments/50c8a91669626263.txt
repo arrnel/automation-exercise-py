@@ -1,0 +1,4 @@
+INFO:root:Waiting for expected [product carousel component] slide will be active
+INFO:root:Show previous [product carousel component] slide
+INFO:root:Check [product carousel component] has expected screenshot: files/screenshot/component/carousel/product/slide_1.png
+INFO:root:Remove current test users from backend
