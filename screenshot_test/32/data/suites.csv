@@ -1,0 +1,2 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","5460","[WEB Component] Category filter should have expected screenshot when group expanded","tests.web.component.filter","Tue Feb 24 22:32:17 UTC 2026","passed","Tue Feb 24 22:32:22 UTC 2026","TestCategoryFilter","test_category_filter","",""
