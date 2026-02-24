@@ -1,0 +1,52 @@
+ENV: 'ci'
+base_url: https://automationexercise.com
+base_api_url: https://automationexercise.com/api
+remote_type: selenoid
+remote_url: http://selenoid:4444/wd/hub
+browser_name: chrome
+browser_version: 141.0
+browser_size: (1920, 1080)
+browser_timeout: 4
+browser_scripts_timeout: 10
+browser_page_load_timeout: 10
+browser_page_load_strategy: normal
+browser_default_download_dir: /home/selenium/Downloads
+browser_download_dir: /home/selenium/Downloads/test_temp_files
+browser_remote_vnc: True
+browser_remote_video: True
+browser_remote_video_id_type: test_name
+browser_remote_logs: True
+browser_remote_audio: False
+browser_remote_session_timeout: 15
+browser_hold_driver_on_exit: False
+default_user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+http_timeout: 15.0
+csrf_cookie_title: csrftoken
+session_id_cookie_title: sessionid
+default_email: ar1@ar1.ar1
+default_password: 12345
+email_domain: test.arrnel
+rewrite_all_screenshots: False
+default_percent_of_tolerance: 0.01
+default_screenshot_timeout: 0.1
+allure_attach_test_artifacts: failed
+allure_attach_test_video: true
+expected_product_id: 3
+expected_products_ids: {1, 2, 3, 5, 8}
+recommended_product_ids: {1, 2, 3, 5, 8}
+expected_credit_card: CardInfo(
+name='TEST',
+number='4627100101654724',
+cvc='123',
+expiry_month='12',
+expiry_year='26'
+)
+path_to_files: /automation-exercise-py/resources/files/upload
+extension_path: /automation-exercise-py/resources/browser/extension/
+log_lvl: LogLvl.INFO
+api_log_lvl: ApiLogLvl.HEADERS
+github_api_url: https://api.github.com
+github_account_name: arrnel
+github_repo_name: automation-exercise-py
+github_token: ***
+github_token_name: ISSUES_TRACKER_AE_PY_REMOTE
