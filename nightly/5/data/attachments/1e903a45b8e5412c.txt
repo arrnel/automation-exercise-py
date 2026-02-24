@@ -1,0 +1,20 @@
+INFO     root:step_logger.py:73 Get all products by group and category
+INFO     root:step_logger.py:35 Send request [GET]: /productsList
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Tue, 24 Feb 2026 19:55:42 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS, GET, POST, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=kr6YTqlDxwocHhOSekau%2Bbo32eToiSkDI5Pszb4%2F8hfh83p3MeRlEc%2FDvg8DjHTOZQ2wrlpvlwAixqsIJX3gphW0YT1c2NbAOqUp9ikRVe7E1ol5gKg%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3185a349920ff1-LAX', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Open [Main Page]: /
+INFO     root:step_logger.py:73 Filter in Category filter by group = [Men] and category = [Jeans]
+INFO     root:step_logger.py:35 Expand Category filter group Men
+INFO     root:step_logger.py:35 Check [Features Items] has products: {'Grunt Blue Slim Fit Jeans', 'Soft Stretch Jeans', 'Regular Fit Straight Jeans'}
+INFO     root:step_logger.py:35 Remove current test users from backend

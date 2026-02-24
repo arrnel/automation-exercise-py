@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Open [Sleeveless Dress]
+INFO     root:step_logger.py:73 Check [product page] is visible
+INFO     root:step_logger.py:73 Check [Product Details] is visible
+INFO     root:step_logger.py:73 Check [Review] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend

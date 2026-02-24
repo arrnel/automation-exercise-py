@@ -1,0 +1,7 @@
+INFO     root:step_logger.py:35 Tests configuration data
+INFO     root:step_logger.py:73 Open [Products Page]: /products
+INFO     root:step_logger.py:73 Add product to cart: Colour Blocked Shirt – Sky Blue
+INFO     root:step_logger.py:73 Check [Notification title has text: Added!]
+INFO     root:step_logger.py:73 Check [Notification description has text: Your product has been added to cart.]
+INFO     root:step_logger.py:73 Check [Notification Component] has expected screenshot: files/screenshot/component/notification/add_product_to_cart.png
+INFO     root:step_logger.py:35 Remove current test users from backend

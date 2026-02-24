@@ -1,0 +1,6 @@
+INFO:root:Open [Contact Us Page]: /contact_us
+INFO:root:Send "Contact Us" form
+INFO:root:Fill "Contact Us" form
+INFO:root:Subscribe by email: mary58@test.arrnel.gov
+INFO:root:Check [Status message has text: You have been successfully subscribed!]
+INFO:root:Remove current test users from backend

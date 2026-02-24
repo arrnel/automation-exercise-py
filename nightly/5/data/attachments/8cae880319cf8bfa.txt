@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Navigate to the [Products] page by header
+INFO     root:step_logger.py:73 Click on [Products]
+INFO     root:step_logger.py:73 Check [products page] is visible
+INFO     root:step_logger.py:73 Check [Search filter] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend

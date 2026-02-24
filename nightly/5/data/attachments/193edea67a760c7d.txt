@@ -1,0 +1,7 @@
+INFO:root:Open [Login Page]: /login
+INFO:root:Navigate to the [Main] page by header
+INFO:root:Click on [Home]
+INFO:root:Check [main page] is visible
+INFO:root:Check component [image carousel component] is visible
+INFO:root:Check component [product carousel component] is visible
+INFO:root:Remove current test users from backend
