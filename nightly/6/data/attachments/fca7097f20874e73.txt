@@ -1,0 +1,11 @@
+INFO:root:Open [Products Page]: /products
+INFO:root:Add product to cart: Cotton Mull Embroidered Dress
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Proceed to Checkout
+INFO:root:Navigate by Notification link link: https://automationexercise.com/login
+INFO:root:Check [Notification Component] is not visible
+INFO:root:Check [login page] is visible
+INFO:root:Check [None] is visible
+INFO:root:Check [None] is visible
+INFO:root:Remove current test users from backend

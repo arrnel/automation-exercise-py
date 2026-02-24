@@ -1,0 +1,7 @@
+INFO:root:Open [Main Page]: /
+INFO:root:Expand [Category filter] group: Women
+INFO:root:Expand Category filter group Women
+INFO:root:Expand [Category filter] group: Women
+INFO:root:Collapse Category filter group Women
+INFO:root:Check [Category filter] has expected screenshot: files/screenshot/component/filter/category/collapsed.png
+INFO:root:Remove current test users from backend
