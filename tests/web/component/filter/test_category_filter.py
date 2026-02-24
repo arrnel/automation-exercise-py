@@ -86,7 +86,7 @@ class TestCategoryFilter(BaseWebComponentTest):
     @allure.label("owner", "arrnel")
     @allure.story("[Web] Component - Category Filter")
     @allure.title(
-        "[WEB Component] [WEB Component] Category filter group should be collapsed after expand another group"
+        "[WEB Component] Category filter group should be collapsed after expand another group"
     )
     def test_category_filter_should_have_screenshot_when_expand_collapse_expanded(self):
         # Component
