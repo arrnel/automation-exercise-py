@@ -1,0 +1,4 @@
+INFO:root:Open [Pure Cotton V-Neck T-Shirt]
+INFO:root:Add 4 [Product Details] product(s) to cart
+INFO:root:Check [Notification description has text: Your product has been added to cart.]
+INFO:root:Remove current test users from backend

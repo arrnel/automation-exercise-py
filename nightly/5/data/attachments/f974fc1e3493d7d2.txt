@@ -1,0 +1,7 @@
+INFO:root:Scroll to [product carousel component]
+INFO:root:Scroll page to the top
+INFO:root:Wait stop scrolling
+INFO:root:Check [main page] is visible
+INFO:root:Check component [image carousel component] is visible
+INFO:root:Check component [product carousel component] is visible
+INFO:root:Remove current test users from backend

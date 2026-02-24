@@ -1,0 +1,7 @@
+INFO     root:step_logger.py:73 Check product card [Winter Top] has title: Winter Top
+INFO     root:step_logger.py:73 Check [Product Title has text: Winter Top]
+INFO     root:step_logger.py:73 Check product card [Winter Top] has price: PriceDTO(currency=<Currency.RS: 'Rs'>, amount=Decimal('600'))
+INFO     root:step_logger.py:73 Check [Product Price has text: Rs. 600]
+INFO     root:step_logger.py:73 Check [Winter Top] has expected screenshot: files/screenshot/component/product_card/card.png
+INFO     root:step_logger.py:73 Check [product carousel component] contains expected products: ('Winter Top', 'Summer White Top', 'Blue Top', 'Men Tshirt')
+INFO     root:step_logger.py:35 Remove current test users from backend

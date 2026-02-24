@@ -1,0 +1,4 @@
+INFO     root:step_logger.py:73 Open [Madame Top For Women]
+INFO     root:step_logger.py:73 Add -1 [Product Details] product(s) to cart
+INFO     root:step_logger.py:73 Check [Notification Component] is not visible
+INFO     root:step_logger.py:35 Remove current test users from backend

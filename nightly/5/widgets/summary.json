@@ -1,1 +1,1 @@
-{"reportName":"Pull Request Report","testRuns":[],"statistic":{"failed":0,"broken":41,"skipped":245,"passed":209,"unknown":0,"total":495},"time":{"start":1771960516176,"stop":1771962313515,"duration":1797339,"minDuration":0,"maxDuration":15059,"sumDuration":574769}}
+{"reportName":"Pull Request Report","testRuns":[],"statistic":{"failed":2,"broken":0,"skipped":245,"passed":248,"unknown":0,"total":495},"time":{"start":1771962627736,"stop":1771964142654,"duration":1514918,"minDuration":0,"maxDuration":10309,"sumDuration":326468}}

@@ -1,0 +1,4 @@
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Check cart is empty
+INFO:root:Remove current test users from backend

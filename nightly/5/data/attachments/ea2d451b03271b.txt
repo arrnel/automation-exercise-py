@@ -1,0 +1,4 @@
+INFO     root:step_logger.py:73 Navigate to the [Cart] page by header
+INFO     root:step_logger.py:73 Click on [Cart]
+INFO     root:step_logger.py:73 Check cart is empty
+INFO     root:step_logger.py:35 Remove current test users from backend
