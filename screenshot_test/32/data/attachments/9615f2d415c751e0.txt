@@ -1,0 +1,44 @@
+INFO:root:Get github issues statuses
+INFO:root:Send request [GET]: /repos/arrnel/automation-exercise-py/issues/1
+INFO:httpx:HTTP Request: GET https://api.github.com/repos/arrnel/automation-exercise-py/issues/1 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+
+
+WARNING:root:!!! FAILED TO ADD REQUEST ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Response
+
+
+
+WARNING:root:!!! FAILED TO ADD RESPONSE ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Send request [GET]: /repos/arrnel/automation-exercise-py/issues/3
+INFO:httpx:HTTP Request: GET https://api.github.com/repos/arrnel/automation-exercise-py/issues/3 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+
+
+WARNING:root:!!! FAILED TO ADD REQUEST ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Response
+
+
+
+WARNING:root:!!! FAILED TO ADD RESPONSE ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Send request [GET]: /repos/arrnel/automation-exercise-py/issues/4
+INFO:httpx:HTTP Request: GET https://api.github.com/repos/arrnel/automation-exercise-py/issues/4 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+
+
+WARNING:root:!!! FAILED TO ADD REQUEST ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Response
+
+
+
+WARNING:root:!!! FAILED TO ADD RESPONSE ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Tests configuration data
+INFO:root:Open [Main Page]: /
+INFO:root:Expand [Category filter] group: Women
+INFO:root:Expand Category filter group Women
+INFO:root:Check [Category filter] has expected screenshot: files/screenshot/component/filter/category/expanded_women.png
+INFO:root:Remove current test users from backend
+INFO:root:Remove users from backend after all tests
