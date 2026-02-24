@@ -1,0 +1,3 @@
+INFO     root:step_logger.py:73 Scroll to [product carousel component]
+INFO     root:step_logger.py:73 Check [product carousel component] contains product with title: Sleeveless Dress
+INFO     root:step_logger.py:35 Remove current test users from backend
