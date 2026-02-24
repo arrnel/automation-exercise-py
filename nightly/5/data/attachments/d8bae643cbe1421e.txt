@@ -1,0 +1,5 @@
+INFO:root:Navigate to the [Products] page by header
+INFO:root:Click on [Products]
+INFO:root:Check [products page] is visible
+INFO:root:Check [Search filter] is visible
+INFO:root:Remove current test users from backend

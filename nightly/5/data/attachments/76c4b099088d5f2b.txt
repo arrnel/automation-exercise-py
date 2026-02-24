@@ -1,0 +1,11 @@
+INFO     root:step_logger.py:73 Open [Products Page]: /products
+INFO     root:step_logger.py:73 Add product to cart: Full Sleeves Top Cherry - Pink
+INFO     root:step_logger.py:73 Navigate to the [Cart] page by header
+INFO     root:step_logger.py:73 Click on [Cart]
+INFO     root:step_logger.py:73 Proceed to Checkout
+INFO     root:step_logger.py:35 Navigate by Notification link link: https://automationexercise.com/login
+INFO     root:step_logger.py:73 Check [Notification Component] is not visible
+INFO     root:step_logger.py:73 Check [login page] is visible
+INFO     root:step_logger.py:73 Check [None] is visible
+INFO     root:step_logger.py:73 Check [None] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend

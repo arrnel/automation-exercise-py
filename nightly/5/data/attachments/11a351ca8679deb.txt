@@ -1,0 +1,9 @@
+INFO:root:Open [Products Page]: /products
+INFO:root:Add product to cart: Cotton Mull Embroidered Dress
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Proceed to Checkout
+INFO:root:Check [Notification title has text: Checkout]
+INFO:root:Check [Notification description has text: Register / Login account to proceed on checkout.]
+INFO:root:Check [Notification Component] has expected screenshot: files/screenshot/component/notification/proceed_without_auth.png
+INFO:root:Remove current test users from backend

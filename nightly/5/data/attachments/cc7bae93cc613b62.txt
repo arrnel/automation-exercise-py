@@ -1,0 +1,44 @@
+INFO:root:Get github issues statuses
+INFO:root:Send request [GET]: /repos/arrnel/automation-exercise-py/issues/1
+INFO:httpx:HTTP Request: GET https://api.github.com/repos/arrnel/automation-exercise-py/issues/1 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+
+
+WARNING:root:!!! FAILED TO ADD REQUEST ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Response
+
+
+
+WARNING:root:!!! FAILED TO ADD RESPONSE ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Send request [GET]: /repos/arrnel/automation-exercise-py/issues/3
+INFO:httpx:HTTP Request: GET https://api.github.com/repos/arrnel/automation-exercise-py/issues/3 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+
+
+WARNING:root:!!! FAILED TO ADD REQUEST ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Response
+
+
+
+WARNING:root:!!! FAILED TO ADD RESPONSE ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Send request [GET]: /repos/arrnel/automation-exercise-py/issues/4
+INFO:httpx:HTTP Request: GET https://api.github.com/repos/arrnel/automation-exercise-py/issues/4 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+
+
+WARNING:root:!!! FAILED TO ADD REQUEST ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Response
+
+
+
+WARNING:root:!!! FAILED TO ADD RESPONSE ATTACHMENT TO ALLURE. IF EXCEPTION IS NONE - ALLURE LIFECYCLE IS NOT ACTIVE. EXCEPTION: None
+INFO:root:Tests configuration data
+INFO:root:Open [Products Page]: /products
+INFO:root:Add product to cart: Blue Cotton Indie Mickey Dress
+INFO:root:Check [Notification title has text: Added!]
+INFO:root:Check [Notification description has text: Your product has been added to cart.]
+INFO:root:Check [Notification Component] has expected screenshot: files/screenshot/component/notification/add_product_to_cart.png
+INFO:root:Remove current test users from backend
