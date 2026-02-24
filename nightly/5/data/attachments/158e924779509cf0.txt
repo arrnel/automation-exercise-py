@@ -1,0 +1,2 @@
+INFO:root:Check [Header] has expected screenshot: files/screenshot/component/header/not_authorized.png
+INFO:root:Remove current test users from backend

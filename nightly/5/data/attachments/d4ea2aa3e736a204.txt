@@ -1,0 +1,6 @@
+INFO     root:step_logger.py:73 Navigate to the [Login] page by header
+INFO     root:step_logger.py:73 Click on [Login]
+INFO     root:step_logger.py:73 Check [login page] is visible
+INFO     root:step_logger.py:73 Check [None] is visible
+INFO     root:step_logger.py:73 Check [None] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend

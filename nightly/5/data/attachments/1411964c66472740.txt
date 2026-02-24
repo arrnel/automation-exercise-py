@@ -1,0 +1,29 @@
+INFO     root:step_logger.py:73 Open [Login Page]: /login
+INFO     root:step_logger.py:73 Pre sign up
+INFO     root:step_logger.py:73 Fill pre sign up data
+INFO     root:step_logger.py:73 Send sign up user data
+INFO     root:step_logger.py:73 Fill user data
+INFO     root:step_logger.py:73 Check [Account Created] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend
+INFO     root:step_logger.py:73 Delete user with email: ashley85@test.arrnel.me
+INFO     root:step_logger.py:35 Send request [DELETE]: /deleteAccount
+INFO     httpx:_client.py:1025 HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '46'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Tue, 24 Feb 2026 19:25:49 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, DELETE', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=0ZFZIpfuPzfaqmyTFI6TqCL0XIwpNZ%2FoTjmwXIiWN9z1z784oj1etHv9%2Fq%2FxYcMD4LhRhxgspEDUXLlDk3LcGjJC%2BCwh%2F18K%2BdO8WWyazcgV2yG76fk%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3159dd2f51be78-EWR', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING  root:user_store.py:112 Failed to remove user(s):
+Email = samanthaandrade.87@test.arrnel.me, password = [12345], test_data_password = [12345]
+Email = wosborne@test.arrnel.me, password = [12345], test_data_password = [12345]
+Email = amoore@test.arrnel.com, password = [12345], test_data_password = [12345]
+Email = jmartin.38@test.arrnel.gov, password = [12345], test_data_password = [12345]
+Email = carolinepierce.5093@test.arrnel.com, password = [12345], test_data_password = [12345]
+Email = pcastro.77@test.arrnel.me, password = [12345], test_data_password = [12345]

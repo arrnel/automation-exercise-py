@@ -1,0 +1,4 @@
+INFO     root:step_logger.py:73 Subscribe by email: amanda-laura63@test.arrnel.com
+INFO     root:step_logger.py:73 Check [Status message has text: You have been successfully subscribed!]
+INFO     root:step_logger.py:73 Check [Subscription component] element has screenshot
+INFO     root:step_logger.py:35 Remove current test users from backend

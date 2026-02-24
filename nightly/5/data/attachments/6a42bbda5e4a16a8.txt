@@ -1,0 +1,40 @@
+INFO     root:step_logger.py:73 Open [Products Page]: /products
+INFO     root:step_logger.py:73 Add product to cart: Blue Cotton Indie Mickey Dress
+INFO     root:step_logger.py:73 Add product to cart: Cotton Mull Embroidered Dress
+INFO     root:step_logger.py:73 Navigate to the [Cart] page by header
+INFO     root:step_logger.py:73 Click on [Cart]
+INFO     root:step_logger.py:73 Proceed to Checkout
+INFO     root:step_logger.py:35 Navigate by Notification link link: https://automationexercise.com/login
+INFO     root:step_logger.py:73 Pre sign up
+INFO     root:step_logger.py:73 Fill pre sign up data
+INFO     root:step_logger.py:73 Send sign up user data
+INFO     root:step_logger.py:73 Fill user data
+INFO     root:step_logger.py:73 Navigate to the [Cart] page by header
+INFO     root:step_logger.py:73 Click on [Cart]
+INFO     root:step_logger.py:73 Proceed to Checkout
+INFO     root:step_logger.py:73 Add order message: Price letter receive show.
+INFO     root:step_logger.py:73 Submit order
+INFO     root:step_logger.py:73 Pay by card
+INFO     root:step_logger.py:73 Fill card data
+INFO     root:step_logger.py:73 Check [Order Placed] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend
+INFO     root:step_logger.py:73 Delete user with email: oclark.8@test.arrnel.org
+INFO     root:step_logger.py:35 Send request [DELETE]: /deleteAccount
+INFO     httpx:_client.py:1025 HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '47'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Tue, 24 Feb 2026 19:39:01 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, DELETE', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=KiEZx2paOAKIq9zcDIwIN048u%2FuOrRpoIsecY9Qg%2FN5qVUEXLQiutVWd0Ud1i6e5Av5sqXR18lHJ9U8wr8lByyS3atu%2BEK1URs3AEK%2B3laqEiM2LLcw%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d316d318a82be78-EWR', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING  root:user_store.py:112 Failed to remove user(s):
+Email = wallacebarbara.984@test.arrnel.io, password = [12345], test_data_password = [12345]
+Email = christinesmith@test.arrnel.me, password = [12345], test_data_password = [12345]
+Email = jenniferhuang.402@test.arrnel.gov, password = [12345], test_data_password = [12345]
+Email = meyerdavid@test.arrnel.me, password = [12345], test_data_password = [12345]

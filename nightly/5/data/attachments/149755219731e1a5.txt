@@ -1,0 +1,6 @@
+INFO:root:Show product card overlay: [Sleeveless Dress]
+INFO:root:Hover over Product card wrapper for a [0.5] second(s)
+INFO:root:Check [Sleeveless Dress] has price in overlay: PriceDTO(currency=<Currency.RS: 'Rs'>, amount=Decimal('1000'))
+INFO:root:Check [Overlay Product Price has text: Rs. 1000]
+INFO:root:Check [Sleeveless Dress] has expected screenshot: files/screenshot/component/product_card/animated_card_overlay.png
+INFO:root:Remove current test users from backend

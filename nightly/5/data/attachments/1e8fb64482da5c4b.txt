@@ -1,0 +1,19 @@
+INFO     root:step_logger.py:73 Open [Products Page]: /products
+INFO     root:step_logger.py:73 Get all products
+INFO     root:step_logger.py:35 Send request [GET]: /productsList
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Tue, 24 Feb 2026 19:27:13 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS, GET, POST, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ALoj0B4s%2B2YnjJa8cfcGJ4qUnSR2FC3xdRIfdYSyH2OQKrcEdoz8JZ1BzUraAb5zGgXjqGgBCXuqkFIiY6PQpdJ%2FZyKLiQPDj7k5qKcEprFyw0p7hRs%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d315bed1f084343-EWR', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Search in [Search filter] by query: 
+INFO     root:step_logger.py:35 Check All Products contains products: {'Sleeves Printed Top - White', 'Cotton Silk Hand Block Print Saree', 'Colour Blocked Shirt – Sky Blue', 'Sleeveless Dress', 'Rust Red Linen Saree', 'Stylish Dress', 'Pure Cotton Neon Green Tshirt', 'Regular Fit Straight Jeans', 'Men Tshirt', 'Frozen Tops For Kids', 'Pure Cotton V-Neck T-Shirt', 'Sleeves Top and Short - Blue & Pink', 'Printed Off Shoulder Top - White', 'Blue Top', 'Soft Stretch Jeans', 'Cotton Mull Embroidered Dress', 'Little Girls Mr. Panda Shirt', 'Sleeveless Unicorn Patch Gown - Pink', 'Beautiful Peacock Blue Cotton Linen Saree', 'Green Side Placket Detail T-Shirt', 'Summer White Top', 'Long Maxi Tulle Fancy Dress Up Outfits -Pink', 'Lace Top For Women', 'Fancy Green Top', 'Sleeveless Unicorn Print Fit & Flare Net Dress - Multi', 'Half Sleeves Top Schiffli Detailing - Pink', 'Winter Top', 'Madame Top For Women', 'Grunt Blue Slim Fit Jeans', 'Full Sleeves Top Cherry - Pink', 'Premium Polo T-Shirts', 'GRAPHIC DESIGN MEN T SHIRT - BLUE', 'Rose Pink Embroidered Maxi Dress', 'Blue Cotton Indie Mickey Dress'}
+INFO     root:step_logger.py:35 Remove current test users from backend

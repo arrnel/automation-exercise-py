@@ -1,0 +1,1 @@
+INFO:root:Remove current test users from backend
