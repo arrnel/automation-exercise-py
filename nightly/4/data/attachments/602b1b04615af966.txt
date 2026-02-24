@@ -1,0 +1,4 @@
+INFO:root:Subscribe by email: Clinton@gmail.vk.en
+INFO:root:Check [Status message has text: You have been successfully subscribed!]
+INFO:root:Check [Subscription component] element has screenshot
+INFO:root:Remove current test users from backend

@@ -1,0 +1,5 @@
+INFO:root:Add to cart from overlay: [Sleeveless Dress]
+INFO:root:Show product card overlay: [Sleeveless Dress]
+INFO:root:Hover over Product card wrapper for a [0.5] second(s)
+INFO:root:Check [Notification description has text: Your product has been added to cart.]
+INFO:root:Remove current test users from backend
