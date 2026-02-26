@@ -72,15 +72,15 @@ jobs:
 
     steps:
 
-      - name: Set TEST_TITLE
-        uses: ./.github/actions/test-run-title
-        with:
-          test_title: ${{ inputs.TEST_TITLE }}
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: ${{ env.GITHUB_SHA }}
+
+      - name: Set TEST_TITLE
+        uses: ./.github/actions/test-run-title
+        with:
+          test_title: ${{ inputs.TEST_TITLE }}
 
       - name: Get the last commit message
         run: |

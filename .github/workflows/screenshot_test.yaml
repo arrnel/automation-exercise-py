@@ -88,6 +88,11 @@ jobs:
 
     steps:
 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.GITHUB_SHA }}
+
       - name: Set TEST_TITLE
         uses: ./.github/actions/test-run-title
         with:
@@ -97,11 +102,6 @@ jobs:
         if: ${{ inputs.RUN_TESTS_WITH_DEBUG_MARKER }}
         run: |
           echo "PYTEST_MARK_EXPR=screenshot_test and debug_test" >> $GITHUB_ENV
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ env.GITHUB_SHA }}
 
       - name: Setup Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4

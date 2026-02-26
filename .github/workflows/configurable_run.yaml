@@ -94,10 +94,10 @@ jobs:
 
     steps:
 
-      - name: Set TEST_TITLE
-        uses: ./.github/actions/test-run-title
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          test_title: ${{ inputs.TEST_TITLE }}
+          ref: ${{ env.GITHUB_SHA }}
 
       - name: Show Manual test run INFO
         run: |
@@ -106,10 +106,10 @@ jobs:
           echo "BROWSER_ENABLED = [${{ inputs.BROWSER_ENABLED }}]"
           echo "BROWSER_PAGE_LOAD_STRATEGY = [${{ inputs.PAGE_LOAD_STRATEGY }}]"
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Set TEST_TITLE
+        uses: ./.github/actions/test-run-title
         with:
-          ref: ${{ env.GITHUB_SHA }}
+          test_title: ${{ inputs.TEST_TITLE }}
 
       - name: Setup Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
