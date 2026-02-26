@@ -1,0 +1,32 @@
+INFO:root:Scroll to [product carousel component]
+INFO:root:Check [product carousel component] contains product with title: Sleeveless Dress
+INFO:root:Get test video from Selenoid by video id = [test_should_contains_expected_product]
+INFO:root:Send request [GET]: /video/test_should_contains_expected_product.mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_contains_expected_product.mp4 "HTTP/1.1 404 Not Found"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_contains_expected_product.mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 404
+Endpoint: http://selenoid:4444/video/test_should_contains_expected_product.mp4
+Headers: {'content-type': 'text/plain; charset=utf-8', 'x-content-type-options': 'nosniff', 'date': 'Thu, 26 Feb 2026 04:18:05 GMT', 'content-length': '19'}
+
+INFO:root:Send request [GET]: /video/test_should_contains_expected_product.mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_contains_expected_product.mp4 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_contains_expected_product.mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: http://selenoid:4444/video/test_should_contains_expected_product.mp4
+Headers: {'accept-ranges': 'bytes', 'content-length': '201767', 'content-type': 'video/mp4', 'last-modified': 'Thu, 26 Feb 2026 04:18:07 GMT', 'date': 'Thu, 26 Feb 2026 04:18:09 GMT'}
+
+INFO:root:Remove current test users from backend

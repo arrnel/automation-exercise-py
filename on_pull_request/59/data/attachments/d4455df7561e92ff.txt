@@ -1,0 +1,4 @@
+INFO:root:Open [Product Page]: /product_details/{URL_PATTERN.format(product_id=product_id)} [format_error: AttributeError: 'str' object has no attribute 'format(product_id=product_id)']
+INFO:root:Check review successfully send
+INFO:root:Check [Review Status Message has text: Thank you for your review.]
+INFO:root:Remove current test users from backend

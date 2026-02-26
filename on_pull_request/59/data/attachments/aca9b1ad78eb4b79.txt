@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Add product to cart: Winter Top
+INFO     root:step_logger.py:73 Navigate to the [Cart] page by header
+INFO     root:step_logger.py:73 Click on [Cart]
+INFO     root:step_logger.py:35 Check [Cart products] contains product titles: {'Winter Top'}
+INFO     root:step_logger.py:35 Remove current test users from backend

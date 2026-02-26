@@ -1,0 +1,3 @@
+INFO     root:step_logger.py:73 Open [Main Page]: /
+INFO     root:step_logger.py:73 Check [Category filter] has expected screenshot: files/screenshot/component/filter/category/collapsed.png
+INFO     root:step_logger.py:35 Remove current test users from backend

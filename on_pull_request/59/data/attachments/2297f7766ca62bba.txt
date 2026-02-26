@@ -1,0 +1,20 @@
+INFO:root:Get all products by group and category
+INFO:root:Send request [GET]: /productsList
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Thu, 26 Feb 2026 04:18:35 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'POST, DELETE, GET, OPTIONS, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=TKCNNMh1XX4%2BjF1aaMw%2FYmFVQykDX98i6rWDRmds9fHoFhpbx1iZzjR9i6r8eB5lCuEX1CoG%2F9F0USZ%2FZh3rJxxHv8cVslHUPaC3sCCtTuP4ku1vIxo%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3ca3aa2b62fc33-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Open [Main Page]: /
+INFO:root:Filter in Category filter by group = [Women] and category = [Saree]
+INFO:root:Expand Category filter group Women
+INFO:root:Check [Features Items] has products: {'Cotton Silk Hand Block Print Saree', 'Beautiful Peacock Blue Cotton Linen Saree', 'Rust Red Linen Saree'}
+INFO:root:Remove current test users from backend
