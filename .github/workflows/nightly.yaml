@@ -2,11 +2,19 @@ name: Nightly run
 
 on:
   workflow_dispatch:
+    inputs:
+
+      TEST_TITLE:
+        description: Test Run Title. Will added in Allure Report Title
+        type: string
+        required: false
+        default: ""
+
   schedule:
     - cron: "30 4 * * MON"# Every MONDAY at 04:30 AM
 
 jobs:
-  web_test:
+  test-run:
     runs-on: ubuntu-latest
     env:
       # ---------- ENDPOINT
@@ -68,9 +76,10 @@ jobs:
 
     steps:
 
-      - name: Get current date/time
-        run: |
-          echo "CURRENT_DATE_TIME=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+      - name: Set TEST_TITLE
+        uses: ./.github/actions/test-run-title
+        with:
+          test_title: ${{ inputs.TEST_TITLE }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -123,27 +132,13 @@ jobs:
         if: always()
         continue-on-error: true
 
-      - name: Get Allure history
-        uses: actions/checkout@v2
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Allure Report action from marketplace
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        with:
-          subfolder: '${{ env.WORKFLOW_REPORT_ID }}'
-          report_name: Pull Request Report
-          allure_results: allure-results
-          allure_history: allure-history
-
-      - name: Deploy report to Github Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Generate and Deploy Allure Report in GitHub Pages
+        uses: ./.github/actions/generate-and-deploy-allure-report
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: 'gh-pages'
-          publish_dir: 'allure-history'
+          subfolder: '${{ env.WORKFLOW_REPORT_ID }}'
+          report_name: ${{ env.TEST_TITLE }}
+          allure_results_path: allure-results
+          allure_history_path: allure-history
+          report_branch: gh-pages
