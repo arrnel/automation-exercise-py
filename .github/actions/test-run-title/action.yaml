@@ -18,8 +18,6 @@ runs:
         [ -z "$BASE_TITLE" ] && BASE_TITLE="${{ github.workflow }}"
         
         RUN_INFO="${{ github.run_number }} #${{ github.run_attempt }}"
-        CURRENT_DATE_TIME=$(date '+%d.%m.%Y %H:%M')
         
-        TEST_TITLE="${BASE_TITLE}. RUN ${RUN_INFO}. ${CURRENT_DATE_TIME}"
-        echo "TEST_TITLE=TEST_TITLE" >> "$GITHUB_ENV"
-        echo "test_title=$TEST_TITLE" >> "$GITHUB_OUTPUT"
+        TEST_TITLE="${BASE_TITLE}. RUN ${RUN_INFO}"
+        echo "TEST_TITLE=$TEST_TITLE" >> "$GITHUB_ENV"
