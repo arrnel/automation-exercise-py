@@ -226,7 +226,7 @@ jobs:
             | 📈 Pass Rate | ${{ steps.stats.outputs.ACTUAL_TESTS_PASS_RATE }}% |
             
             Current run report: [link](${currentReportUrl})
-            🕓 Current workflow reports history: [link](${allReportsUrl})
+            All reports: [link](${allReportsUrl})
             `;
           
             const message = isPassed
