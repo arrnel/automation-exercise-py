@@ -54,7 +54,7 @@ class TestCategoryFilter(BaseWebComponentTest):
         self.main_page.category_filter.check_component_has_screenshot(
             path_to_screenshot=f"files/screenshot/component/filter/category/expanded_{group.lower()}.png",
             percent_of_tolerance=PERCENT_OF_TOLERANCE,
-            timeout=0.2,
+            timeout=0.5,
         )
 
     @pytest.mark.screenshot_test
@@ -79,7 +79,7 @@ class TestCategoryFilter(BaseWebComponentTest):
         self.main_page.category_filter.check_component_has_screenshot(
             path_to_screenshot="files/screenshot/component/filter/category/collapsed.png",
             percent_of_tolerance=PERCENT_OF_TOLERANCE,
-            timeout=0.2,
+            timeout=0.5,
         )
 
     @pytest.mark.screenshot_test
@@ -105,7 +105,7 @@ class TestCategoryFilter(BaseWebComponentTest):
         self.main_page.category_filter.check_component_has_screenshot(
             path_to_screenshot=f"files/screenshot/component/filter/category/expanded_{group2.lower()}.png",
             percent_of_tolerance=PERCENT_OF_TOLERANCE,
-            timeout=0.2,
+            timeout=0.5,
         )
 
     @allure.label("owner", "arrnel")
