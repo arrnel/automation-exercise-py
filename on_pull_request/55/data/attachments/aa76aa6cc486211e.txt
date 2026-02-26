@@ -1,0 +1,4 @@
+INFO:root:Open [Green Side Placket Detail T-Shirt]
+INFO:root:Add 5 [Product Details] product(s) to cart
+INFO:root:Check [Notification description has text: Your product has been added to cart.]
+INFO:root:Remove current test users from backend

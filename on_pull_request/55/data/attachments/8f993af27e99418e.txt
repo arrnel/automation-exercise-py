@@ -1,0 +1,3 @@
+Method: GET
+Endpoint: https://automationexercise.com/add_to_cart/37?quantity=6
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'cookie': 'csrftoken=wHM1Xsqzegj2jwX2bXOeX8ciYpYSpMM0p0dqcnN9R6E68EEoSvjwuSCs5B0v7XKz; sessionid=x8ac9ilqkieaua71qp6p4gn1s21x0un0'}

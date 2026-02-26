@@ -1,0 +1,51 @@
+INFO:root:Open [Login Page]: /login
+INFO:root:Pre sign up
+INFO:root:Fill pre sign up data
+INFO:root:Get test video from Selenoid by video id = [test_should_sign_up_with_valid_data['mobile_number' length = min]]
+INFO:root:Send request [GET]: /video/test_should_sign_up_with_valid_data['mobile_number' length = min].mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_sign_up_with_valid_data['mobile_number'%20length%20=%20min].mp4 "HTTP/1.1 404 Not Found"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['mobile_number'%20length%20=%20min].mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 404
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['mobile_number'%20length%20=%20min].mp4
+Headers: {'content-type': 'text/plain; charset=utf-8', 'x-content-type-options': 'nosniff', 'date': 'Thu, 26 Feb 2026 00:05:51 GMT', 'content-length': '19'}
+
+INFO:root:Send request [GET]: /video/test_should_sign_up_with_valid_data['mobile_number' length = min].mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_sign_up_with_valid_data['mobile_number'%20length%20=%20min].mp4 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['mobile_number'%20length%20=%20min].mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['mobile_number'%20length%20=%20min].mp4
+Headers: {'accept-ranges': 'bytes', 'content-length': '118665', 'content-type': 'video/mp4', 'last-modified': 'Thu, 26 Feb 2026 00:05:52 GMT', 'date': 'Thu, 26 Feb 2026 00:05:55 GMT'}
+
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: judith77.1@test.arrnel.gov
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '49'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Thu, 26 Feb 2026 00:05:57 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, DELETE', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qEUVsuRqF17LncU9tsAlMMEO1dlZMH9BCfwNzCtzGt9d2QEt0tw2d%2BzDMNt1W4a8LGo%2BCDMqbJW5TSi3nlD9NfxH04tQ4A%2FopT2XIS4WF8HI67hxaYE%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3b31912c4e7d61-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING:root:Failed to remove user(s):
+Email = brandon11@test.arrnel.gov, password = [12345], test_data_password = [12345]
+Email = judith77.1@test.arrnel.gov, password = [12345], test_data_password = [12345]

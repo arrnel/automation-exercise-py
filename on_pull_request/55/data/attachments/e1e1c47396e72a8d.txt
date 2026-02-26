@@ -1,0 +1,3 @@
+Method: GET
+Endpoint: https://automationexercise.com/
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'referer': 'https://automationexercise.com/login', 'cookie': 'csrftoken=aQa3QJ6XW8MhoEmGM4M4O0UArz6IS2Julu0nhL0ZZOC5fsKu7NAyo5f4gW04lLKI; sessionid=bco6h3rsci1rr2xiblup87trstewzezj'}

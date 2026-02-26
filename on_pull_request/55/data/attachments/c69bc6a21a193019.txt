@@ -1,0 +1,19 @@
+INFO:root:Open [Products Page]: /products
+INFO:root:Get all products
+INFO:root:Send request [GET]: /productsList
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Thu, 26 Feb 2026 00:06:58 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, PUT, DELETE, POST, GET', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=DV1OWBunYslnCgEixp%2FGTsVPT2H223I1I5zVZcRDzVtNv4M9EjdaCn1CJztL9V7SD9B77Tb4YEHrEU2JOND9pxYlG8umoAZZiE6lcEAvSMXmOAuRgEY%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3b33185821177e-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Search in [Search filter] by query: 
+INFO:root:Check All Products contains products: {'Grunt Blue Slim Fit Jeans', 'GRAPHIC DESIGN MEN T SHIRT - BLUE', 'Winter Top', 'Soft Stretch Jeans', 'Fancy Green Top', 'Madame Top For Women', 'Sleeveless Dress', 'Lace Top For Women', 'Long Maxi Tulle Fancy Dress Up Outfits -Pink', 'Pure Cotton Neon Green Tshirt', 'Green Side Placket Detail T-Shirt', 'Rose Pink Embroidered Maxi Dress', 'Full Sleeves Top Cherry - Pink', 'Rust Red Linen Saree', 'Beautiful Peacock Blue Cotton Linen Saree', 'Frozen Tops For Kids', 'Stylish Dress', 'Colour Blocked Shirt – Sky Blue', 'Summer White Top', 'Sleeves Printed Top - White', 'Sleeveless Unicorn Print Fit & Flare Net Dress - Multi', 'Cotton Mull Embroidered Dress', 'Blue Top', 'Sleeves Top and Short - Blue & Pink', 'Little Girls Mr. Panda Shirt', 'Regular Fit Straight Jeans', 'Cotton Silk Hand Block Print Saree', 'Sleeveless Unicorn Patch Gown - Pink', 'Men Tshirt', 'Premium Polo T-Shirts', 'Blue Cotton Indie Mickey Dress', 'Half Sleeves Top Schiffli Detailing - Pink', 'Pure Cotton V-Neck T-Shirt', 'Printed Off Shoulder Top - White'}
+INFO:root:Remove current test users from backend

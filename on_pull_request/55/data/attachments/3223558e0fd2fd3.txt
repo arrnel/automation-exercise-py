@@ -1,0 +1,20 @@
+INFO:root:Get all products by group and category
+INFO:root:Send request [GET]: /productsList
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Thu, 26 Feb 2026 00:06:18 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, PUT, DELETE, POST, GET', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Tq%2FVeiEysPTLylgKGpJNrKDonKpkXus%2BluEDKVZ3OgExTdHWNSJR5ntw2pKOCjWLf5kq2KpPwUSiyIYVJaA3tMM%2FsjcCIqhj6IiZ1cx0lKy7nIEuIx4%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3b321899a7d6d8-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Open [Main Page]: /
+INFO:root:Filter in Category filter by group = [Kids] and category = [Dress]
+INFO:root:Expand Category filter group Kids
+INFO:root:Check [Features Items] has products: {'Long Maxi Tulle Fancy Dress Up Outfits -Pink', 'Sleeveless Unicorn Patch Gown - Pink', 'Blue Cotton Indie Mickey Dress', 'Sleeveless Unicorn Print Fit & Flare Net Dress - Multi', 'Cotton Mull Embroidered Dress', 'Sleeves Top and Short - Blue & Pink'}
+INFO:root:Remove current test users from backend

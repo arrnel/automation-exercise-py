@@ -1,0 +1,3 @@
+INFO     root:step_logger.py:73 Open [Products Page]: /products
+INFO     root:step_logger.py:73 Check [Search filter] has expected screenshot: files/screenshot/component/filter/search/empty.png
+INFO     root:step_logger.py:35 Remove current test users from backend

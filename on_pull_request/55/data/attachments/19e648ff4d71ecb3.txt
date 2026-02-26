@@ -1,0 +1,5 @@
+INFO:root:Add product to cart: Stylish Dress
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Check [Cart products] contains product titles: {'Stylish Dress'}
+INFO:root:Remove current test users from backend
