@@ -1,0 +1,3 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","6156","[WEB Component] Can download invoice multiple times","tests.web.component.payment","Thu Feb 26 05:35:32 UTC 2026","passed","Thu Feb 26 05:35:38 UTC 2026","TestPaymentComponent","test_invoice_file","",""
+"","3947","[WEB Component] Invoice should have expected price","tests.web.component.payment","Thu Feb 26 05:35:23 UTC 2026","passed","Thu Feb 26 05:35:27 UTC 2026","TestPaymentComponent","test_invoice_file","",""
