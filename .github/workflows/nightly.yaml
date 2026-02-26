@@ -6,7 +6,7 @@ on:
     - cron: "30 4 * * MON"# Every MONDAY at 04:30 AM
 
 jobs:
-  web_test:
+  test-run:
     runs-on: ubuntu-latest
     env:
       # ---------- ENDPOINT

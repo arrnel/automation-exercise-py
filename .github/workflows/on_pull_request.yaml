@@ -5,7 +5,7 @@ on:
     types: [ opened, reopened, synchronize ]
 
 jobs:
-  web_test:
+  test-run:
     runs-on: ubuntu-latest
     env:
       # ---------- ENDPOINT

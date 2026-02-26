@@ -20,11 +20,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
-  screenshot_run:
-
+  test-run:
     runs-on: ubuntu-latest
-
     env:
       # ---------- ENDPOINT
       BASE_API_URL: ${{ vars.BASE_API_URL }}

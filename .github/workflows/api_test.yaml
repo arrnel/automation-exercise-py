@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  api_test:
+  test-run:
     runs-on: ubuntu-latest
     env:
       # ---------- ENDPOINTS

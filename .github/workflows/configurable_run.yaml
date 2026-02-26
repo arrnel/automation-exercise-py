@@ -37,11 +37,8 @@ on:
           - normal
 
 jobs:
-
-  configurable-run:
-
+  test-run:
     runs-on: ubuntu-latest
-
     env:
       PREFIX: ${{ github.repository_owner }}
       ARCH: ${{ vars.ARCH }}
