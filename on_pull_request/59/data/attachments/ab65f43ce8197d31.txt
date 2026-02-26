@@ -1,0 +1,5 @@
+INFO:root:Navigate to the [Contact us] page by header
+INFO:root:Click on [Contact Us]
+INFO:root:Check [{self._page_name}] is visible}] [format_error: ValueError: Single '}' encountered in format string]
+INFO:root:Check [Contact Us Form] is visible
+INFO:root:Remove current test users from backend

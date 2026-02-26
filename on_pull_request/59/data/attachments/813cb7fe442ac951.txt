@@ -1,0 +1,19 @@
+INFO     root:step_logger.py:73 Open [Products Page]: /products
+INFO     root:step_logger.py:73 Search products by query: Top
+INFO     root:step_logger.py:35 Send request [POST]: /searchProduct
+INFO     httpx:_client.py:1025 HTTP Request: POST https://automationexercise.com/api/searchProduct "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: POST
+Endpoint: https://automationexercise.com/api/searchProduct
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '18'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/searchProduct
+Headers: {'date': 'Thu, 26 Feb 2026 04:18:57 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'POST, DELETE, GET, OPTIONS, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=NK4FMTQP1XKrb1cp14Hstle10%2FqSqp1hmcq5doUQfu9ez5%2BfgtVU8hJiD8FK38QlVprYVK57y6I1QZkNIhGNXNaiSTV%2BHvUIitYz4jVd15GiaEhU3W8%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3ca43458c74944-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:73 Search in [Search filter] by query: Top
+INFO     root:step_logger.py:35 Check [All Products] has products: {'Sleeves Printed Top - White', 'Colour Blocked Shirt – Sky Blue', 'Blue Top', 'Summer White Top', 'Lace Top For Women', 'Winter Top', 'Fancy Green Top', 'Little Girls Mr. Panda Shirt', 'Frozen Tops For Kids', 'Half Sleeves Top Schiffli Detailing - Pink', 'Madame Top For Women', 'Sleeves Top and Short - Blue & Pink', 'Printed Off Shoulder Top - White', 'Full Sleeves Top Cherry - Pink'}
+INFO     root:step_logger.py:35 Remove current test users from backend

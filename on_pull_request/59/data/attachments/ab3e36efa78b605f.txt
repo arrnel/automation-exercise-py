@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Navigate to the [Contact us] page by header
+INFO     root:step_logger.py:73 Click on [Contact Us]
+INFO     root:step_logger.py:73 Check [{self._page_name}] is visible}] [format_error: ValueError: Single '}' encountered in format string]
+INFO     root:step_logger.py:73 Check [Contact Us Form] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend

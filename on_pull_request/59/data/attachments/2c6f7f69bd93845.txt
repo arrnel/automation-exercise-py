@@ -1,0 +1,4 @@
+INFO:root:Open [Long Maxi Tulle Fancy Dress Up Outfits -Pink]
+INFO:root:Add 6 [Product Details] product(s) to cart
+INFO:root:Check [Notification description has text: Your product has been added to cart.]
+INFO:root:Remove current test users from backend
