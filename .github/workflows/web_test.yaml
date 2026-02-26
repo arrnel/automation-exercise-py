@@ -2,6 +2,13 @@ name: Web test run (without screenshot)
 
 on:
   workflow_dispatch:
+    inputs:
+
+      TEST_TITLE:
+        description: Test Run Title. Will added in Allure Report Title
+        type: string
+        required: false
+        default: ""
 
 jobs:
   test-run:
@@ -64,6 +71,11 @@ jobs:
       WORKFLOW_REPORT_ID: web_test
 
     steps:
+
+      - name: Set TEST_TITLE
+        uses: ./.github/actions/test-run-title
+        with:
+          test_title: ${{ inputs.TEST_TITLE }}
 
       - name: Checkout repository
         uses: actions/checkout@v4

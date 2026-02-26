@@ -2,6 +2,14 @@ name: Nightly run
 
 on:
   workflow_dispatch:
+    inputs:
+
+      TEST_TITLE:
+        description: Test Run Title. Will added in Allure Report Title
+        type: string
+        required: false
+        default: ""
+
   schedule:
     - cron: "30 4 * * MON"# Every MONDAY at 04:30 AM
 
@@ -68,9 +76,10 @@ jobs:
 
     steps:
 
-      - name: Get current date/time
-        run: |
-          echo "CURRENT_DATE_TIME=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+      - name: Set TEST_TITLE
+        uses: ./.github/actions/test-run-title
+        with:
+          test_title: ${{ inputs.TEST_TITLE }}
 
       - name: Checkout repository
         uses: actions/checkout@v4

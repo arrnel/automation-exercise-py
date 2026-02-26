@@ -3,6 +3,13 @@ name: Screenshot test run
 on:
   workflow_dispatch:
     inputs:
+
+      TEST_TITLE:
+        description: Test Run Title. Will added in Allure Report Title
+        type: string
+        required: false
+        default: ""
+
       REWRITE_ALL_SCREENSHOTS:
         description: Rewrite all screenshots
         type: boolean
@@ -80,6 +87,11 @@ jobs:
       WORKFLOW_REPORT_ID: screenshot_test
 
     steps:
+
+      - name: Set TEST_TITLE
+        uses: ./.github/actions/test-run-title
+        with:
+          test_title: ${{ inputs.TEST_TITLE }}
 
       - name: Update PYTEST_MARK_EXPR
         if: ${{ inputs.RUN_TESTS_WITH_DEBUG_MARKER }}

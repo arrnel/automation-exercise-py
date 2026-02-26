@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
 
-      RUN_TITLE:
-        description: Run title
+      TEST_TITLE:
+        description: Test Run Title. Will added in Allure Report Title
         type: string
-        required: true
-        default: "Manual Test Run"
+        required: false
+        default: ""
 
       PYTEST_MARK_EXPR:
         description: PYTEST_MARK_EXPRESSION
@@ -93,6 +93,11 @@ jobs:
       WORKFLOW_REPORT_ID: configurable_run
 
     steps:
+
+      - name: Set TEST_TITLE
+        uses: ./.github/actions/test-run-title
+        with:
+          test_title: ${{ inputs.TEST_TITLE }}
 
       - name: Show Manual test run INFO
         run: |
