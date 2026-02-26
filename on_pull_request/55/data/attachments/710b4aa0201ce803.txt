@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Add to cart from overlay: [Sleeveless Dress]
+INFO     root:step_logger.py:73 Show product card overlay: [Sleeveless Dress]
+INFO     root:step_logger.py:35 Hover over Product card wrapper for a [0.5] second(s)
+INFO     root:step_logger.py:73 Check [Notification description has text: Your product has been added to cart.]
+INFO     root:step_logger.py:35 Remove current test users from backend

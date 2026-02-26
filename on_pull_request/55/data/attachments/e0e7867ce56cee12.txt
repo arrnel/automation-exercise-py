@@ -1,0 +1,19 @@
+INFO:root:Open [Products Page]: /products
+INFO:root:Search products by query: Top
+INFO:root:Send request [POST]: /searchProduct
+INFO:httpx:HTTP Request: POST https://automationexercise.com/api/searchProduct "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: POST
+Endpoint: https://automationexercise.com/api/searchProduct
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '18'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/searchProduct
+Headers: {'date': 'Thu, 26 Feb 2026 00:06:38 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, PUT, DELETE, POST, GET', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=0dzlMx0HEojB8Aqy1ifdbXBgZGQjVHh3JDp7%2FGTzNB%2FYRL8oGjfYKVJMPFvnpCIOxjCCV5%2FJiFKsrSyCQsVuSCmkip2s8SbeDBvHXyGYD6R1%2FD%2B47OE%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d3b32989b397d61-IAD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Search in [Search filter] by query: Top
+INFO:root:Check [All Products] has products: {'Colour Blocked Shirt – Sky Blue', 'Printed Off Shoulder Top - White', 'Winter Top', 'Summer White Top', 'Frozen Tops For Kids', 'Sleeves Printed Top - White', 'Full Sleeves Top Cherry - Pink', 'Half Sleeves Top Schiffli Detailing - Pink', 'Sleeves Top and Short - Blue & Pink', 'Blue Top', 'Fancy Green Top', 'Little Girls Mr. Panda Shirt', 'Madame Top For Women', 'Lace Top For Women'}
+INFO:root:Remove current test users from backend

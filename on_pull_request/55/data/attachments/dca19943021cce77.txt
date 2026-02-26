@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Open [Summer White Top]
+INFO     root:step_logger.py:73 Add [Product Details] product to cart
+INFO     root:step_logger.py:73 Add [Product Details] product to cart
+INFO     root:step_logger.py:73 Check [Notification description has text: Your product has been added to cart.]
+INFO     root:step_logger.py:35 Remove current test users from backend

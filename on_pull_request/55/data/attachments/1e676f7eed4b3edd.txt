@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Waiting for expected [image carousel component] slide will be active
+INFO     root:step_logger.py:73 Show previous [image carousel component] slide
+INFO     root:step_logger.py:73 Show next [image carousel component] slide
+INFO     root:step_logger.py:73 Check [image carousel component] has expected screenshot: files/screenshot/component/carousel/image/slide_1.png
+INFO     root:step_logger.py:35 Remove current test users from backend
