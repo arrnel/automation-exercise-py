@@ -1,0 +1,3 @@
+INFO:root:Add product to cart: Sleeveless Dress
+INFO:root:Check [Notification description has text: Your product has been added to cart.]
+INFO:root:Remove current test users from backend

@@ -1,0 +1,16 @@
+INFO     root:step_logger.py:73 Open [Sleeveless Dress]
+INFO     root:step_logger.py:73 Check product [Product Details] has expected data
+INFO     root:step_logger.py:73 Check product [Product Details] has title: Sleeveless Dress
+INFO     root:step_logger.py:73 Check [Product Rating has text: Sleeveless Dress]
+INFO     root:step_logger.py:35 Check product [Product Details] has group = [Women] and category = [Dress]
+INFO     root:step_logger.py:73 Check [Product Category has text: Category: Women > Dress]
+INFO     root:step_logger.py:35 Check product [Product Details] has price: 1000
+INFO     root:step_logger.py:73 Check [Product Price has text: Rs. 1000]
+INFO     root:step_logger.py:73 Check product [Product Details] has availability: In Stock
+INFO     root:step_logger.py:73 Check [Product Availability has text: Availability: In Stock]
+INFO     root:step_logger.py:73 Check product [Product Details] has condition: New
+INFO     root:step_logger.py:73 Check [Product Condition has text: Condition: New]
+INFO     root:step_logger.py:73 Check product [Product Details] has condition: Madame
+INFO     root:step_logger.py:73 Check [Product Brand has text: Brand: Madame]
+INFO     root:step_logger.py:73 Check [Product Details] has expected screenshot: files/screenshot/component/product_details/card.png
+INFO     root:step_logger.py:35 Remove current test users from backend
