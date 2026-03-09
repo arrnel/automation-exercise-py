@@ -1,0 +1,5 @@
+INFO:root:Waiting for expected [image carousel component] slide will be active
+INFO:root:Show next [image carousel component] slide
+INFO:root:Show next [image carousel component] slide
+INFO:root:Check [image carousel component] has expected screenshot: files/screenshot/component/carousel/image/slide_3.png
+INFO:root:Remove current test users from backend

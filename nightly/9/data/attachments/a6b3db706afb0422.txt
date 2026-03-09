@@ -1,0 +1,7 @@
+INFO     root:step_logger.py:73 Open [Login Page]: /login
+INFO     root:step_logger.py:73 Navigate to the [Main] page by header
+INFO     root:step_logger.py:73 Click on [Home]
+INFO     root:step_logger.py:73 Check [main page] is visible
+INFO     root:step_logger.py:73 Check component [image carousel component] is visible
+INFO     root:step_logger.py:73 Check component [product carousel component] is visible
+INFO     root:step_logger.py:35 Remove current test users from backend

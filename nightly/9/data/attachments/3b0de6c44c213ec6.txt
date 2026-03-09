@@ -1,0 +1,5 @@
+INFO:root:Add product to cart: Men Tshirt
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Check [Cart products] contains product titles: {'Men Tshirt'}
+INFO:root:Remove current test users from backend

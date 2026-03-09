@@ -1,0 +1,4 @@
+INFO:root:Open [Product Page]: /product_details/{URL_PATTERN.format(product_id=product_id)} [format_error: AttributeError: 'str' object has no attribute 'format(product_id=product_id)']
+INFO:root:Check [Review] has expected screenshot: files/screenshot/component/review/review_not_send.png
+INFO:root:Remove current test users from backend
+INFO:root:Remove users from backend after all tests

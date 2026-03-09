@@ -1,0 +1,16 @@
+INFO:root:Open [Sleeveless Dress]
+INFO:root:Check product [Product Details] has expected data
+INFO:root:Check product [Product Details] has title: Sleeveless Dress
+INFO:root:Check [Product Rating has text: Sleeveless Dress]
+INFO:root:Check product [Product Details] has group = [Women] and category = [Dress]
+INFO:root:Check [Product Category has text: Category: Women > Dress]
+INFO:root:Check product [Product Details] has price: 1000
+INFO:root:Check [Product Price has text: Rs. 1000]
+INFO:root:Check product [Product Details] has availability: In Stock
+INFO:root:Check [Product Availability has text: Availability: In Stock]
+INFO:root:Check product [Product Details] has condition: New
+INFO:root:Check [Product Condition has text: Condition: New]
+INFO:root:Check product [Product Details] has condition: Madame
+INFO:root:Check [Product Brand has text: Brand: Madame]
+INFO:root:Check [Product Details] has expected screenshot: files/screenshot/component/product_details/card.png
+INFO:root:Remove current test users from backend
