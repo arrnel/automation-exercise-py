@@ -141,7 +141,7 @@ jobs:
         run: |
           sudo apt-get install -y jq bc
 
-          HISTORY_TREND_FILE=$(find / -type f -path "*/last-history/history-trend.json" 2>/dev/null -print -quit)
+          HISTORY_TREND_FILE="./allure-history/${{ env.WORKFLOW_REPORT_ID }}/last-history/history-trend.json"
           
           if [ -f "$HISTORY_TREND_FILE" ]; then
 
