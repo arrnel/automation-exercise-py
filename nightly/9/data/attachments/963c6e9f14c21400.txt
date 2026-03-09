@@ -1,0 +1,61 @@
+INFO:root:Create user: bakerallen.4@test.arrnel.net
+INFO:root:Send request [POST]: /createAccount
+INFO:httpx:HTTP Request: POST https://automationexercise.com/api/createAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: POST
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '335'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:25 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, POST', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qP9pxWsXJ6OS9t6ZxA1D%2FQSp%2F2GQCJyLevmnGOWQiUIYRquGIWfxhhYIElpsYGGgnnDIbFHSjcJ2koi03941UTzH04ENR6I%2BgZ%2Bjjq20ypbTFAEU"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c19bda055c94-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Send request [GET]: /getUserDetailByEmail
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/getUserDetailByEmail?email=bakerallen.4%40test.arrnel.net "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=bakerallen.4%40test.arrnel.net
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=bakerallen.4%40test.arrnel.net
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:26 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, GET, DELETE, POST, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=xAqRuNu2Zw264FVk9D3oizBI5j8CvaRZUyQ2qxFkdQsuIrdMNRplCwpQUysS2plq07PgzkizDGoJ2bhyWd59%2Fcy5J%2BpfZWIN0p6MiPKmNamE0F%2FT"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c19c8a615c94-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Send request [PUT]: /updateAccount
+INFO:httpx:HTTP Request: PUT https://automationexercise.com/api/updateAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: PUT
+Endpoint: https://automationexercise.com/api/updateAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '334'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/updateAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:26 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'PUT, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=zPppyvapM9ShNg2H%2FZOYx8A8XEVw7urTGV4%2Fc6ld8AWhQgGFBjH1%2FGFfh93IXpr1cqGDQUyBjAI9KdK9JetAoyk88mU7M3UCp0X7ILgEnI0T6ET%2FkwU%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97c19d580d61d6-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: bakerallen.4@test.arrnel.net
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '51'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:26 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=2ijrQ%2F02n%2FKmhIa9wzjtdw5NG5L%2FziXM9fmPsL0dcXnpVaEpnyVMhQjKinX6wjACsgvyExjUezYFAS0QyqtzzylYFRfH4P4wvezB9nnLAreKz%2FVDrIw%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97c19f8e76dadc-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING:root:Failed to remove user(s):
+Email = melissa97.0@test.arrnel.io, password = [12345], test_data_password = [12345]

@@ -1,0 +1,59 @@
+INFO:root:Create user: lloydapril@test.arrnel.org
+INFO:root:Send request [POST]: /createAccount
+INFO:httpx:HTTP Request: POST https://automationexercise.com/api/createAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: POST
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '327'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:36 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, POST', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9q3hWcwCCI7DKiA50O%2F3xt6nNrC2AHnEpSiNbarpyqIZWo0FcGEFjdJRXRgxauv%2B5DzO6uDYcCUCLGrRHpmurbKtZh6X5dS9HwNqTxSwkOFpzG6BpaU%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c1daefad9991-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Send request [GET]: /getUserDetailByEmail
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/getUserDetailByEmail?email=lloydapril%40test.arrnel.org "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=lloydapril%40test.arrnel.org
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=lloydapril%40test.arrnel.org
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:36 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'PUT, OPTIONS, POST, DELETE, GET', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=oDfxImd%2FZ1rsx2wEpbvX8gAra2jnlTKqdnw%2BXIHTTt4v3JWya%2FJEF17q9m86RFs5rJg5J61FSPnEsyHfZHDdeq0aDChbNTgwwYoiZ6zJnNTiyc8KXWc%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c1db88d49991-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Send request [PUT]: /updateAccount
+INFO:httpx:HTTP Request: PUT https://automationexercise.com/api/updateAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: PUT
+Endpoint: https://automationexercise.com/api/updateAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '345'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/updateAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:36 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'PUT, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=6LkpdSqlutVfRNRukzhoMMC2TIq96EWDigxRUZzYAV1KKGdASAVuVKZ8V0cnXXAAkd0g9hfX74RyG2BOJnjVMtNIDduym3JkLUk6%2BC%2FQw2z%2BYEPsr6s%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97c1dc4a7e4227-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: lloydapril@test.arrnel.org
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '49'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:36 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=B0XHF4a0nrOo69tI4ocFK5T3IM8H%2BY3z5W3cy7YFB%2BNAmSb3pKTi7anzkln2%2FmEBaOTL9pXV1AeCvUDTM%2BwmCSIsl7Ocu86SHTRGIFlnv1agC2CzmO4%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97c1dd7c16606c-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+

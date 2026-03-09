@@ -1,0 +1,20 @@
+INFO:root:Get all brand products
+INFO:root:Send request [GET]: /productsList
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/productsList "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/productsList
+Headers: {'date': 'Mon, 09 Mar 2026 05:47:12 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, GET, DELETE, POST, PUT', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=jssfV0TP8e55Av4k4Ic01vskAw%2FUjQfzmaHTHD5Qyu3eZculZ%2FhbasfXyHI0MZjpuUD2RgmssQE8gzywR1PshCWuUAuIs%2BxjKkUOSOcXhtkM4tzhItg%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c8970b3dd539-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Open [Main Page]: /
+INFO:root:Select category = [Madame]
+INFO:root:Click on [Brand filter category stat Madame]
+INFO:root:Check [All Products] has products: {'Beautiful Peacock Blue Cotton Linen Saree', 'Madame Top For Women', 'Rose Pink Embroidered Maxi Dress', 'Stylish Dress', 'Sleeveless Dress'}
+INFO:root:Remove current test users from backend

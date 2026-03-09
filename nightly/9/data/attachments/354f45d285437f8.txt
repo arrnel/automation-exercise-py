@@ -1,0 +1,59 @@
+INFO     root:step_logger.py:73 Create user: elizabethchen@test.arrnel.io
+INFO     root:step_logger.py:35 Send request [POST]: /createAccount
+INFO     httpx:_client.py:1025 HTTP Request: POST https://automationexercise.com/api/createAccount "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: POST
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '341'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:17 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, POST', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=6Pusati%2FvTFn4BzLkaHn45KAmxx4MsEVK7CvHpH%2BSfoaqSaezblKuWAcXOFUithjyjcOVYcJbE4vUEQjeCG2pV7gJwyiKr1opYIK3AX9y8i2Mk6eAzo%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c166581fe810-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO     root:step_logger.py:35 Send request [GET]: /getUserDetailByEmail
+INFO     httpx:_client.py:1025 HTTP Request: GET https://automationexercise.com/api/getUserDetailByEmail?email=elizabethchen%40test.arrnel.io "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=elizabethchen%40test.arrnel.io
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=elizabethchen%40test.arrnel.io
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:17 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'PUT, OPTIONS, POST, DELETE, GET', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=hAPE234iOY2E%2FjlW%2BsO75w9XO1MSrPwyjJVS3Ck5PwzUooPBQNFe0IBQ%2BmHFP6UuFX0tZlrb3%2BbPszCwMHgKKDQfKOm%2FTt7hHF5rYuZDZhLgDvko%2Be0%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c167095ee810-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+INFO     root:step_logger.py:35 Send request [PUT]: /updateAccount
+INFO     httpx:_client.py:1025 HTTP Request: PUT https://automationexercise.com/api/updateAccount "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: PUT
+Endpoint: https://automationexercise.com/api/updateAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '324'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/updateAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:17 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'PUT, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=18LXBhialfoL8OrnkV3PhG%2BDM1OFIkVHN9yh0prt%2FyBSr6u5FGeAVdU%2BRsm6h0mwOZ5LmJ4PGbXGMOjgcqNAOHa%2FYSKeKRWQNkzB7478mzWBxNbqtlc%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97c167bb36b6f8-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+INFO     root:step_logger.py:35 Remove current test users from backend
+INFO     root:step_logger.py:73 Delete user with email: elizabethchen@test.arrnel.io
+INFO     root:step_logger.py:35 Send request [DELETE]: /deleteAccount
+INFO     httpx:_client.py:1025 HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO     root:base_api_client.py:133 Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '51'}
+
+INFO     root:base_api_client.py:144 Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:17 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=7Z1xAvlos3eedQAk751RwJuk4gxuZl8cp5ZHevf8qljQl9vHCRuLZmW3lzBoOnUx2%2BwaxdOBmfISTiFQwb3tnVe8yO0trMrwM%2BBE%2Fvm%2Bd8HydXDoD48%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97c168db74dadc-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING  root:user_store.py:112 Failed to remove user(s):
+Email = melissa97.0@test.arrnel.io, password = [12345], test_data_password = [12345]

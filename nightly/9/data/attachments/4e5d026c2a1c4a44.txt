@@ -1,0 +1,24 @@
+INFO:root:Open [Login Page]: /login
+INFO:root:Pre sign up
+INFO:root:Fill pre sign up data
+INFO:root:Send sign up user data
+INFO:root:Fill user data
+INFO:root:Check [Account Created] is visible
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: huntdevin.787@test.arrnel.me
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '51'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Mon, 09 Mar 2026 05:54:55 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=dCzXOKe5m1FlyDZGv3Z6dYwnjqIrFcqrJEpfEN3dqRCMHIUwz9qimZwU0nXNMDRH0l7ghKp5mDrx1fgiKf85RC%2Bu6qHXBLNG9B2YI1X8sEcx5FG2BlI%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97d3ea7d2f1125-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING:root:Failed to remove user(s):
+Email = melissa97.0@test.arrnel.io, password = [12345], test_data_password = [12345]

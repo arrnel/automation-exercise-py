@@ -1,0 +1,30 @@
+INFO:root:Send request [GET]: /login
+INFO:httpx:HTTP Request: GET https://automationexercise.com/login "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/login
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/login
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:12 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'set-cookie': 'csrftoken=NpQHd1AcS4Ul8eofYz4x9qysUd13bqgersmT5KiZlmuVOHKgkeCkDcyWiQGoL4Ut; expires=Mon, 08 Mar 2027 05:42:12 GMT; Max-Age=31449600; Path=/; SameSite=Lax', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=esLcLYHEGd3EEcrIC5cEsw0Dbd05CwBGq9hZlSzY2u2jxqk0ksPRaMrZVt%2FXDRwgINR%2FEm1WCt0mi%2B2inypO4vipSoUnonVzLwCsrusJj%2Fki%2BbGpvko%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c1459dbe50d9-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Send request [POST]: /login
+INFO:httpx:HTTP Request: POST https://automationexercise.com/login "HTTP/1.1 302 Found"
+INFO:httpx:HTTP Request: GET https://automationexercise.com/ "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'referer': 'https://automationexercise.com/login', 'cookie': 'csrftoken=NpQHd1AcS4Ul8eofYz4x9qysUd13bqgersmT5KiZlmuVOHKgkeCkDcyWiQGoL4Ut; sessionid=x9xe7s9wuqvrgtbfdbpr1xz5lcnewk7h'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/
+Headers: {'date': 'Mon, 09 Mar 2026 05:42:12 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'set-cookie': 'csrftoken=NpQHd1AcS4Ul8eofYz4x9qysUd13bqgersmT5KiZlmuVOHKgkeCkDcyWiQGoL4Ut; expires=Mon, 08 Mar 2027 05:42:12 GMT; Max-Age=31449600; Path=/; SameSite=Lax', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Wa%2FsDPG0gLXr63YV4XsQY8Jq%2BdAgBMS1dSUvnDzl30Mvq7Ui3HpXa63whUSNQKLbZjx6v9f%2FnGX1x%2FsBWcQJz2Jhdg7dB290L3AAOklpkWXJrvUszxI%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97c148ca4450d9-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Remove current test users from backend

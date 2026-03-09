@@ -1,0 +1,64 @@
+INFO:root:Create user: millercourtney@test.arrnel.net
+INFO:root:Send request [POST]: /createAccount
+INFO:httpx:HTTP Request: POST https://automationexercise.com/api/createAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: POST
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '311'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/createAccount
+Headers: {'date': 'Mon, 09 Mar 2026 06:02:08 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'OPTIONS, POST', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=J0LuP7mtPzoFaAIf7LjtYD823uFORyTuuk06kCpw%2FYmPGfvn9DdIqF%2B6K4EUeVn8d6p4a8Xyq0xRrKMs2U1UGokutokYBHjTVZTPcd4Ur0OE4LEfHho%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97de7acb87140a-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Send request [GET]: /getUserDetailByEmail
+INFO:httpx:HTTP Request: GET https://automationexercise.com/api/getUserDetailByEmail?email=millercourtney%40test.arrnel.net "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=millercourtney%40test.arrnel.net
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/getUserDetailByEmail?email=millercourtney%40test.arrnel.net
+Headers: {'date': 'Mon, 09 Mar 2026 06:02:08 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS, POST, PUT, GET', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=tXytM20fAgplILbpJtKcMbD%2FqLzYMGbqAY9wO61hPBoBsEzfmMxf6fN8jiYvKJeJmIHlhM59tj2SaIJmJJv4f%2FRkn6PAP4qDlkaUAYYHAIGdBXYeeWs%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'content-encoding': 'gzip', 'cf-ray': '9d97de7c8c48140a-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+INFO:root:Open [Products Page]: /products
+INFO:root:Add product to cart: Colour Blocked Shirt – Sky Blue
+INFO:root:Add product to cart: Printed Off Shoulder Top - White
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Proceed to Checkout
+INFO:root:Navigate by Notification link link: https://automationexercise.com/login
+INFO:root:Sign in by email and password
+INFO:root:Navigate to the [Cart] page by header
+INFO:root:Click on [Cart]
+INFO:root:Proceed to Checkout
+INFO:root:Add order message: Democratic effort prevent. Newspaper possible field always country whose tree. Firm drive wind much pretty identify ball.
+INFO:root:Submit order
+INFO:root:Pay by card
+INFO:root:Fill card data
+INFO:root:Check [Order Placed] is visible
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: millercourtney@test.arrnel.net
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '53'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Mon, 09 Mar 2026 06:02:14 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=VIeHrWMOFgWOJTXa6kN%2FTNMgapVmmoqbRbBBTdnmdSXmPybDWsykY15kUd0%2FrMDJ5zupiQW7yqD7pr5YGlk%2FmMF53SRALCgqYn%2Fp4fRO4bPp7qrLjug%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9d97de9f7dc55af6-ORD', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING:root:Failed to remove user(s):
+Email = robertspaul@test.arrnel.me, password = [12345], test_data_password = [12345]
+INFO:root:Remove users from backend after all tests

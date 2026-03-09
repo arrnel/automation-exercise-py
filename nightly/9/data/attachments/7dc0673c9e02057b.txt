@@ -1,0 +1,5 @@
+INFO     root:step_logger.py:73 Open [Product Page]: /product_details/{URL_PATTERN.format(product_id=product_id)} [format_error: AttributeError: 'str' object has no attribute 'format(product_id=product_id)']
+INFO     root:step_logger.py:73 Check review successfully send
+INFO     root:step_logger.py:73 Check [Review Status Message has text: Thank you for your review.]
+INFO     root:step_logger.py:35 Remove current test users from backend
+INFO     root:step_logger.py:35 Remove users from backend after all tests
