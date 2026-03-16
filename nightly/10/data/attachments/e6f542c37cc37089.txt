@@ -1,0 +1,53 @@
+INFO:root:Open [Login Page]: /login
+INFO:root:Pre sign up
+INFO:root:Fill pre sign up data
+INFO:root:Send sign up user data
+INFO:root:Fill user data
+INFO:root:Check [Account Created] is visible
+INFO:root:Get test video from Selenoid by video id = [test_should_sign_up_with_valid_data['address2' length = min + 1]]
+INFO:root:Send request [GET]: /video/test_should_sign_up_with_valid_data['address2' length = min + 1].mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_sign_up_with_valid_data['address2'%20length%20=%20min%20+%201].mp4 "HTTP/1.1 404 Not Found"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['address2'%20length%20=%20min%20+%201].mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 404
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['address2'%20length%20=%20min%20+%201].mp4
+Headers: {'content-type': 'text/plain; charset=utf-8', 'x-content-type-options': 'nosniff', 'date': 'Mon, 16 Mar 2026 06:24:01 GMT', 'content-length': '19'}
+
+INFO:root:Send request [GET]: /video/test_should_sign_up_with_valid_data['address2' length = min + 1].mp4
+INFO:httpx:HTTP Request: GET http://selenoid:4444/video/test_should_sign_up_with_valid_data['address2'%20length%20=%20min%20+%201].mp4 "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: GET
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['address2'%20length%20=%20min%20+%201].mp4
+Headers: {'host': 'selenoid:4444', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: http://selenoid:4444/video/test_should_sign_up_with_valid_data['address2'%20length%20=%20min%20+%201].mp4
+Headers: {'accept-ranges': 'bytes', 'content-length': '272621', 'content-type': 'video/mp4', 'last-modified': 'Mon, 16 Mar 2026 06:24:02 GMT', 'date': 'Mon, 16 Mar 2026 06:24:05 GMT'}
+
+INFO:root:Remove current test users from backend
+INFO:root:Delete user with email: cynthia01@test.arrnel.io
+INFO:root:Send request [DELETE]: /deleteAccount
+INFO:httpx:HTTP Request: DELETE https://automationexercise.com/api/deleteAccount "HTTP/1.1 200 OK"
+INFO:root:Request
+
+Method: DELETE
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'host': 'automationexercise.com', 'accept': '*/*', 'accept-encoding': 'gzip, deflate', 'connection': 'keep-alive', 'content-type': 'application/x-www-form-urlencoded', 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36', 'content-length': '47'}
+
+INFO:root:Response
+
+Status code: 200
+Endpoint: https://automationexercise.com/api/deleteAccount
+Headers: {'date': 'Mon, 16 Mar 2026 06:24:06 GMT', 'content-type': 'text/html; charset=utf-8', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'vary': 'Accept,Cookie,Accept-Encoding', 'referrer-policy': 'same-origin', 'x-frame-options': 'DENY', 'x-content-type-options': 'nosniff', 'allow': 'DELETE, OPTIONS', 'x-powered-by': 'Phusion Passenger(R) 6.1.2', 'status': '200 OK', 'report-to': '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=C1oXrs7bMNrBYu3UCt%2BSS9lIDTQLm486VR7pYAw1YBtbOI15t9lCkcx7%2FcY6PB3wanoTxfCjGDyh5FcAb9RI7MFstFuCUvTCOr8ilGPyQrdN7x0CGeg%3D"}]}', 'server': 'cloudflare', 'cf-cache-status': 'DYNAMIC', 'nel': '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}', 'cf-ray': '9dd1ac44e867e552-DFW', 'alt-svc': 'h3=":443"; ma=86400'}
+
+WARNING:root:Failed to remove user(s):
+Email = ljennings@test.arrnel.me, password = [12345], test_data_password = [12345]

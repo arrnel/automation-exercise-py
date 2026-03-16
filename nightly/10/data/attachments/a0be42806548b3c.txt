@@ -1,0 +1,6 @@
+INFO     root:step_logger.py:73 Show product card overlay: [Sleeveless Dress]
+INFO     root:step_logger.py:35 Hover over Product card wrapper for a [0.5] second(s)
+INFO     root:step_logger.py:73 Check [Sleeveless Dress] has price in overlay: PriceDTO(currency=<Currency.RS: 'Rs'>, amount=Decimal('1000'))
+INFO     root:step_logger.py:73 Check [Overlay Product Price has text: Rs. 1000]
+INFO     root:step_logger.py:73 Check [Sleeveless Dress] has expected screenshot: files/screenshot/component/product_card/animated_card_overlay.png
+INFO     root:step_logger.py:35 Remove current test users from backend

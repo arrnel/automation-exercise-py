@@ -1,0 +1,6 @@
+INFO:root:Navigate to the [Login] page by header
+INFO:root:Click on [Login]
+INFO:root:Check [login page] is visible
+INFO:root:Check [None] is visible
+INFO:root:Check [None] is visible
+INFO:root:Remove current test users from backend
